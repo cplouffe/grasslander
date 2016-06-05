@@ -413,6 +413,15 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+
+
+
+
+
+
+
+
     <!-- /.modal -->
     <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -430,6 +439,12 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+
+
+
+
+
     <!-- /.modal -->
     <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -448,10 +463,18 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+
+
+
+
+
+
+
     <!-- Modal -->
     <!-- Modal1 -->
     <!-- Modal -->
-    <div class="modal fade" id="addAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -461,7 +484,103 @@
                         <span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-    Add Attributes
+    Farm Details
+    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
+<!--                         <fieldset class="form-group">
+                            <label for="username_dialog">Username</label>
+                            <input type="email" class="form-control" id="username_dialog" placeholder="Enter email">
+                            <small class="text-muted">We'll never share your email with anyone else.</small>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </fieldset> -->
+                        <fieldset class="form-group">
+                            <label class="control-label" for="date">Date</label>
+                            <input type="text" name="birthdate" id="datetimepicker10" value="10/24/1984" />
+                		</div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="exampleSelect1">Example select</label>
+                    <select class="form-control" id="exampleSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </fieldset>
+<!--                 <fieldset class="form-group">
+                    <label for="exampleSelect2">Example multiple select</label>
+                    <select multiple class="form-control" id="exampleSelect2">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </fieldset> -->
+                <fieldset class="form-group">
+                    <label for="exampleTextarea">Example textarea</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" class="form-control-file" id="exampleInputFile">
+                    <small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                </fieldset>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Option one is this and that&mdash;be sure to include why it's great
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Option two can be something else and selecting it will deselect option one
+                    </label>
+                </div>
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled> Option three is disabled
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Check me out
+                    </label>
+                </div>
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" id="submitDataFarm" class="btn btn-primary" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal -->
+    <!-- Modal1 -->
+    <!-- Modal -->
+    <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+    Field Details
     </h4>
                 </div>
                 <!-- Modal Body -->
@@ -502,7 +621,7 @@
                     </select>
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="exampleTextarea">Example textarea</label>
+                    <label for="exampleTextarea">Farm Comments</label>
                     <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
                 </fieldset>
                 <fieldset class="form-group">
@@ -538,17 +657,11 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     Close
                 </button>
-                <button type="submit" id="submitData" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                <button type="submit" id="submitDataField" class="btn btn-primary" data-dismiss="modal">Submit</button>
             </div>
         </div>
     </div>
     </div>
-    <!--        <div class="modal fade" id="myModal" role="dialog">
-                                                                                                <div class="modal-dialog">
-                                                                                                            
-                                                                                                    
-                                                                                                        <div class="modal-contentdiv>
-                                                                                                    </div> -->--> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>

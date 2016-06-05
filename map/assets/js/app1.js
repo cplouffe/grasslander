@@ -80,6 +80,8 @@
           return false;
       });
 
+
+
       function animateSidebar() {
           $("#sidebar").animate({
               width: "toggle"
@@ -106,6 +108,28 @@
               map.invalidateSize();
           }
       }
+
+      function swithcstep() {
+          if (stepNum == 1) {
+              console.log(stepNum);
+              stepNum += 1;
+              document.getElementById('step2').click();
+          } else if (stepNum == 2) {
+              console.log(stepNum);
+              stepNum += 1;
+          } else if (stepNum == 3) {
+              console.log(stepNum);
+          }
+      }
+
+
+
+
+
+
+
+
+
       // workaround for old ie
       if (!window.location.origin) {
           window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
@@ -152,18 +176,7 @@
       });
       var parcelMapserver, stepNum;
 
-      function swithcstep() {
-          if (stepNum == 1) {
-              console.log(stepNum);
-              stepNum += 1;
-              document.getElementById('step2').click();
-          } else if (stepNum == 2) {
-              console.log(stepNum);
-              stepNum += 1;
-          } else if (stepNum == 3) {
-              console.log(stepNum);
-          }
-      }
+
 
       L.control.layers(baseMaps).addTo(map);
       var save_progress_button = L.Control.extend({
@@ -185,8 +198,83 @@
       });
       map.addControl(new save_progress_button);
 
-      var myStyle = {
+
+      // create a new Leaflet Draw control
+      var drawnFarms = L.featureGroup();
+      var drawFarmControl = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnFarms, // allow editing/deleting of features in this group
+              edit: false // disable the edit tool (since we are doing editing ourselves)
+          },
+          draw: {
+              circle: false, // disable circles
+              marker: false,
+              rectangle: false, // disable polylines
+              polyline: false, // disable polylines
+              polygon: {
+                  allowIntersection: false, // polygons cannot intersect thenselves
+                  drawError: {
+                      color: 'red', // color the shape will turn when intersects
+                      message: '<strong>Oh snap!<strong> you can\'t draw that!' // message that will show when intersect
+                  },
+              }
+          }
+      });
+      var drawnFields = L.featureGroup();
+      // create a new Leaflet Draw control
+      var drawFieldControl = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnFields, // allow editing/deleting of features in this group
+              edit: false // disable the edit tool (since we are doing editing ourselves)
+          },
+          draw: {
+              circle: false, // disable circles
+              marker: false,
+              rectangle: false, // disable polylines
+              polyline: false, // disable polylines
+              polygon: {
+                  allowIntersection: false, // polygons cannot intersect thenselves
+                  drawError: {
+                      color: 'red', // color the shape will turn when intersects
+                      message: '<strong>Oh snap!<strong> you can\'t draw that!' // message that will show when intersect
+                  },
+              }
+          }
+      });
+      // create a new Leaflet Draw control
+      var drawnBirds = L.featureGroup();
+      var drawBirdSightings = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnBirds, // allow editing/deleting of features in this group
+              edit: false // disable the edit tool (since we are doing editing ourselves)
+          },
+          draw: {
+              circle: false, // disable circles
+              marker: {
+                  icon: bobolinkIcon
+              },
+              square: false, // disable polylines
+              polyline: false, // disable polylines
+              polygon: false
+          }
+
+      });
+
+
+
+
+      var parcelStyle = {
           "color": "#ff7800",
+          "weight": 1,
+          "opacity": 0.55
+      };
+      var farmStyle = {
+          "color": "#00cc66",
+          "weight": 1,
+          "opacity": 0.55
+      };
+      var fieldStyle = {
+          "color": "#ffff99",
           "weight": 1,
           "opacity": 0.55
       };
@@ -194,40 +282,12 @@
       $("#loginbtn").click(function() {
           var parcelMapserver = L.esri.featureLayer({
               url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Parcels/MapServer/0',
-              simplifyFactor: 3,
+              simplifyFactor: 1,
               cacheLayers: true,
-              style: myStyle,
+              style: parcelStyle,
               maxZoom: 20,
               minZoom: 15
           });
-          parcelMapserver.on('click', function(e) {
-              console.log(e.layer.options.fillColor);
-              switch (e.layer.options.fillColor) {
-
-                  case '#0000FF':
-                      e.layer.setStyle({
-                          fillColor: "#ff7800"
-                      });
-                      e.layer.options.fillColor = '#ff7800';
-                      break;
-                  case "#ff7800":
-                      e.layer.setStyle({
-                          fillColor: "#0000FF"
-                      });
-                      e.layer.options.fillColor = '#0000FF';
-                      break;
-                  case null:
-                      e.layer.setStyle({
-                          fillColor: "#0000FF"
-                      });
-                      e.layer.options.fillColor = '#0000FF';
-                      break;
-              }
-          });
-
-          var farmLayer = L.esri.featureLayer({
-              url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Farms/FeatureServer/0',
-          })
 
 
 
@@ -249,13 +309,14 @@
           }
 
           serverAuth(function(error, response) {
-              var editingLayer = L.esri.featureLayer({
+              var fieldLayer = L.esri.featureLayer({
                   url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Field/FeatureServer/0',
                   opacity: 1,
+                  style: fieldStyle,
                   token: response.token
-              }).addTo(map);
+              });
 
-              editingLayer.on('authenticationrequired', function(e) {
+              fieldLayer.on('authenticationrequired', function(e) {
                   serverAuth(function(error, response) {
                       e.authenticate(response.token);
                   });
@@ -265,6 +326,7 @@
                   var farmLayer = L.esri.featureLayer({
                       url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Farms/FeatureServer/0',
                       opacity: 1,
+                      style: farmStyle,
                       token: response.token
                   }).addTo(map);
 
@@ -276,232 +338,526 @@
 
 
 
+
+                  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                   $("#step-modal").modal("show");
 
-
-
+                  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                   $("#step1").click(function() {
                       stepNum = 1;
                       $("#step-modal").modal("hide");
 
                       parcelMapserver.addTo(map);
-
                       farmLayer.addTo(map);
+                      // variable to track the layer being edited
+                      var currentlyEditing = false;
+                      var currentlyDeleting = false;
+
+                      // create a feature group for Leaflet Draw to hook into for delete functionality
+
+                      map.addLayer(drawnFarms);
+
+                      // track if we should disable custom editing as a result of other actions (create/delete)
+                      var disableEditing = false;
+                      // start editing a given layer
+                      function startEditingFarm(layer) {
+                          $('#exampleTextarea').val = layer.feature.properties.title;
+                          // read only
+                          //document.getElementById("exampleInputEmail1").value = layer.feature.properties.TRANPLANID;
+                          if (!disableEditing) {
+                              layer.editing.enable();
+                              currentlyEditing = layer;
+                          }
+                      }
+
+                      // stop editing a given layer
+                      function stopEditingFarm() {
+                          // if a layer is being edited, finish up and disable editing on it afterward.
+                          if (currentlyEditing) {
+                              handleEdit(currentlyEditing);
+                              currentlyEditing.editing.disable();
+                          }
+                          currentlyEditing = undefined;
+                      }
+
+                      function handleEdit(layer) {
+                          // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
+                          // alert($('#exampleTextarea').val())
+
+                          layer.feature.properties.farm_id = $('#farm_id').val();
+                          layer.feature.properties.roll = $('#rollNumber').val();
+                          layer.feature.properties.con = $('#conNumber').val();
+                          layer.feature.properties.con = $('#lotNumber').val();
+                          layer.feature.properties.farm_type = $('#farm_type').val();
+                          farmLayer.updateFeature({
+                              type: 'Feature',
+                              id: layer.feature.farm_id,
+                              geometry: layer.toGeoJSON().geometry,
+                              properties: layer.feature.properties
+                          }, function(error, response) {
+                              if (response) {
+                                  console.log("response")
+                              }
+                          });
+                      }
+
+                      function displayAttributes(layer) {
+                          console.log(layer.feature.properties);
+
+                          // $('#exampleTextarea').val(layer.feature.properties.title);
+
+                      }
+                      // when clicked, stop editing the current feature and edit the clicked feature
+                      farmLayer.on('click', function(e) {
+                          // stopEditing();
+
+                          startEditingFarm(e.layer);
+                          if (!currentlyDeleting) {
+                              $('#rollNumber').val(e.layer.feature.properties.roll);
+                              $('#conNumber').val(e.layer.feature.properties.con);
+                              $('#lotNumber').val(e.layer.feature.properties.lot);
+                              $('#farm_type').val(e.layer.feature.properties.farm_type);
+
+                              $('#farm_id').val(e.layer.feature.properties.farm_id);
+
+
+                              $("#addFarmAttributes").modal('show');
+                              displayAttributes(e.layer);
+                          }
+                      });
+
+                      // when new features are loaded clear our current guides and feature groups
+                      // then load the current features into the guides and feature group
+                      farmLayer.on('load', function() {
+                          // wipe the current layers available for deltion and clear the current guide layers.
+                          drawnFarms.clearLayers();
+
+                          // for each feature push the layer representing that feature into the guides and deletion group
+                          farmLayer.eachFeature(function(layer) {
+                              drawnFarms.addLayer(layer);
+                          });
+                      });
+
+                      parcelMapserver.on('click', function(e) {
+                          console.log(e.layer.options.fillColor);
+                          switch (e.layer.options.fillColor) {
+
+                              case '#0000FF':
+                                  e.layer.setStyle({
+                                      fillColor: "#ff7800"
+                                  });
+                                  e.layer.options.fillColor = '#ff7800';
+                                  var id = e.layer.feature.id
+                                      // farmLayer.deleteFeature(id);  
+                                      // farmLayer.addFeature(e.layer.toGeoJSON());
+                                      // e.layer.bringToBack()
+                                  break;
+                              case "#ff7800":
+                                  e.layer.setStyle({
+                                      fillColor: "#0000FF"
+                                  });
+                                  e.layer.options.fillColor = '#0000FF';
+                                  var id = e.layer.feature.id
+                                      // farmLayer.deleteFeature(id);
+                                      // e.layer.bringToBack()
+                                  break;
+                              case null:
+                                  e.layer.setStyle({
+                                      fillColor: "#0000FF"
+                                  });
+                                  e.layer.options.fillColor = '#0000FF';
+                                  var id = e.layer.feature.id
+                                      // farmLayer.deleteFeature(id);
+                                      // e.layer.bringToBack()
+                                  break;
+                          }
+                      });
+
+
+                      // add our drawing controls to the map
+                      map.addControl(drawFarmControl);
+
+                      // when we start using creation tools disable our custom editing
+                      map.on('draw:createstart', function() {
+                          disableEditing = true;
+                      });
+
+                      // when we start using deletion tools, hide attributes and disable custom editing
+                      map.on('draw:deletestart', function() {
+                          disableEditing = true;
+                          currentlyDeleting = true;
+                      });
+
+                      // listen to the draw created event
+                      map.on('draw:created', function(e) {
+                          // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
+                          console.log(e.layer.toGeoJSON());
+
+
+                          farmLayer.addFeature(e.layer.toGeoJSON());
+
+                          disableEditing = false;
+                      });
+
+
+                      // listen to the draw deleted event
+                      map.on('draw:deleted', function(e) {
+
+                          var delArray = [];
+                          e.layers.eachLayer(function(layer) {
+                              var id = layer.feature.id;
+                              delArray.push(id);
+                          });
+
+                          farmLayer.deleteFeatures(delArray, function(error, response) {
+
+                              if (error) {
+                                  console.log(error, response);
+                              }
+                          });
+                          disableEditing = false;
+                          currentlyDeleting = false;
+                      });
+                      $("#submitDataFarm").click(function() {
+                          stopEditingFarm();
+
+                          $("#addFarmAttributes").modal('hide');
+                      });
+
+
                   });
 
+                  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                   $("#step2").click(function() {
                       parcelMapserver.eachFeature(function(layer) {
                           if (layer.options.fillColor == "#0000FF") {
                               feature = layer.toGeoJSON();
-                              feature.properties.roll = feature.properties.arn;
+                              feature.properties.farm_id = feature.properties.arn;
                               console.log(feature);
                               farmLayer.addFeature(feature);
 
-
-
-
-
-
-
-
-
                           }
                       });
-
-
-
-                      // farmLayer.updateFeature({
-                      //           type: 'Feature',
-                      //           id: layer.feature.id,
-                      //           geometry: layer.toGeoJSON().geometry,
-                      //           properties: layer.feature.properties
-                      //       }, function(error, response) {
-                      //           if (response) {
-                      //               console.log("pass")
-                      //           }
-                      //       });
-
+                      map.removeControl(drawFarmControl);
                       map.removeLayer(parcelMapserver);
+                      fieldLayer.addTo(map);
 
+                      map.removeLayer(drawnFarms);
+                      var currentlyEditing = false;
+                      var currentlyDeleting = false;
 
+                      // create a feature group for Leaflet Draw to hook into for delete functionality
 
+                      map.addLayer(drawnFields);
 
-                  });
-
-
-
-
-
-
-                  // variable to track the layer being edited
-                  var currentlyEditing = false;
-                  var currentlyDeleting = false;
-
-                  // create a feature group for Leaflet Draw to hook into for delete functionality
-                  var drawnItems = L.featureGroup();
-                  map.addLayer(drawnItems);
-
-                  // track if we should disable custom editing as a result of other actions (create/delete)
-                  var disableEditing = false;
-
-                  // start editing a given layer
-                  function startEditing(layer) {
-                      $('#exampleTextarea').val = layer.feature.properties.title;
-                      // read only
-                      //document.getElementById("exampleInputEmail1").value = layer.feature.properties.TRANPLANID;
-                      if (!disableEditing) {
-                          layer.editing.enable();
-                          currentlyEditing = layer;
+                      // track if we should disable custom editing as a result of other actions (create/delete)
+                      var disableEditing = false;
+                      // start editing a given layer
+                      function startEditingField(layer) {
+                          // $('#exampleTextarea').val = layer.feature.properties.title;
+                          // read only
+                          if (!disableEditing) {
+                              layer.editing.enable();
+                              currentlyEditing = layer;
+                          }
                       }
-                  }
 
-                  // stop editing a given layer
-                  function stopEditing() {
-                      // if a layer is being edited, finish up and disable editing on it afterward.
-                      if (currentlyEditing) {
-                          handleEdit(currentlyEditing);
-                          currentlyEditing.editing.disable();
+                      // stop editing a given layer
+                      function stopEditingField() {
+                          // if a layer is being edited, finish up and disable editing on it afterward.
+                          if (currentlyEditing) {
+                              handleEdit(currentlyEditing);
+                              currentlyEditing.editing.disable();
+                          }
+                          currentlyEditing = undefined;
                       }
-                      currentlyEditing = undefined;
-                  }
 
-                  function handleEdit(layer) {
-                      // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
-                      // alert($('#exampleTextarea').val())
+                      function handleEdit(layer) {
+                          // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
+                          // alert($('#exampleTextarea').val())
 
-                      layer.feature.properties.title = $('#exampleTextarea').val();
-                      layer.feature.properties.daterep = $('#datetimepicker10').val();
-                      // document.getElementById("exampleTextarea").value;
-                      // console.log(layer.feature.properties.PEDDISTRIC);
-                      editingLayer.updateFeature({
-                          type: 'Feature',
-                          id: layer.feature.id,
-                          geometry: layer.toGeoJSON().geometry,
-                          properties: layer.feature.properties
-                      }, function(error, response) {
-                          if (response) {
-                              console.log("pass")
+                          // layer.feature.properties.title = $('#exampleTextarea').val();
+                          // layer.feature.properties.daterep = $('#datetimepicker10').val();
+                          layer.feature.properties.field_id = layer.feature.id;
+                          layer.feature.properties.date =  new Date();
+                          layer.feature.properties.type = $('#type').val();
+                          layer.feature.properties.activity = $('#activity').val();
+                          layer.feature.properties.farm_type = $('#farm_type').val();
+                          fieldLayer.updateFeature({
+                              type: 'Feature',
+                              id: layer.feature.id,
+                              geometry: layer.toGeoJSON().geometry,
+                              properties: layer.feature.properties
+                          }, function(error, response) {
+                              if (response) {
+                                  console.log("pass")
+                              }
+                          });
+                      }
+
+                      function displayAttributes(layer) {
+                          console.log(layer.feature.properties);
+
+                          // $('#exampleTextarea').val(layer.feature.properties.title);
+
+                      }
+
+
+                      // when clicked, stop editing the current feature and edit the clicked feature
+                      fieldLayer.on('click', function(e) {
+                          // stopEditing();
+
+                          startEditingField(e.layer);
+                          if (!currentlyDeleting) {
+                              // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                              $("#addFieldAttributes").modal('show');
+                              displayAttributes(e.layer);
                           }
                       });
-                  }
 
-                  function displayAttributes(layer) {
-                      console.log(layer.feature.properties.title);
-                      console.log($('#exampleTextarea').val());
-                      $('#exampleTextarea').val(layer.feature.properties.title);
 
-                  }
 
-                  $("#submitData").click(function() {
-                      stopEditing();
-                      $("#addAttributes").modal('hide');
+                      // when new features are loaded clear our current guides and feature groups
+                      // then load the current features into the guides and feature group
+                      fieldLayer.on('load', function() {
+                          // wipe the current layers available for deltion and clear the current guide layers.
+                          drawnFields.clearLayers();
+
+                          // for each feature push the layer representing that feature into the guides and deletion group
+                          fieldLayer.eachFeature(function(layer) {
+                              drawnFields.addLayer(layer);
+                          });
+                      });
+
+
+                      // add our drawing controls to the map
+                      map.addControl(drawFieldControl);
+
+                      // when we start using creation tools disable our custom editing
+                      map.on('draw:createstart', function() {
+                          disableEditing = true;
+                      });
+
+                      // when we start using deletion tools, hide attributes and disable custom editing
+                      map.on('draw:deletestart', function() {
+                          disableEditing = true;
+                          currentlyDeleting = true;
+                      });
+
+                      // listen to the draw created event
+                      map.on('draw:created', function(e) {
+                          // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
+                          console.log(e.layer.toGeoJSON());
+
+
+                          fieldLayer.addFeature(e.layer.toGeoJSON());
+
+                          disableEditing = false;
+                      });
+
+
+                      // listen to the draw deleted event
+                      map.on('draw:deleted', function(e) {
+
+                          var delArray = [];
+                          e.layers.eachLayer(function(layer) {
+                              var id = layer.feature.id;
+                              delArray.push(id);
+                          });
+
+                          fieldLayer.deleteFeatures(delArray, function(error, response) {
+
+                              if (error) {
+                                  console.log(error, response);
+                              }
+                          });
+                          disableEditing = false;
+                          currentlyDeleting = false;
+                      });
+                      $("#submitDataField").click(function() {
+                          stopEditingField();
+                          $("#addFieldAttributes").modal('hide');
+                      });
+
+
                   });
-                  // when a pedestrian district is clicked, stop editing the current feature and edit the clicked feature
-                  editingLayer.on('click', function(e) {
-                      // stopEditing();
 
-                      startEditing(e.layer);
-                      if (!currentlyDeleting) {
-                          $('#exampleTextarea').val(e.layer.feature.properties.title);
-                          $("#addAttributes").modal('show');
-                          displayAttributes(e.layer);
-                      }
-                  });
 
-                  // when pedestrian districts start loading (because of pan/zoom) stop editing
-                  // editingLayer.on('loading', function() {
-                  //     stopEditing();
+
+                  // // variable to track the layer being edited
+                  // var currentlyEditing = false;
+                  // var currentlyDeleting = false;
+
+                  // // create a feature group for Leaflet Draw to hook into for delete functionality
+                  // var drawnItems = L.featureGroup();
+                  // map.addLayer(drawnItems);
+
+                  // // track if we should disable custom editing as a result of other actions (create/delete)
+                  // var disableEditing = false;
+
+                  // // start editing a given layer
+                  // function startEditing(layer) {
+                  //     $('#exampleTextarea').val = layer.feature.properties.title;
+                  //     // read only
+                  //     //document.getElementById("exampleInputEmail1").value = layer.feature.properties.TRANPLANID;
+                  //     if (!disableEditing) {
+                  //         layer.editing.enable();
+                  //         currentlyEditing = layer;
+                  //     }
+                  // }
+
+                  // // stop editing a given layer
+                  // function stopEditing() {
+                  //     // if a layer is being edited, finish up and disable editing on it afterward.
+                  //     if (currentlyEditing) {
+                  //         handleEdit(currentlyEditing);
+                  //         currentlyEditing.editing.disable();
+                  //     }
+                  //     currentlyEditing = undefined;
+                  // }
+
+                  // function handleEdit(layer) {
+                  //     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
+                  //     // alert($('#exampleTextarea').val())
+
+                  //     layer.feature.properties.title = $('#exampleTextarea').val();
+                  //     layer.feature.properties.daterep = $('#datetimepicker10').val();
+                  //     // document.getElementById("exampleTextarea").value;
+                  //     // console.log(layer.feature.properties.PEDDISTRIC);
+                  //     editingLayer.updateFeature({
+                  //         type: 'Feature',
+                  //         id: layer.feature.id,
+                  //         geometry: layer.toGeoJSON().geometry,
+                  //         properties: layer.feature.properties
+                  //     }, function(error, response) {
+                  //         if (response) {
+                  //             console.log("pass")
+                  //         }
+                  //     });
+                  // }
+
+                  // function displayAttributes(layer) {
+                  //     console.log(layer.feature.properties.title);
+                  //     console.log($('#exampleTextarea').val());
+                  //     $('#exampleTextarea').val(layer.feature.properties.title);
+
+                  // }
+
+
+                  // // when a pedestrian district is clicked, stop editing the current feature and edit the clicked feature
+                  // editingLayer.on('click', function(e) {
+                  //     // stopEditing();
+
+                  //     startEditing(e.layer);
+                  //     if (!currentlyDeleting) {
+                  //         $('#exampleTextarea').val(e.layer.feature.properties.title);
+                  //         $("#addAttributes").modal('show');
+                  //         displayAttributes(e.layer);
+                  //     }
                   // });
 
-                  // when new features are loaded clear our current guides and feature groups
-                  // then load the current features into the guides and feature group
-                  editingLayer.on('load', function() {
-                      // wipe the current layers available for deltion and clear the current guide layers.
-                      drawnItems.clearLayers();
+                  // // when pedestrian districts start loading (because of pan/zoom) stop editing
+                  // // editingLayer.on('loading', function() {
+                  // //     stopEditing();
+                  // // });
 
-                      // for each feature push the layer representing that feature into the guides and deletion group
-                      editingLayer.eachFeature(function(layer) {
-                          drawnItems.addLayer(layer);
-                      });
-                  });
+                  // // when new features are loaded clear our current guides and feature groups
+                  // // then load the current features into the guides and feature group
+                  // editingLayer.on('load', function() {
+                  //     // wipe the current layers available for deltion and clear the current guide layers.
+                  //     drawnItems.clearLayers();
 
-                  // create a new Leaflet Draw control
-                  var drawControl = new L.Control.Draw({
-                      edit: {
-                          featureGroup: drawnItems, // allow editing/deleting of features in this group
-                          edit: false // disable the edit tool (since we are doing editing ourselves)
-                      },
-                      draw: {
-                          circle: false, // disable circles
-                          marker: true,
-                          square: false, // disable polylines
-                          polyline: false, // disable polylines
-                          polygon: {
-                              allowIntersection: false, // polygons cannot intersect thenselves
-                              drawError: {
-                                  color: 'red', // color the shape will turn when intersects
-                                  message: '<strong>Oh snap!<strong> you can\'t draw that!' // message that will show when intersect
-                              },
-                          }
-                      }
-                  });
+                  //     // for each feature push the layer representing that feature into the guides and deletion group
+                  //     editingLayer.eachFeature(function(layer) {
+                  //         drawnItems.addLayer(layer);
+                  //     });
+                  // });
 
 
 
 
-                  // add our drawing controls to the map
-                  map.addControl(drawControl);
-
-                  // when we start using creation tools disable our custom editing
-                  map.on('draw:createstart', function() {
-                      disableEditing = true;
-                  });
-
-                  // when we start using deletion tools, hide attributes and disable custom editing
-                  map.on('draw:deletestart', function() {
-                      disableEditing = true;
-                      currentlyDeleting = true;
-                  });
-
-                  // listen to the draw created event
-                  map.on('draw:created', function(e) {
-                      // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
-                      console.log(e.layer.toGeoJSON());
-                      console.log(editingLayer);
-
-                      editingLayer.addFeature(e.layer.toGeoJSON());
-                      //editingLayer.addfeature(e.layer.toGeoJSON());
-                      disableEditing = false;
-                  });
 
 
-                  // listen to the draw deleted event
-                  map.on('draw:deleted', function(e) {
+                  // // create a new Leaflet Draw control
+                  // var drawControl = new L.Control.Draw({
+                  //     edit: {
+                  //         featureGroup: drawnItems, // allow editing/deleting of features in this group
+                  //         edit: false // disable the edit tool (since we are doing editing ourselves)
+                  //     },
+                  //     draw: {
+                  //         circle: false, // disable circles
+                  //         marker: true,
+                  //         square: false, // disable polylines
+                  //         polyline: false, // disable polylines
+                  //         polygon: {
+                  //             allowIntersection: false, // polygons cannot intersect thenselves
+                  //             drawError: {
+                  //                 color: 'red', // color the shape will turn when intersects
+                  //                 message: '<strong>Oh snap!<strong> you can\'t draw that!' // message that will show when intersect
+                  //             },
+                  //         }
+                  //     }
+                  // });
 
-                      var delArray = [];
-                      e.layers.eachLayer(function(layer) {
-                          var id = layer.feature.id;
-                          delArray.push(id);
-                      });
 
-                      editingLayer.deleteFeatures(delArray, function(error, response) {
 
-                          if (error) {
-                              console.log(error, response);
-                          }
-                      });
-                      disableEditing = false;
-                      currentlyDeleting = false;
-                  });
+
+                  // // add our drawing controls to the map
+                  // map.addControl(drawControl);
+
+                  // // when we start using creation tools disable our custom editing
+                  // map.on('draw:createstart', function() {
+                  //     disableEditing = true;
+                  // });
+
+                  // // when we start using deletion tools, hide attributes and disable custom editing
+                  // map.on('draw:deletestart', function() {
+                  //     disableEditing = true;
+                  //     currentlyDeleting = true;
+                  // });
+
+                  // // listen to the draw created event
+                  // map.on('draw:created', function(e) {
+                  //     // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
+                  //     console.log(e.layer.toGeoJSON());
+                  //     console.log(editingLayer);
+
+                  //     editingLayer.addFeature(e.layer.toGeoJSON());
+                  //     //editingLayer.addfeature(e.layer.toGeoJSON());
+                  //     disableEditing = false;
+                  // });
+
+
+                  // // listen to the draw deleted event
+                  // map.on('draw:deleted', function(e) {
+
+                  //     var delArray = [];
+                  //     e.layers.eachLayer(function(layer) {
+                  //         var id = layer.feature.id;
+                  //         delArray.push(id);
+                  //     });
+
+                  //     editingLayer.deleteFeatures(delArray, function(error, response) {
+
+                  //         if (error) {
+                  //             console.log(error, response);
+                  //         }
+                  //     });
+                  //     disableEditing = false;
+                  //     currentlyDeleting = false;
+                  // });
+
+
 
 
                   function syncSidebar() {
                       /* Empty sidebar features */
                       $("#feature-list tbody").empty();
                       /* Loop through theaters layer and add only features which are in the map bounds */
-                      editingLayer.eachFeature(function(layer) {
-                          if (map.hasLayer(editingLayer)) {
+                      fieldLayer.eachFeature(function(layer) {
+                          if (map.hasLayer(fieldLayer)) {
                               console.log(layer);
                               if (map.getBounds().contains(layer.getBounds())) {
                                   $("#feature-list tbody").append('<tr class="feature-row" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
@@ -565,10 +921,9 @@
                       }
                   }).addTo(map);
 
-                  var x = document.getElementsByClassName("leaflet-control-locate leaflet-bar leaflet-control");
 
 
-             
+
 
 
                   /* Larger screens get expanded layer control and visible sidebar */
