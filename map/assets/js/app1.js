@@ -460,7 +460,8 @@ $(window).load(function() {
                             }
                         }
                     }).addTo(map);
-
+                    console.log(farmLayer);
+                    console.log(fieldLayer);
 
 
                     farmLayer.on('authenticationrequired', function(e) {
@@ -468,8 +469,11 @@ $(window).load(function() {
                             e.authenticate(response.token);
                         });
                     });
-
-
+                    fieldLayer.addTo(map);
+                    console.log(fieldLayer);
+                    fieldLayer.eachFeature(function(e){
+                        console.log('IM A FEATURE'+e)
+                    });
 
 
                     // $("#full-extent-btn").click(function() {
@@ -504,7 +508,6 @@ $(window).load(function() {
                         /* Loop through theaters layer and add only features which are in the map bounds */
                         fieldLayer.eachFeature(function(layer) {
                             if (map.hasLayer(fieldLayer)) {
-                                console.log(layer);
                                 if (map.getBounds().contains(layer.getBounds())) {
                                     $("#feature-list tbody").append('<tr class="feature-row" title="fieldLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.type + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
                                 }
@@ -537,7 +540,10 @@ $(window).load(function() {
                     });
 
 
-
+                    farmLayer.eachFeature(function(layer){
+                      console.log(layer.feature.properties);
+                    });
+                    
 
 
 
@@ -978,10 +984,10 @@ $(window).load(function() {
                         // listen to the draw created event
                         map.on('draw:created', function(e) {
                             // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
-                            console.log(e.layer.toGeoJSON());
                             birdLayer.addFeature(e.layer.toGeoJSON());
-                            disableEditing = false;
                              $("#addBirdActivities").modal('show');
+                             disableEditing = false;
+                            
 
                         });
                         // listen to the draw deleted event
