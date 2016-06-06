@@ -417,7 +417,7 @@ $(window).load(function() {
             //grab birdLayer pt
             serverAuth(function(error, response) {
                 var birdLayer = L.esri.featureLayer({
-                    url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/BirdSightings2/FeatureServer/0' //,
+                    url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/dummy/FeatureServer/1' //,
                 });
 
 
@@ -955,24 +955,6 @@ $(window).load(function() {
                             }
                         });
                         // when clicked, stop editing the current feature and edit the clicked feature
-                        farmLayer.on('click', function(e) {
-                            console.log(e);
-                            var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Some Field 1</th><td>" + e.layer.feature.properties + "</td></tr>" + "<tr><th>Some Field 2</th><td>" + e.layer.feature.properties + "</td></tr>" + "<table>";
-
-                            $("#feature-title").html(e.layer.feature.properties.Line);
-                            $("#feature-info").html(content);
-                            $("#featureModal").modal("show");
-                        });
-                        // when clicked, stop editing the current feature and edit the clicked feature
-                        fieldLayer.on('click', function(e) {
-                            console.log(e);
-
-                            var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Some Field 1</th><td>" + e.layer.feature.properties + "</td></tr>" + "<tr><th>Some Field 2</th><td>" + e.layer.feature.properties + "</td></tr>" + "<table>";
-
-                            $("#feature-title").html(e.layer.feature.properties.Line);
-                            $("#feature-info").html(content);
-                            $("#featureModal").modal("show");
-                        });
                         // when new features are loaded clear our current guides and feature groups
                         // then load the current features into the guides and feature group
                         birdLayer.on('load', function() {
@@ -999,6 +981,8 @@ $(window).load(function() {
                             console.log(e.layer.toGeoJSON());
                             birdLayer.addFeature(e.layer.toGeoJSON());
                             disableEditing = false;
+                             $("#addBirdActivities").modal('show');
+
                         });
                         // listen to the draw deleted event
                         map.on('draw:deleted', function(e) {
@@ -1015,7 +999,7 @@ $(window).load(function() {
                             disableEditing = false;
                             currentlyDeleting = false;
                         });
-                        $("#submitDataField").click(function() {
+                        $("#submitDataBird").click(function() {
                             stopEditingBird();
                             $("#addBirdActivities").modal('hide');
                         });
