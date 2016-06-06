@@ -303,6 +303,9 @@
 </head>
 
 <body>
+<!-- Originally this was at the landing page. Users would select their setup step. Discarded in favor of the drop down menu only. 6/6/16
+
+
     <div class="modal fade" id="step-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="container">
             <div class="row">
@@ -331,7 +334,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!--         <div class="modal-dialog">
 				<div class="loginmodal-container">
 					<div class="btn-group">
@@ -340,8 +343,8 @@
 						<button type="button" id='step3' class="btn btn-primary">Sony</button>
 					</div>
 				</div>
-			</div> -->
-    </div>
+			</div>
+    </div> -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="loginmodal-container">
@@ -379,22 +382,22 @@
                     <li class="dropdown">
                         <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;The Bird's Plight <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
-                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Show Legend</a></li>
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Something About the Bird?</a></li>
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Good Place for the Graphs and what not</a></li>
                             <li class="divider hidden-xs"></li>
-                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Whatever</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Setup <b class="caret"></b></a>
                         <ul id="setupDropdown" class="dropdown-menu">
-                            <li id="step4d"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Setup Your User Profile</a></li>
-                            <li id="step1d"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
-                            <li id="step2d"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
-                            <li id="step3d"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
+                            <li id="step4"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Setup Your User Profile (Can remove)</a></li>
+                            <li id="step1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
+                            <li id="step2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
+                            <li id="step3"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
                         </ul>
                     </li>
-                    <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;POI List</a></li>
+                    <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
                 </ul>
             </div>
             <!--/.navbar-collapse -->
@@ -405,7 +408,7 @@
             <div class="sidebar-wrapper">
                 <div class="panel panel-default" id="features">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Points of Interest
+                        <h3 class="panel-title">Your Activities
 							<button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
                     </div>
                     <div class="panel-body">
@@ -444,7 +447,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Welcome to the BootLeaf template!</h4>
+                    <h4 class="modal-title">Welcome to BLAH</h4>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs nav-justified" id="aboutTabs">
@@ -454,10 +457,10 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#boroughs-tab" data-toggle="tab">Boroughs</a></li>
-                                <li><a href="#subway-lines-tab" data-toggle="tab">Subway Lines</a></li>
-                                <li><a href="#theaters-tab" data-toggle="tab">Theaters</a></li>
-                                <li><a href="#museums-tab" data-toggle="tab">Museums</a></li>
+                                <li><a href="#boroughs-tab" data-toggle="tab">THis and That</a></li>
+                                <li><a href="#subway-lines-tab" data-toggle="tab">the Cat</a></li>
+                                <li><a href="#theaters-tab" data-toggle="tab">The Cow</a></li>
+                                <li><a href="#museums-tab" data-toggle="tab">Something</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -809,7 +812,7 @@
         </div>
     </div>
     </div>
-   <!-- Modal1 -->
+    <!-- Modal1 -->
     <!-- Modal -->
     <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -865,7 +868,7 @@
                     <label for="exampleTextarea">Farm Comments</label>
                     <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
                 </fieldset>
-  <!--               <fieldset class="form-group">
+                <!--               <fieldset class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <input type="file" class="form-control-file" id="exampleInputFile">
                     <small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
@@ -903,9 +906,8 @@
         </div>
     </div>
     </div>
-
-<!-- /.modal -->
-<!-- /.modal -->
+    <!-- /.modal -->
+    <!-- /.modal -->
     <div class="modal fade" id="farmsetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -969,29 +971,22 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <div class="modal fade" id="proceed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Do you wanna? I mean do ya, do ya wanna?
+            </div>
+            <div class="modal-body">
+                Oh, come on
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Add More</button>
+                 <button  id="proceed-button" class="btn btn-danger btn-ok" data-dismiss="modal">PROCEED</button>
+            </div>
+        </div>
+    </div>
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
@@ -1016,13 +1011,8 @@
     <script src="assets/js/l.geosearch.provider.google.js"></script>
     <script src="assets/js/l.geosearch.provider.nokia.js"></script>
     <script src="assets/js/l.geosearch.provider.openstreetmap.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
-    <script src="assets/js/l.geosearch.provider.esri.js"></script>
+
+
     <link rel="stylesheet" href="assets/css/l.geosearch.css" />
     <script src="assets/js/app1.js"></script>
 </body>
