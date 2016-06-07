@@ -187,3 +187,20 @@ input[type="radio"], input[type="checkbox"] {
     display: none !important;
   }
 }
+
+/* Geocoder */
+
+.geocoder-control {
+  /*width: 260px;*/
+  width: 34px;
+}
+
+.geocoder-control-expanded {
+  width: 260px;
+}
+
+.geocoder-control-input {
+  border-right: white solid 4px;
+  height: 34px;
+  font-size: 14px;
+}

@@ -1,10 +1,13 @@
 $(window).load(function() {
-    var map, featureList, farmshSearch = [],
+    var map,
+        featureList,
+        farmshSearch = [],
         fieldsSearch = [],
         activitiesSearch = [],
         parcelSearch = [],
-        parcelMapserver, farmLayer, stepNum;
-
+        parcelMapserver,
+        farmLayer,
+        stepNum;
 
 
     $("#login-modal").modal("show");
@@ -179,15 +182,18 @@ $(window).load(function() {
     };
     //L.control.groupedLayers(baseLayers, groupedOverlays, options).addTo(map);
 
-    var map = L.map("map", {
+    map = L.map("map", {
         zoom: 17,
         center: [43.6532, -79.3832],
         zoomControl: false,
         layers: [imagery],
-        attributionControl: false
+        // Needed to turn attribution control on for Geocod
+        attributionControl: true
     });
 
 
+    // Initialize Geocoder
+    initGeocoder();
 
 
     L.control.layers(baseMaps, gLayers).addTo(map);
@@ -225,10 +231,30 @@ $(window).load(function() {
 
     //CAM - here is the geoseach controller. Can you remove it and add it to <input id="searchbox" type="text" placeholder="Search" class="form-control">
 
-    var geosearch = new L.Control.GeoSearch({
-        provider: new L.GeoSearch.Provider.Esri()
-    }).addTo(map);
+    // var geosearch = new L.Control.GeoSearch({
+    //     provider: new L.GeoSearch.Provider.Esri()
+    // }).addTo(map);
 
+    function initGeocoder() {
+
+        // Specify provider
+        var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(),
+        // Create the geocoding control and add it to the map
+        searchControl = L.esri.Geocoding.geosearch({
+            providers: [arcgisOnline]
+        });
+        // Add geocoderControl to navbar instead of map
+        searchControl._map = map;
+
+        var geocoderDiv = searchControl.onAdd(map);
+        // $('#searchbox')[0].appendChild(geocoderDiv);
+        $('.form-group.has-feedback')[0].appendChild(geocoderDiv);
+
+        // meld.after(searchControl, 'clear', function() {
+        //     $('.toolbar-header, .aicbr-logo').removeClass('geocoder-toggled');
+        // });
+
+    }
 
 
     ///////////////switch step function.
@@ -265,7 +291,7 @@ $(window).load(function() {
             marker: false,
             rectangle: false, // disable polylines
             polyline: false, // disable polylines
-            polygon: false // disable polygons. Only enable delete feature. Force people to select their parcels. 
+            polygon: false // disable polygons. Only enable delete feature. Force people to select their parcels.
         }
 
     });
@@ -342,9 +368,9 @@ $(window).load(function() {
     };
 
     ///////////////////////
-    //LOGIN 
+    //LOGIN
     ///////////////////////
-    //LOGIN 
+    //LOGIN
     $("#loginbtn").click(function() {
 
         //grab username from login modal
@@ -567,14 +593,15 @@ $(window).load(function() {
                                 birdLayer.addFeature(e.layer.toGeoJSON());
                                 disableEditing = false;
                                 $("#addBirdActivities").modal('show');
-                            };
+                            }
 
 
                         });
+
                         // listen to the draw deleted event
                         map.on('draw:deleted', function(e) {
+                            var delArray = [];
                             if (stepNum == 1) {
-                                var delArray = [];
                                 e.layers.eachLayer(function(layer) {
                                     var id = layer.feature.id;
                                     delArray.push(id);
@@ -588,8 +615,6 @@ $(window).load(function() {
                                 currentlyDeleting = false;
 
                             } else if (stepNum == 2) {
-
-                                var delArray = [];
                                 e.layers.eachLayer(function(layer) {
                                     var id = layer.feature.id;
                                     delArray.push(id);
@@ -602,7 +627,6 @@ $(window).load(function() {
                                 disableEditing = false;
                                 currentlyDeleting = false;
                             } else if (stepNum == 3) {
-                                var delArray = [];
                                 e.layers.eachLayer(function(layer) {
                                     var id = layer.feature.id;
                                     delArray.push(id);
@@ -616,7 +640,7 @@ $(window).load(function() {
                                 currentlyDeleting = false;
 
 
-                            };
+                            }
 
                         });
 
@@ -636,7 +660,7 @@ $(window).load(function() {
                         });
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         $("#step1").click(function() {
-                            console.log("*")
+                            console.log("*");
                             stepNum = 1;
 
 
@@ -699,7 +723,7 @@ $(window).load(function() {
                                     properties: layer.feature.properties
                                 }, function(error, response) {
                                     if (response) {
-                                        console.log("response")
+                                        console.log("response");
                                     }
                                 });
                             }
@@ -732,7 +756,7 @@ $(window).load(function() {
                                 });
                             });
                             parcelMapserver.on('click', function(e) {
-                                e.layer.bringToBack()
+                                e.layer.bringToBack();
                                 feature = e.layer.toGeoJSON();
                                 feature.properties.roll = e.layer.feature.properties.arn;
                                 farmLayer.addFeature(feature);
@@ -848,7 +872,7 @@ $(window).load(function() {
                                     properties: layer.feature.properties
                                 }, function(error, response) {
                                     if (response) {
-                                        console.log("pass")
+                                        console.log("pass");
                                     }
                                 });
                             }
@@ -903,7 +927,7 @@ $(window).load(function() {
 
 
 
-                                // add our drawing controls to the 
+                                // add our drawing controls to the
                                 farmLayer.addTo(map);
                                 fieldLayer.addTo(map);
                                 birdLayer.addTo(map);
@@ -952,7 +976,7 @@ $(window).load(function() {
                                         properties: layer.feature.properties
                                     }, function(error, response) {
                                         if (response) {
-                                            console.log("pass")
+                                            console.log("pass");
                                         }
                                     });
                                 }
@@ -1009,7 +1033,7 @@ $(window).load(function() {
                                 map.removeLayer(drawnFields);
                                 map.removeLayer(drawnFarms);
 
-                                // add our drawing controls to the 
+                                // add our drawing controls to the
                                 // farmLayer.addTo(map);
                                 fieldLayer.addTo(map);
                                 // birdLayer.addTo(map);
@@ -1049,7 +1073,7 @@ $(window).load(function() {
                                         properties: layer.feature.properties
                                     }, function(error, response) {
                                         if (response) {
-                                            console.log("pass")
+                                            console.log("pass");
                                         }
                                     });
                                 }
@@ -1129,10 +1153,11 @@ $(window).load(function() {
                     }
                 }).addTo(map);
                 /* Larger screens get expanded layer control and visible sidebar */
+                var isCollapsed;
                 if (document.body.clientWidth <= 767) {
-                    var isCollapsed = true;
+                    isCollapsed = true;
                 } else {
-                    var isCollapsed = false;
+                    isCollapsed = false;
                 }
 
             });
@@ -1148,7 +1173,7 @@ $(window).load(function() {
 
 
 
-        //  Prevent hitting enter from refreshing the page 
+        //  Prevent hitting enter from refreshing the page
         $("#searchbox").keypress(function(e) {
             if (e.which == 13) {
                 e.preventDefault();
@@ -1359,26 +1384,26 @@ $(window).load(function() {
         });
 
         $('#step1d').click(function() {
-            stepNum = 4
-            swithcstep()
-        })
+            stepNum = 4;
+            swithcstep();
+        });
 
         $('#step2d').click(function() {
             stepNum = 1;
-            swithcstep()
-        })
+            swithcstep();
+        });
 
         $('#step3d').click(function() {
             stepNum = 2;
 
-            swithcstep()
-        })
+            swithcstep();
+        });
 
         $('#step4d').click(function() {
             stepNum = 2;
-            alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.")
+            alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
                 // swithcstep()
-        })
+        });
 
 
 
@@ -1386,7 +1411,7 @@ $(window).load(function() {
 
         // function getEventTarget(e) {
         //     e = e || window.event;
-        //     return e.target || e.srcElement; 
+        //     return e.target || e.srcElement;
         // }
 
 
