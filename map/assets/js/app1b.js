@@ -247,7 +247,7 @@ $(window).load(function() {
         searchControl._map = map;
 
         var geocoderDiv = searchControl.onAdd(map);
-        // $('#searchbox')[0].appendChild(geocoderDiv);
+        // Add to div in Navbar
         $('.form-group.has-feedback')[0].appendChild(geocoderDiv);
 
         // meld.after(searchControl, 'clear', function() {

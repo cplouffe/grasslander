@@ -200,7 +200,14 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .geocoder-control-input {
-  border-right: white solid 4px;
+  border-right: white solid 3px;
   height: 34px;
   font-size: 14px;
+  background-size: 28px;
 }
+
+.geocoder-control-suggestions {
+  top: 34px;
+  z-index: 100;
+}
+
