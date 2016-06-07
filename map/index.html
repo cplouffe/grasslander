@@ -117,7 +117,7 @@
         padding: 0 8px;
         /* border-radius: 3px; */
         /* -webkit-user-select: none;
-		user-select: none; */
+        user-select: none; */
     }
     
     .loginmodal-submit {
@@ -154,8 +154,8 @@
         font-size: 12px;
     }
     /*-------------------------
-		Please follow me @maridlcrmn
-		/*-------------------------*/
+        Please follow me @maridlcrmn
+        /*-------------------------*/
     
     body {
         padding-top: 50px;
@@ -303,7 +303,7 @@
 </head>
 
 <body>
-<!-- Originally this was at the landing page. Users would select their setup step. Discarded in favor of the drop down menu only. 6/6/16
+    <!-- Originally this was at the landing page. Users would select their setup step. Discarded in favor of the drop down menu only. 6/6/16
 
 
     <div class="modal fade" id="step-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -335,15 +335,15 @@
                 </div>
             </div>
         </div> -->
-        <!--         <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<div class="btn-group">
-						<button type="button" id='step1' class="btn btn-primary">Apple</button>
-						<button type="button" id='step2' class="btn btn-primary">Samsung</button>
-						<button type="button" id='step3' class="btn btn-primary">Sony</button>
-					</div>
-				</div>
-			</div>
+    <!--         <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <div class="btn-group">
+                        <button type="button" id='step1' class="btn btn-primary">Apple</button>
+                        <button type="button" id='step2' class="btn btn-primary">Samsung</button>
+                        <button type="button" id='step3' class="btn btn-primary">Sony</button>
+                    </div>
+                </div>
+            </div>
     </div> -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -409,7 +409,7 @@
                 <div class="panel panel-default" id="features">
                     <div class="panel-heading">
                         <h3 class="panel-title">Your Activities
-							<button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
+                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -611,8 +611,8 @@
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">
-											Developed by <a href='http://www.code-engage.com'>Matthew Tenney</a>
-											</h4>
+                                            Developed by <a href='http://www.code-engage.com'>Matthew Tenney</a>
+                                            </h4>
                 </div>
                 <div class="modal-body">
                     <div id="attribution"></div>
@@ -635,21 +635,21 @@
                         <span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-											Farm Details
-											</h4>
+                                            Farm Details
+                                            </h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
                         <!--                         <fieldset class="form-group">
-													<label for="username_dialog">Username</label>
-													<input type="email" class="form-control" id="username_dialog" placeholder="Enter email">
-													<small class="text-muted">We'll never share your email with anyone else.</small>
-												</fieldset>
-												<fieldset class="form-group">
-													<label for="exampleInputPassword1">Password</label>
-													<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-												</fieldset> -->
+                                                    <label for="username_dialog">Username</label>
+                                                    <input type="email" class="form-control" id="username_dialog" placeholder="Enter email">
+                                                    <small class="text-muted">We'll never share your email with anyone else.</small>
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <label for="exampleInputPassword1">Password</label>
+                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                                </fieldset> -->
                         <fieldset class="form-group">
                             <label class="control-label" for="date">Date</label>
                             <input type="text" name="birthdate" id="datetimepicker10" value="10/24/1984" />
@@ -666,15 +666,15 @@
                     </select>
                 </fieldset>
                 <!--                 <fieldset class="form-group">
-												<label for="exampleSelect2">Example multiple select</label>
-												<select multiple class="form-control" id="exampleSelect2">
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
-												</select>
-											</fieldset> -->
+                                                <label for="exampleSelect2">Example multiple select</label>
+                                                <select multiple class="form-control" id="exampleSelect2">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </fieldset> -->
                 <fieldset class="form-group">
                     <label for="exampleTextarea">Example textarea</label>
                     <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
@@ -709,7 +709,7 @@
             </div>
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="submit" id="cancelFarmAdd" class="btn btn-default" data-dismiss="modal">
                     Close
                 </button>
                 <button type="submit" id="submitDataFarm" class="btn btn-primary" data-dismiss="modal">Submit</button>
@@ -730,8 +730,8 @@
                         <span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-										Field Details
-										</h4>
+                                        Field Details
+                                        </h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -825,8 +825,8 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
                         <span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-										Bird Details
-										</h4>
+                                        Bird Details
+                                        </h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -921,7 +921,6 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
                     <p>Step 2: Identify your property parcel and click it. If you have multiple parcels you can add more later.</p>
                     <p>Step 3: Fill in the form with the information about your farm and submit.</p>
                     <p>Step 4: If you are finished with attributing the land parcels that belong to your farmstead you can click "Proceed" or you can continue to add more or correct your information by clicking "WHATEVER".</p>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -952,6 +951,22 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+    <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Field Grazing
+                </div>
+                <div class="modal-body">
+                    Field Cultivation
+                </div>
+                <div class="modal-footer">
+                    <button id="startBirdActivity" class="btn btn-danger btn-ok" data-dismiss="modal">bird</button>
+                    <button id="startFieldActivity" class="btn btn-danger btn-ok" data-dismiss="modal">field</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /.modal -->
     <div class="modal fade" id="activitysetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -972,26 +987,162 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-
-
-
-
-    <div class="modal fade" id="proceed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                Do you wanna? I mean do ya, do ya wanna?
+    <!-- /.modal -->
+    <div class="modal fade" id="birdactivitysetupinstructions" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">How to....</h4>
+                </div>
+                <div class="modal-body">
+                    <p>do stuff...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                Oh, come on
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- /.modal -->
+    <div class="modal fade" id="fieldactivitysetupinstructions" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">How to....</h4>
+                </div>
+                <div class="modal-body">
+                    <p>do stuff...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+  <!-- Modal -->
+    <div class="modal fade" id="addBird
+Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                                        Bird Details
+                                        </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
+                        <fieldset class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <small class="text-muted">We'll never share your email with anyone else.</small>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label class="control-label" for="date">Date</label>
+                            <input type="text" name="birthdate" id="datetimepicker10" value="10/24/1984" />
+                </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="exampleSelect1">Example select</label>
+                    <select class="form-control" id="exampleSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="exampleSelect2">Example multiple select</label>
+                    <select multiple class="form-control" id="exampleSelect2">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="exampleTextarea">Farm Comments</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                </fieldset>
+                <!--               <fieldset class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" class="form-control-file" id="exampleInputFile">
+                    <small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                </fieldset>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Option one is this and that&mdash;be sure to include why it's great
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Option two can be something else and selecting it will deselect option one
+                    </label>
+                </div>
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled> Option three is disabled
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Check me out
+                    </label>
+                </div> -->
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </form>
+            </div>
+            <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Add More</button>
-                 <button  id="proceed-button" class="btn btn-danger btn-ok" data-dismiss="modal">PROCEED</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" id="submitDataBird" class="btn btn-primary" data-dismiss="modal">Submit</button>
             </div>
         </div>
     </div>
-</div>
+    </div>
+    <!-- /.modal -->
+
+        <!-- /.modal -->
+
+    <div class="modal fade" id="proceed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Do you wanna? I mean do ya, do ya wanna?
+                </div>
+                <div class="modal-body">
+                    Oh, come on
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Add More</button>
+                    <button id="proceed-button" class="btn btn-danger btn-ok" data-dismiss="modal">PROCEED</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
@@ -999,7 +1150,7 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
     <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
     <!-- Include Leaflet.markercluster via rawgit.com
-					in production you'd be better off hosting these libraries yourself -->
+                    in production you'd be better off hosting these libraries yourself -->
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/MarkerCluster.Default.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/MarkerCluster.css">
     <script src="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/leaflet.markercluster.js"></script>
@@ -1016,10 +1167,8 @@ Activities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidd
     <script src="assets/js/l.geosearch.provider.google.js"></script>
     <script src="assets/js/l.geosearch.provider.nokia.js"></script>
     <script src="assets/js/l.geosearch.provider.openstreetmap.js"></script>
-
-
     <link rel="stylesheet" href="assets/css/l.geosearch.css" />
-    <script src="assets/js/app1.js"></script>
+    <script src="assets/js/app1b.js"></script>
 </body>
 
 </html>

@@ -460,7 +460,8 @@ $(window).load(function() {
                             }
                         }
                     }).addTo(map);
-             
+                    console.log(farmLayer);
+                    console.log(fieldLayer);
 
 
                     farmLayer.on('authenticationrequired', function(e) {
@@ -468,7 +469,11 @@ $(window).load(function() {
                             e.authenticate(response.token);
                         });
                     });
-        
+                    fieldLayer.addTo(map);
+                    console.log(fieldLayer);
+                    fieldLayer.eachFeature(function(e) {
+                        console.log('IM A FEATURE' + e)
+                    });
 
 
                     // $("#full-extent-btn").click(function() {
