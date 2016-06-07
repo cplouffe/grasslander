@@ -219,7 +219,7 @@ $(window).load(function() {
     //                 this._tooltip = this._createTooltip("Next Step")
     //             },
     //             a.onclick = function() {
-    //                 swithcstep();
+    //                 switchStep();
     //             }, a
     //     }
     // });
@@ -259,17 +259,15 @@ $(window).load(function() {
 
     ///////////////switch step function.
 
-    function swithcstep() {
+    function switchStep() {
         if (stepNum == 1) {
             console.log(stepNum);
             stepNum += 1;
-
             document.getElementById('step2').click();
         } else if (stepNum == 2) {
             console.log(stepNum);
             stepNum += 1;
             document.getElementById('step3').click();
-
         } else if (stepNum == 3) {
             console.log(stepNum);
             document.getElementById('step4').click();
@@ -655,7 +653,7 @@ $(window).load(function() {
 
                             $("#proceed-modal").modal("hide");
 
-                            swithcstep();
+                            switchStep();
                             return false;
                         });
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1385,24 +1383,24 @@ $(window).load(function() {
 
         $('#step1d').click(function() {
             stepNum = 4;
-            swithcstep();
+            switchStep();
         });
 
         $('#step2d').click(function() {
             stepNum = 1;
-            swithcstep();
+            switchStep();
         });
 
         $('#step3d').click(function() {
             stepNum = 2;
 
-            swithcstep();
+            switchStep();
         });
 
         $('#step4d').click(function() {
             stepNum = 2;
             alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
-                // swithcstep()
+                // switchStep()
         });
 
 
