@@ -7,8 +7,10 @@ $(window).load(function() {
         parcelSearch = [],
         parcelMapserver,
         farmLayer,
-        stepNum;
-
+        stepNum,
+        baseUrl = 'https://www.grasslander.org:6443/arcgis',
+        servicesUrl = baseUrl + '/rest/services/grasslander',
+        tokenUrl = baseUrl + '/tokens/generateToken';
 
     $("#login-modal").modal("show");
     $(window).resize(function() {
@@ -133,23 +135,23 @@ $(window).load(function() {
         attribution: 'AAFC Annual Crop Inventory 2014'
     });
     var studyArea = L.esri.featureLayer({
-        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Grasslandbase/MapServer/4'
+        url: servicesUrl + '/Grasslandbase/MapServer/4'
 
     });
     var nhic_bobo = L.esri.featureLayer({
-        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Grasslandbase/MapServer/3'
+        url: servicesUrl + '/Grasslandbase/MapServer/3'
 
     });
     var nhic_lark = L.esri.featureLayer({
-        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Grasslandbase/MapServer/2'
+        url: servicesUrl + '/Grasslandbase/MapServer/2'
 
     });
     var ebird_bobo = L.esri.featureLayer({
-        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Grasslandbase/MapServer/1'
+        url: servicesUrl + '/Grasslandbase/MapServer/1'
 
     });
     var ebird_lark = L.esri.featureLayer({
-        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Grasslandbase/MapServer/0'
+        url: servicesUrl + '/Grasslandbase/MapServer/0'
     });
 
     var gLayers = {
@@ -377,15 +379,11 @@ $(window).load(function() {
         console.log(username);
         console.log(password);
 
+        // define feature services and authenticate user
 
-
-
-        //define feature services and authenticate user
-
-
-        //authenitcation
+        // authentication
         function serverAuth(callback) {
-            L.esri.post('https://www.grasslander.org:6443/arcgis/tokens/generateToken', {
+            L.esri.post(tokenUrl, {
                 username: username,
                 password: password,
                 f: 'json',
@@ -395,9 +393,11 @@ $(window).load(function() {
             }, callback);
         }
 
+        // Log user into app
         serverAuth(function(error, response) {
+
             var farmLayer = L.esri.featureLayer({
-                url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Farms/FeatureServer/0',
+                url: servicesUrl + '/Farms/FeatureServer/0',
                 opacity: 1,
                 style: farmStyle,
                 token: response.token,
@@ -439,7 +439,7 @@ $(window).load(function() {
             //grab fieldLayer poly
             serverAuth(function(error, response) {
                 var fieldLayer = L.esri.featureLayer({
-                    url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Field/FeatureServer/0',
+                    url: servicesUrl + '/Field/FeatureServer/0',
                     opacity: 1,
                     style: fieldStyle,
                     onEachFeature: function(feature, layer) {
@@ -472,7 +472,7 @@ $(window).load(function() {
                 //grab birdLayer pt
                 serverAuth(function(error, response) {
                     var birdLayer = L.esri.featureLayer({
-                        url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/BirdSightings2/FeatureServer/0' //,
+                        url: servicesUrl + '/BirdSightings2/FeatureServer/0' //,
                     });
 
 
@@ -486,7 +486,7 @@ $(window).load(function() {
                     //grab birdLayer pt
                     serverAuth(function(error, response) {
                         var fieldEventLayer = L.esri.featureLayer({
-                            url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/BirdSightings2/FeatureServer/0' //,
+                            url: servicesUrl + '/BirdSightings2/FeatureServer/0'
                         });
 
 
@@ -496,7 +496,7 @@ $(window).load(function() {
                             });
                         });
                         var parcelMapserver = L.esri.featureLayer({
-                            url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Parcels/MapServer/0',
+                            url: servicesUrl + '/Parcels/MapServer/0',
                             simplifyFactor: 2,
                             cacheLayers: true,
                             style: parcelStyle,
@@ -1160,15 +1160,6 @@ $(window).load(function() {
 
             });
         });
-
-
-
-
-
-
-
-
-
 
 
         //  Prevent hitting enter from refreshing the page
