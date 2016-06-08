@@ -22,7 +22,7 @@ todo list:
 		> replacing all external libraries currently used (very very limited) with available esri services when applicable (e.g., geolocate control by ip)
 
 	Matt:
-	<del>	Field/Bird activities</del>
+	~~Field/Bird activities~~
 		Layer ordering for each step
 		sidebar functionality (adding in zoomToFeature) for all in frame activities 
 		grouped layer controls
