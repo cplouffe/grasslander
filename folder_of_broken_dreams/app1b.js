@@ -382,7 +382,6 @@ $(window).load(function() {
         // define feature services and authenticate user
 
         // authentication
-
         function serverAuth(callback) {
             L.esri.post(tokenUrl, {
                 username: username,
@@ -483,11 +482,13 @@ $(window).load(function() {
                         });
                     });
 
+
                     //grab fieldevent pt
                     serverAuth(function(error, response) {
                         var fieldEventLayer = L.esri.featureLayer({
                             url: servicesUrl + '/BirdSightings2/FeatureServer/0'
                         });
+
 
                         fieldEventLayer.on('authenticationrequired', function(e) {
                             serverAuth(function(error, response) {
@@ -495,7 +496,7 @@ $(window).load(function() {
                             });
                         });
                         var parcelMapserver = L.esri.featureLayer({
-                            url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Parcels/MapServer/0',
+                            url: servicesUrl + '/Parcels/MapServer/0',
                             simplifyFactor: 2,
                             cacheLayers: true,
                             style: parcelStyle,
@@ -503,23 +504,6 @@ $(window).load(function() {
                             minZoom: 13
                         });
 
-// <<<<<<< HEAD
-//                         fieldEventLayer.on('authenticationrequired', function(e) {
-//                             serverAuth(function(error, response) {
-//                                 e.authenticate(response.token);
-//                             });
-//                         });
-//                         var parcelMapserver = L.esri.featureLayer({
-//                             url: servicesUrl + '/Parcels/MapServer/0',
-//                             simplifyFactor: 2,
-//                             cacheLayers: true,
-//                             style: parcelStyle,
-//                             maxZoom: 20,
-//                             minZoom: 13
-//                         });
-
-// =======
-// >>>>>>> upstream/master
                         function sidebarClick(id) {
                             console.log(id);
                             var layer = layerGroup.getLayer(id);
@@ -578,6 +562,8 @@ $(window).load(function() {
                             syncSidebar();
                         });
 
+
+
                         // when we start using creation tools disable our custom editing
                         map.on('draw:createstart', function() {
                             disableEditing = true;
@@ -605,7 +591,6 @@ $(window).load(function() {
                                 birdLayer.addFeature(e.layer.toGeoJSON());
                                 disableEditing = false;
                                 $("#addBirdActivities").modal('show');
-
                             }
 
 
@@ -652,6 +637,7 @@ $(window).load(function() {
                                 disableEditing = false;
                                 currentlyDeleting = false;
 
+
                             }
 
                         });
@@ -669,15 +655,21 @@ console.log(studyArea);
                         // decided to remove the setup selection app in favor of just doing a 1-drop down setup menu on the nav bar. Removing the "next step" save button in favor
                         // of a "Add more" or "Proceed" modal for the setup step transitions.
 
+
+
                         $("#proceed-button").click(function() {
 
                             $("#proceed-modal").modal("hide");
 
-                            swithcstep();
+                            switchStep();
                             return false;
                         });
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         $("#step1").click(function() {
+<<<<<<< HEAD:map/assets/js/app1b.js
+                            console.log("*");
+=======
+>>>>>>> upstream/master:folder_of_broken_dreams/app1b.js
                             stepNum = 1;
 
 
@@ -695,7 +687,7 @@ console.log(studyArea);
                             farmLayer.addTo(map);
                             map.addLayer(drawnFarms);
                             parcelMapserver.bringToBack();
-
+                            farmLayer.bringToFront();
                             $("#farmsetupinstructions").modal("show");
                             // variable to track the layer being edited
                             var currentlyEditing = false;
@@ -776,52 +768,6 @@ console.log(studyArea);
                                 feature = e.layer.toGeoJSON();
                                 feature.properties.roll = e.layer.feature.properties.arn;
                                 farmLayer.addFeature(feature);
-
-                                $('#rollNumber').val(e.layer.feature.properties.roll);
-                                $('#conNumber').val(e.layer.feature.properties.con);
-                                $('#lotNumber').val(e.layer.feature.properties.lot);
-                                $('#farm_type').val(e.layer.feature.properties.farm_type);
-                                $('#farm_id').val(e.layer.feature.properties.farm_id);
-                                $("#addFarmAttributes").modal('show');
-                                displayAttributes(e.layer);
-                                // switch (e.layer.options.fillColor) {
-                                //     case '#0000FF':
-                                //         e.layer.setStyle({
-                                //             fillColor: "#ff7800"
-                                //         });
-                                //         e.layer.options.fillColor = '#ff7800';
-                                //         var id = e.layer.feature.id
-                                //             // farmLayer.deleteFeature(id);
-                                //             // farmLayer.addFeature(e.layer.toGeoJSON());
-                                //         e.layer.bringToBack()
-                                //         farmLayer.addFeature(e.layer.toGeoJSON());
-                                //         break;
-                                //     case "#ff7800":
-                                //         e.layer.setStyle({
-                                //             fillColor: "#0000FF"
-                                //         });
-                                //         e.layer.options.fillColor = '#0000FF';
-                                //         var id = e.layer.feature.id
-                                //         farmLayer.deleteFeature(id);
-                                //         // farmLayer.deleteFeature(id);
-                                //         // e.layer.bringToBack()
-                                //         break;
-                                //     case null:
-                                //         e.layer.setStyle({
-                                //             fillColor: "#0000FF"
-                                //         });
-                                //         e.layer.options.fillColor = '#0000FF';
-                                //         var id = e.layer.feature.id
-                                //         farmLayer.deleteFeature(id);
-                                //         e.layer.bringToBack()
-
-                                //         break;
-                                // }
-                            });
-                            $("#submitDataFarm").click(function() {
-                                stopEditingFarm();
-                                $("#addFarmAttributes").modal('hide');
-                                $("#proceed-modal").modal('show');
 
 
                                 $('#rollNumber').val(e.layer.feature.properties.roll);
@@ -934,7 +880,7 @@ console.log(studyArea);
                                     properties: layer.feature.properties
                                 }, function(error, response) {
                                     if (response) {
-                                        console.log("pass")
+                                        console.log("pass");
                                     }
                                 });
                             }
@@ -989,11 +935,9 @@ console.log(studyArea);
 
 
 
-
                                 // add our drawing controls to the
                                 farmLayer.addTo(map);
                                 fieldLayer.addTo(map);
-                                farmLayer.bringToBack();
                                 birdLayer.addTo(map);
                                 // fieldEventLayer.addTo(map);
                                 map.addControl(drawBirdControl);
@@ -1097,21 +1041,21 @@ console.log(studyArea);
                                 map.removeLayer(drawnFields);
                                 map.removeLayer(drawnFarms);
 
+<<<<<<< HEAD:map/assets/js/app1b.js
                                 // add our drawing controls to the
+                                // farmLayer.addTo(map);
+=======
+                                // add our drawing controls to the 
                                 farmLayer.addTo(map);
+>>>>>>> upstream/master:folder_of_broken_dreams/app1b.js
                                 fieldLayer.addTo(map);
-
-
                                 // birdLayer.addTo(map);
-                                farmLayer.bringToBack()
-
-                                var currentlyEditing = false;
+                              var currentlyEditing = false;
                                 var currentlyDeleting = false;
 
                                 // track if we should disable custom editing as a result of other actions (create/delete)
                                 var disableEditing = false;
                                 // start editing a given layer
-
                                 function startEditingFieldEvent(layer) {
                                     // $('#exampleTextarea').val = layer.feature.properties.title;
                                     // read only
@@ -1135,8 +1079,8 @@ console.log(studyArea);
                                     // alert($('#exampleTextarea').val())
                                     // layer.feature.properties.title = $('#exampleTextarea').val();
                                     // layer.feature.properties.daterep = $('#datetimepicker10').val();
-
                                     console.log(layer.feature.getBounds().getCenter());
+
 
 
 
@@ -1244,14 +1188,6 @@ console.log(studyArea);
 
             });
         });
-
-
-
-
-
-
-
-
 
 
         //  Prevent hitting enter from refreshing the page
@@ -1476,6 +1412,7 @@ console.log(studyArea);
 
         $('#step3d').click(function() {
             stepNum = 2;
+
             switchStep();
         });
 
@@ -1484,6 +1421,8 @@ console.log(studyArea);
             alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
                 // switchStep()
         });
+
+
 
 
 
