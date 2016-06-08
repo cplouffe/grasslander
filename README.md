@@ -22,7 +22,7 @@ todo list:
 		> replacing all external libraries currently used (very very limited) with available esri services when applicable (e.g., geolocate control by ip)
 
 	Matt:
-		Field/Bird activities
+	<del>	Field/Bird activities</del>
 		Layer ordering for each step
 		sidebar functionality (adding in zoomToFeature) for all in frame activities 
 		grouped layer controls
@@ -49,7 +49,7 @@ todo list:
 		
 		> Implementing any further changes in plateform capabilities and features (e.g., user registration/contact and landing page) following approval of he beta-testing phase (ending June 18th 2016) -- obviously excluding minor codebase clarification/assistance and on the event of initial codebase needs further debugging following plateform's initial deployment. 
 		
-		> user registrationa and authentication
+		> user registration and authentication
 		
 		>database optimization and maintenance, as well as any database triggers or templates that need created or modified beyond beta-testing phase. Within reason. 
 		

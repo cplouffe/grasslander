@@ -459,7 +459,7 @@ $(window).load(function() {
                     });
 
 
-                    //grab birdLayer pt
+                    //grab fieldevent pt
                     serverAuth(function(error, response) {
                         var fieldEventLayer = L.esri.featureLayer({
                             url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/BirdSightings2/FeatureServer/0' //,
@@ -619,8 +619,16 @@ $(window).load(function() {
                             };
 
                         });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Feature query for user-specific step selection
+// var farmQuery = new L.esri.query(farmLayer);
 
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// studyArea.getLayer(1);
+console.log(studyArea);
+//console.log(farmLayer.query().within(L.LatLng([85, -180]),L.LatLng([-85,180]));
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         // decided to remove the setup selection app in favor of just doing a 1-drop down setup menu on the nav bar. Removing the "next step" save button in favor
                         // of a "Add more" or "Proceed" modal for the setup step transitions.
@@ -636,7 +644,6 @@ $(window).load(function() {
                         });
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         $("#step1").click(function() {
-                            console.log("*")
                             stepNum = 1;
 
 
@@ -651,12 +658,11 @@ $(window).load(function() {
                             map.addControl(drawFarmControl);
 
                             parcelMapserver.addTo(map);
-
                             farmLayer.addTo(map);
                             map.addLayer(drawnFarms);
+                            parcelMapserver.bringToBack();
+                            farmLayer.bringToFront();
                             $("#farmsetupinstructions").modal("show");
-
-
                             // variable to track the layer being edited
                             var currentlyEditing = false;
                             var currentlyDeleting = false;
@@ -1010,10 +1016,15 @@ $(window).load(function() {
                                 map.removeLayer(drawnFarms);
 
                                 // add our drawing controls to the 
-                                // farmLayer.addTo(map);
+                                farmLayer.addTo(map);
                                 fieldLayer.addTo(map);
                                 // birdLayer.addTo(map);
+                              var currentlyEditing = false;
+                                var currentlyDeleting = false;
 
+                                // track if we should disable custom editing as a result of other actions (create/delete)
+                                var disableEditing = false;
+                                // start editing a given layer
                                 function startEditingFieldEvent(layer) {
                                     // $('#exampleTextarea').val = layer.feature.properties.title;
                                     // read only
@@ -1037,6 +1048,14 @@ $(window).load(function() {
                                     // alert($('#exampleTextarea').val())
                                     // layer.feature.properties.title = $('#exampleTextarea').val();
                                     // layer.feature.properties.daterep = $('#datetimepicker10').val();
+                                    console.log(layer.feature.getBounds().getCenter());
+
+
+
+
+
+
+
                                     layer.feature.properties.field_id = layer.feature.id;
                                     layer.feature.properties.date = new Date();
                                     layer.feature.properties.type = $('#type').val();
@@ -1084,7 +1103,7 @@ $(window).load(function() {
                                 });
 
                                 $("#submitDataFieldEvent").click(function() {
-                                    stopEditingBird();
+                                    stopEditingFieldEvent();
                                     $("#addFieldActivities").modal('hide');
                                 });
 
