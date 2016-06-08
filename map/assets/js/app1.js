@@ -934,7 +934,7 @@ console.log(studyArea);
                                     properties: layer.feature.properties
                                 }, function(error, response) {
                                     if (response) {
-                                        console.log("pass")
+                                        console.log("pass");
                                     }
                                 });
                             }
@@ -1103,7 +1103,7 @@ console.log(studyArea);
 
 
                                 // birdLayer.addTo(map);
-                                farmLayer.bringToBack()
+                                farmLayer.bringToBack();
 
                                 var currentlyEditing = false;
                                 var currentlyDeleting = false;
