@@ -1,6 +1,7 @@
 $(window).load(function() {
     var map,
         featureList,
+        layers = [],
         farmsSearch = [],
         fieldsSearch = [],
         activitiesSearch = [],
@@ -409,6 +410,18 @@ $(window).load(function() {
 
         }
 
+        // Configure authentication for a given layer
+
+        function configureAuth(layer) {
+
+                layer.on('authenticationrequired', function(e) {
+                    serverAuth(function(error, response) {
+                        e.authenticate(response.token);
+                    });
+                });
+
+        }
+
         // Log user into app
         serverAuth(function(error, response) {
 
@@ -457,12 +470,7 @@ $(window).load(function() {
                     }
                 }
             });
-
-            farmLayer.on('authenticationrequired', function(e) {
-                serverAuth(function(error, response) {
-                    e.authenticate(response.token);
-                });
-            });
+            layers.push(farmLayer);
 
             // grab fieldLayer polygons
             var fieldLayer = L.esri.featureLayer({
@@ -495,30 +503,21 @@ $(window).load(function() {
                 }
 
             });
+            layers.push(fieldLayer);
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
                 url: servicesUrl + '/BirdSightings2/FeatureServer/0' //,
             });
-
-            birdLayer.on('authenticationrequired', function(e) {
-                serverAuth(function(error, response) {
-                    e.authenticate(response.token);
-                });
-            });
+            layers.push(birdLayer);
 
             // grab fieldEventLayer points
             var fieldEventLayer = L.esri.featureLayer({
                 url: servicesUrl + '/BirdSightings2/FeatureServer/0'
             });
+            layers.push(fieldEventLayer);
 
-            fieldEventLayer.on('authenticationrequired', function(e) {
-                serverAuth(function(error, response) {
-                    e.authenticate(response.token);
-                });
-            });
-
-            // Parcels layer
+            // Parcel layer
             // var parcelLayer = L.esri.dynamicMapLayer({
             var parcelLayer = L.esri.featureLayer({
                 // url: servicesUrl + '/Parcels/MapServer/0',
@@ -529,13 +528,10 @@ $(window).load(function() {
                 maxZoom: 20,
                 minZoom: 13
             });
+            layers.push(parcelLayer);
 
-            parcelLayer.on('authenticationrequired', function(e) {
-                serverAuth(function(error, response) {
-                    e.authenticate(response.token);
-                });
-            });
-
+            // Authenticate all layers used in app
+            layers.forEach(configureAuth);
 
 
             function sidebarClick(id) {
