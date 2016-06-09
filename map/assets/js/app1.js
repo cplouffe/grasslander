@@ -5,14 +5,19 @@ $(window).load(function() {
         fieldsSearch = [],
         activitiesSearch = [],
         parcelSearch = [],
-        parcelMapserver,
+        parcelLayer,
         farmLayer,
         stepNum,
         baseUrl = 'https://www.grasslander.org:6443/arcgis',
         servicesUrl = baseUrl + '/rest/services/grasslander',
         tokenUrl = baseUrl + '/tokens/generateToken';
 
+    $("#login-modal").modal({
+        backdrop: 'static',
+        keyboard: false
+    });
     $("#login-modal").modal("show");
+
     $(window).resize(function() {
         sizeLayerControl();
     });
@@ -27,10 +32,10 @@ $(window).load(function() {
         $('#datetimepicker10').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true
-                // },
-                // function(start, end, label) {
-                //     var years = moment().diff(start, 'years');
-                //     alert("You are " + years + " years old.");
+            // },
+            // function(start, end, label) {
+            //     var years = moment().diff(start, 'years');
+            //     alert("You are " + years + " years old.");
         });
     });
 
@@ -241,10 +246,10 @@ $(window).load(function() {
 
         // Specify provider
         var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(),
-        // Create the geocoding control and add it to the map
-        searchControl = L.esri.Geocoding.geosearch({
-            providers: [arcgisOnline]
-        });
+            // Create the geocoding control and add it to the map
+            searchControl = L.esri.Geocoding.geosearch({
+                providers: [arcgisOnline]
+            });
         // Add geocoderControl to navbar instead of map
         searchControl._map = map;
 
@@ -370,7 +375,6 @@ $(window).load(function() {
     ///////////////////////
     //LOGIN
     ///////////////////////
-    //LOGIN
     $("#loginbtn").click(function() {
 
         //grab username from login modal
@@ -399,22 +403,29 @@ $(window).load(function() {
         function restartLogin(error) {
 
             console.log(error);
-            // Make prettier down the line...
+            // Make prettier and into a modal down the line...
             alert('The username or password you entered is incorrect. Please provide valid credentials to log in.');
-            // $('#login-modal').modal('show');
+            $('#login-modal').modal('show');
 
         }
 
         // Log user into app
         serverAuth(function(error, response) {
 
-            // if (error) {
-            //     restartLogin(error);
-            //     return;
-            // }
+            // If user does not provide valid credentials, stop log in process
+            if (error) {
+                restartLogin(error);
+                return;
+            }
 
+            // Hacking together because data-dismiss is causing issues
             $('#login-modal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
 
+            // $('#login-modal').modal('hide');
+
+            // Farm layer authentication
             var farmLayer = L.esri.featureLayer({
                 url: servicesUrl + '/Farms/FeatureServer/0',
                 opacity: 1,
@@ -422,7 +433,6 @@ $(window).load(function() {
                 token: response.token,
                 onEachFeature: function(feature, layer) {
                     layer.options.fillColor = '#0000FF';
-
                     if (feature.properties) {
                         var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.farm_id + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
                         //Can assing 'on click' modal hear, but moving it to "draw:created" to make attribute popup fire after creating
@@ -448,14 +458,13 @@ $(window).load(function() {
                 }
             });
 
-
             farmLayer.on('authenticationrequired', function(e) {
                 serverAuth(function(error, response) {
                     e.authenticate(response.token);
                 });
             });
 
-            //grab fieldLayer poly
+            // grab fieldLayer polygons
             serverAuth(function(error, response) {
                 var fieldLayer = L.esri.featureLayer({
                     url: servicesUrl + '/Field/FeatureServer/0',
@@ -488,12 +497,11 @@ $(window).load(function() {
 
                 });
 
-                //grab birdLayer pt
+                // grab birdLayer points
                 serverAuth(function(error, response) {
                     var birdLayer = L.esri.featureLayer({
                         url: servicesUrl + '/BirdSightings2/FeatureServer/0' //,
                     });
-
 
                     birdLayer.on('authenticationrequired', function(e) {
                         serverAuth(function(error, response) {
@@ -501,7 +509,7 @@ $(window).load(function() {
                         });
                     });
 
-                    //grab fieldevent pt
+                    // grab fieldEventLayer points
                     serverAuth(function(error, response) {
                         var fieldEventLayer = L.esri.featureLayer({
                             url: servicesUrl + '/BirdSightings2/FeatureServer/0'
@@ -512,8 +520,12 @@ $(window).load(function() {
                                 e.authenticate(response.token);
                             });
                         });
-                        var parcelMapserver = L.esri.featureLayer({
-                            url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/Parcels/MapServer/0',
+
+                        // Parcels layer
+                        // var parcelLayer = L.esri.dynamicMapLayer({
+                        var parcelLayer = L.esri.featureLayer({
+                            // url: servicesUrl + '/Parcels/MapServer/0',
+                            url: servicesUrl + '/Parcels/FeatureServer/0',
                             simplifyFactor: 2,
                             cacheLayers: true,
                             style: parcelStyle,
@@ -521,23 +533,14 @@ $(window).load(function() {
                             minZoom: 13
                         });
 
-// <<<<<<< HEAD
-//                         fieldEventLayer.on('authenticationrequired', function(e) {
-//                             serverAuth(function(error, response) {
-//                                 e.authenticate(response.token);
-//                             });
-//                         });
-//                         var parcelMapserver = L.esri.featureLayer({
-//                             url: servicesUrl + '/Parcels/MapServer/0',
-//                             simplifyFactor: 2,
-//                             cacheLayers: true,
-//                             style: parcelStyle,
-//                             maxZoom: 20,
-//                             minZoom: 13
-//                         });
+                        parcelLayer.on('authenticationrequired', function(e) {
+                            serverAuth(function(error, response) {
+                                e.authenticate(response.token);
+                            });
+                        });
 
-// =======
-// >>>>>>> upstream/master
+
+
                         function sidebarClick(id) {
                             console.log(id);
                             var layer = layerGroup.getLayer(id);
@@ -549,11 +552,12 @@ $(window).load(function() {
                                 map.invalidateSize();
                             }
                         }
+
                         $(document).on("click", ".feature-row", function(e) {
                             $(document).off("mouseout", ".feature-row", clearHighlight);
                             console.log($(this).context);
 
-                            //sidebarClick(parseInt($(this).attr("id"), 10));
+                            // sidebarClick(parseInt($(this).attr("id"), 10));
 
                         });
 
@@ -592,6 +596,8 @@ $(window).load(function() {
                                 order: "asc"
                             });
                         }
+
+                        // Query features that need to populate the sidebar when map is panned/moved
                         map.on("moveend", function(e) {
                             syncSidebar();
                         });
@@ -600,11 +606,13 @@ $(window).load(function() {
                         map.on('draw:createstart', function() {
                             disableEditing = true;
                         });
+
                         // when we start using deletion tools, hide attributes and disable custom editing
                         map.on('draw:deletestart', function() {
                             disableEditing = true;
                             currentlyDeleting = true;
                         });
+
                         // listen to the draw created event
                         map.on('draw:created', function(e) {
                             // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
@@ -673,16 +681,16 @@ $(window).load(function() {
                             }
 
                         });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Feature query for user-specific step selection
-// var farmQuery = new L.esri.query(farmLayer);
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        // Feature query for user-specific step selection
+                        // var farmQuery = new L.esri.query(farmLayer);
 
-// studyArea.getLayer(1);
-console.log(studyArea);
-//console.log(farmLayer.query().within(L.LatLng([85, -180]),L.LatLng([-85,180]));
+                        // studyArea.getLayer(1);
+                        console.log(studyArea);
+                        //console.log(farmLayer.query().within(L.LatLng([85, -180]),L.LatLng([-85,180]));
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         // decided to remove the setup selection app in favor of just doing a 1-drop down setup menu on the nav bar. Removing the "next step" save button in favor
                         // of a "Add more" or "Proceed" modal for the setup step transitions.
@@ -709,10 +717,12 @@ console.log(studyArea);
                             // add our drawing controls to the map
                             map.addControl(drawFarmControl);
 
-                            parcelMapserver.addTo(map);
-                            farmLayer.addTo(map);
+                            // parcelLayer.addTo(map);
+                            // farmLayer.addTo(map);
+                            map.addLayer(parcelLayer);
+                            map.addLayer(farmLayer);
                             map.addLayer(drawnFarms);
-                            parcelMapserver.bringToBack();
+                            parcelLayer.bringToBack();
 
                             $("#farmsetupinstructions").modal("show");
                             // variable to track the layer being edited
@@ -789,7 +799,7 @@ console.log(studyArea);
                                     drawnFarms.addLayer(layer);
                                 });
                             });
-                            parcelMapserver.on('click', function(e) {
+                            parcelLayer.on('click', function(e) {
                                 e.layer.bringToBack();
                                 feature = e.layer.toGeoJSON();
                                 feature.properties.roll = e.layer.feature.properties.arn;
@@ -900,7 +910,7 @@ console.log(studyArea);
                             map.removeControl(drawBirdControl);
                             map.removeLayer(drawnBirds);
                             map.removeLayer(drawnFields);
-                            map.removeLayer(parcelMapserver);
+                            map.removeLayer(parcelLayer);
                             map.removeLayer(farmLayer);
                             map.removeLayer(fieldLayer);
                             // add our drawing controls to the map
@@ -988,7 +998,7 @@ console.log(studyArea);
                             map.removeControl(drawFarmControl);
                             map.removeControl(drawFieldControl);
                             map.removeControl(drawBirdControl);
-                            map.removeLayer(parcelMapserver);
+                            map.removeLayer(parcelLayer);
                             map.removeLayer(fieldLayer);
                             map.removeLayer(farmLayer);
 
@@ -1107,7 +1117,7 @@ console.log(studyArea);
                                 map.removeControl(drawFarmControl);
                                 map.removeControl(drawFieldControl);
                                 map.removeControl(drawBirdControl);
-                                map.removeLayer(parcelMapserver);
+                                map.removeLayer(parcelLayer);
                                 map.removeLayer(fieldLayer);
                                 map.removeLayer(farmLayer);
 
@@ -1265,216 +1275,214 @@ console.log(studyArea);
 
 
 
-
-
-
-
-
-
-
         //  Prevent hitting enter from refreshing the page
-        $("#searchbox").keypress(function(e) {
-            if (e.which == 13) {
-                e.preventDefault();
-            }
-        });
+        // $("#searchbox").keypress(function(e) {
+        //     if (e.which == 13) {
+        //         e.preventDefault();
+        //     }
+        // });
 
         $("#featureModal").on("hidden.bs.modal", function(e) {
             $(document).on("mouseout", ".feature-row", clearHighlight);
         });
 
         /* Typeahead search functionality */
-        $(document).one("ajaxStop", function() {
-            $("#loading").hide();
-            sizeLayerControl();
-            /* Fit map to boroughs bounds */
-            map.fitBounds(boroughs.getBounds());
-            featureList = new List("features", {
-                valueNames: ["feature-name"]
-            });
-            featureList.sort("feature-name", {
-                order: "asc"
-            });
+        // $(document).one("ajaxStop", function() {
+        //     $("#loading").hide();
+        //     sizeLayerControl();
+        //     /* Fit map to boroughs bounds */
+        //     map.fitBounds(boroughs.getBounds());
+        //     featureList = new List("features", {
+        //         valueNames: ["feature-name"]
+        //     });
+        //     featureList.sort("feature-name", {
+        //         order: "asc"
+        //     });
 
-            var farmsBH = new Bloodhound({
-                name: "Farms",
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.name);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                local: farmshSearch,
-                limit: 10
-            });
-            var parcelBH = new Bloodhound({
-                name: "Parcels",
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.name);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                local: parcelSearch,
-                limit: 10
-            });
+        //     var farmsBH = new Bloodhound({
+        //         name: "Farms",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: farmshSearch,
+        //         limit: 10
+        //     });
+        //     var parcelBH = new Bloodhound({
+        //         name: "Parcels",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: parcelSearch,
+        //         limit: 10
+        //     });
 
-            var fieldsBH = new Bloodhound({
-                name: "Fields",
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.name);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                local: fieldsSearch,
-                limit: 10
-            });
+        //     var fieldsBH = new Bloodhound({
+        //         name: "Fields",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: fieldsSearch,
+        //         limit: 10
+        //     });
 
-            var activitiesBH = new Bloodhound({
-                name: "Activities",
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.name);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                local: activitiesSearch,
-                limit: 10
-            });
+        //     var activitiesBH = new Bloodhound({
+        //         name: "Activities",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: activitiesSearch,
+        //         limit: 10
+        //     });
 
-            var geonamesBH = new Bloodhound({
-                name: "GeoNames",
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.name);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: "http://api.geonames.org/searchJSON?username=bootleaf&featureClass=P&maxRows=5&countryCode=US&name_startsWith=%QUERY",
-                    filter: function(data) {
-                        return $.map(data.geonames, function(result) {
-                            return {
-                                name: result.name + ", " + result.adminCode1,
-                                lat: result.lat,
-                                lng: result.lng,
-                                source: "GeoNames"
-                            };
-                        });
-                    },
-                    ajax: {
-                        beforeSend: function(jqXhr, settings) {
-                            settings.url += "&east=" + map.getBounds().getEast() + "&west=" + map.getBounds().getWest() + "&north=" + map.getBounds().getNorth() + "&south=" + map.getBounds().getSouth();
-                            $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
-                        },
-                        complete: function(jqXHR, status) {
-                            $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
-                        }
-                    }
-                },
-                limit: 10
-            });
-            activitiesBH.initialize();
-            farmsBH.initialize();
-            parcelBH.initialize();
-            fieldsBH.initialize();
-            geonamesBH.initialize();
-
-
-            /* Highlight search box text on click */
-            $("#searchbox").click(function() {
-                $(this).select();
-            });
+        //     var geonamesBH = new Bloodhound({
+        //         name: "GeoNames",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         remote: {
+        //             url: "http://api.geonames.org/searchJSON?username=bootleaf&featureClass=P&maxRows=5&countryCode=US&name_startsWith=%QUERY",
+        //             filter: function(data) {
+        //                 return $.map(data.geonames, function(result) {
+        //                     return {
+        //                         name: result.name + ", " + result.adminCode1,
+        //                         lat: result.lat,
+        //                         lng: result.lng,
+        //                         source: "GeoNames"
+        //                     };
+        //                 });
+        //             },
+        //             ajax: {
+        //                 beforeSend: function(jqXhr, settings) {
+        //                     settings.url += "&east=" + map.getBounds().getEast() + "&west=" + map.getBounds().getWest() + "&north=" + map.getBounds().getNorth() + "&south=" + map.getBounds().getSouth();
+        //                     $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+        //                 },
+        //                 complete: function(jqXHR, status) {
+        //                     $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
+        //                 }
+        //             }
+        //         },
+        //         limit: 10
+        //     });
+        //     activitiesBH.initialize();
+        //     farmsBH.initialize();
+        //     parcelBH.initialize();
+        //     fieldsBH.initialize();
+        //     geonamesBH.initialize();
 
 
+        //     /* Highlight search box text on click */
+        //     $("#searchbox").click(function() {
+        //         $(this).select();
+        //     });
 
 
 
-            /* instantiate the typeahead UI */
-            $("#searchbox").typeahead({
-                minLength: 3,
-                highlight: true,
-                hint: false
-            }, {
-                name: "Farms",
-                displayKey: "name",
-                source: farmsBH.ttAdapter(),
-                templates: {
-                    header: "<h4 class='typeahead-header'>Activities</h4>"
-                }
-            }, {
-                name: "Fields",
-                displayKey: "name",
-                source: fieldsBH.ttAdapter(),
-                templates: {
-                    header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
-                    suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
-                }
-            }, {
-                name: "Parcels",
-                displayKey: "ARN",
-                source: parcelBH.ttAdapter(),
-                templates: {
-                    header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
-                    suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
-                }
-            }, {
-                name: "Activities",
-                displayKey: "name",
-                source: activitiesBH.ttAdapter(),
-                templates: {
-                    header: "<h4 class='typeahead-header'>class='fa  fa-pagelines'<img src='fa fa-pagelines' width='24' height='28'>&nbsp;Fields</h4>",
-                    suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
-                }
-            }, {
-                name: "GeoNames",
-                displayKey: "name",
-                source: geonamesBH.ttAdapter(),
-                templates: {
-                    header: "<h4 class='typeahead-header'><img src='assets/img/globe.png' width='25' height='25'>&nbsp;GeoNames</h4>"
-                }
-            }).on("typeahead:selected", function(obj, datum) {
-                if (datum.source === "farmLayer") {
-                    map.fitBounds(datum.bounds);
-                }
-                if (datum.source === "Farm") {
-                    if (!map.hasLayer(farmLayer)) {
-                        map.addLayer(farmLayer);
-                    }
-                    map.setView([datum.lat, datum.lng], 17);
-                    if (map._layers[datum.id]) {
-                        map._layers[datum.id].fire("click");
-                    }
-                }
-                if (datum.source === "Fields") {
-                    if (!map.hasLayer(fieldLayer)) {
-                        map.addLayer(fieldLayer);
-                    }
-                    map.setView([datum.lat, datum.lng], 17);
-                    if (map._layers[datum.id]) {
-                        map._layers[datum.id].fire("click");
-                    }
-                }
-                if (datum.source === "Parcels") {
-                    if (!map.hasLayer(parcelMapserver)) {
-                        map.addLayer(parcelMapserver);
-                    }
-                    map.setView([datum.lat, datum.lng], 17);
-                    if (map._layers[datum.id]) {
-                        map._layers[datum.id].fire("click");
-                    }
-                }
-                if (datum.source === "GeoNames") {
-                    map.setView([datum.lat, datum.lng], 14);
-                }
-                if ($(".navbar-collapse").height() > 50) {
-                    $(".navbar-collapse").collapse("hide");
-                }
-            }).on("typeahead:opened", function() {
-                $(".navbar-collapse.in").css("max-height", $(document).height() - $(".navbar-header").height());
-                $(".navbar-collapse.in").css("height", $(document).height() - $(".navbar-header").height());
-            }).on("typeahead:closed", function() {
-                $(".navbar-collapse.in").css("max-height", "");
-                $(".navbar-collapse.in").css("height", "");
-            });
-            $(".twitter-typeahead").css("position", "static");
-            $(".twitter-typeahead").css("display", "block");
 
 
-        });
+        //     /* instantiate the typeahead UI */
+        //     $("#searchbox").typeahead({
+        //         minLength: 3,
+        //         highlight: true,
+        //         hint: false
+        //     },
+        //     {
+        //         name: "Farms",
+        //         displayKey: "name",
+        //         source: farmsBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'>Activities</h4>"
+        //         }
+        //     },
+        //     {
+        //         name: "Fields",
+        //         displayKey: "name",
+        //         source: fieldsBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "Parcels",
+        //         displayKey: "ARN",
+        //         source: parcelBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "Activities",
+        //         displayKey: "name",
+        //         source: activitiesBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'>class='fa  fa-pagelines'<img src='fa fa-pagelines' width='24' height='28'>&nbsp;Fields</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "GeoNames",
+        //         displayKey: "name",
+        //         source: geonamesBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/globe.png' width='25' height='25'>&nbsp;GeoNames</h4>"
+        //         }
+        //     }).on("typeahead:selected", function(obj, datum) {
+        //         if (datum.source === "farmLayer") {
+        //             map.fitBounds(datum.bounds);
+        //         }
+        //         if (datum.source === "Farm") {
+        //             if (!map.hasLayer(farmLayer)) {
+        //                 map.addLayer(farmLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "Fields") {
+        //             if (!map.hasLayer(fieldLayer)) {
+        //                 map.addLayer(fieldLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "Parcels") {
+        //             if (!map.hasLayer(parcelLayer)) {
+        //                 map.addLayer(parcelLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "GeoNames") {
+        //             map.setView([datum.lat, datum.lng], 14);
+        //         }
+        //         if ($(".navbar-collapse").height() > 50) {
+        //             $(".navbar-collapse").collapse("hide");
+        //         }
+        //     }).on("typeahead:opened", function() {
+        //         $(".navbar-collapse.in").css("max-height", $(document).height() - $(".navbar-header").height());
+        //         $(".navbar-collapse.in").css("height", $(document).height() - $(".navbar-header").height());
+        //     }).on("typeahead:closed", function() {
+        //         $(".navbar-collapse.in").css("max-height", "");
+        //         $(".navbar-collapse.in").css("height", "");
+        //     });
+        //     $(".twitter-typeahead").css("position", "static");
+        //     $(".twitter-typeahead").css("display", "block");
 
-        var listItem = $('#setupDropdown> li');
+
+        // });
+
+        var listItem = $('#setupDropdown > li');
 
         $(listItem).click(function() {
             $(listItem).removeClass('js-is-active');
@@ -1500,7 +1508,7 @@ console.log(studyArea);
         $('#step4d').click(function() {
             stepNum = 2;
             alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
-                // switchStep()
+            // switchStep()
         });
 
 
