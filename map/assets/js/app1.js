@@ -394,8 +394,26 @@ $(window).load(function() {
             }, callback);
         }
 
+        // Restart login process
+
+        function restartLogin(error) {
+
+            console.log(error);
+            // Make prettier down the line...
+            alert('The username or password you entered is incorrect. Please provide valid credentials to log in.');
+            // $('#login-modal').modal('show');
+
+        }
+
         // Log user into app
         serverAuth(function(error, response) {
+
+            // if (error) {
+            //     restartLogin(error);
+            //     return;
+            // }
+
+            $('#login-modal').modal('hide');
 
             var farmLayer = L.esri.featureLayer({
                 url: servicesUrl + '/Farms/FeatureServer/0',
