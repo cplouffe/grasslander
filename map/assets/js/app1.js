@@ -699,7 +699,7 @@ $(window).load(function() {
 
                             $("#proceed-modal").modal("hide");
 
-                            swithcstep();
+                            switchStep();
                             return false;
                         });
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1111,7 +1111,7 @@ $(window).load(function() {
                             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             $("#startFieldActivity").click(function() {
 
-                                $("#fieldactivitysetupinstructions").modal("show");
+                                //$("#fieldactivitysetupinstructions").modal("show");
 
 
                                 map.removeControl(drawFarmControl);
@@ -1132,10 +1132,11 @@ $(window).load(function() {
 
                                 // birdLayer.addTo(map);
                                 farmLayer.bringToBack();
-
+                                fieldEventLayer.addTo(map);
                                 var currentlyEditing = false;
                                 var currentlyDeleting = false;
-
+                                map.addLayer(drawnFieldEvents);
+                                map.addControl(drawnFieldEvenControl);
                                 // track if we should disable custom editing as a result of other actions (create/delete)
                                 var disableEditing = false;
                                 // start editing a given layer
@@ -1164,26 +1165,37 @@ $(window).load(function() {
                                     // layer.feature.properties.title = $('#exampleTextarea').val();
                                     // layer.feature.properties.daterep = $('#datetimepicker10').val();
 
-                                    console.log(layer.feature.getBounds().getCenter());
+
+
+                                    // layer.feature.properties = {};
+                                    // layer.feature.properties.field_id = layer.feature.id;
+                                    // layer.feature.properties.date = new Date();
+                                    // layer.feature.properties.type = $('#type').val();
+                                    // layer.feature.properties.activity = $('#activity').val();
+                                    // layer.feature.properties.farm_type = $('#farm_type').val();
 
 
 
+                                    console.log(layer);
+                                    id = layer._leaflet_id;
+                                    geom = layer.toGeoJSON().geometry;
+                                    properties = layer.toGeoJSON().properties;
+                                    properties.test = "test"
+                                    properties.something = "something"
+                                    console.log(geom);
+                                    console.log(properties);
+                                    //update properties as per form values
 
-
-
-                                    layer.feature.properties.field_id = layer.feature.id;
-                                    layer.feature.properties.date = new Date();
-                                    layer.feature.properties.type = $('#type').val();
-                                    layer.feature.properties.activity = $('#activity').val();
-                                    layer.feature.properties.farm_type = $('#farm_type').val();
-                                    birdLayer.updateFeature({
+                                    fieldEventLayer.updateFeature({
                                         type: 'Feature',
-                                        id: layer.feature.id,
-                                        geometry: layer.toGeoJSON().geometry,
-                                        properties: layer.feature.properties
+                                        id: id,
+                                        geometry: geom,
+                                        properties: properties
                                     }, function(error, response) {
                                         if (response) {
                                             console.log("pass");
+                                        } else if (error){
+                                            console.log(error);
                                         }
                                     });
                                 }
@@ -1196,15 +1208,39 @@ $(window).load(function() {
                                     // $('#exampleTextarea').val(layer.feature.properties.title);
                                 }
                                 // when clicked, stop editing the current feature and edit the clicked feature
+
                                 fieldLayer.on('click', function(e) {
+
                                     // stopEditing();
-                                    startEditingFieldEvent(e.layer);
-                                    if (!currentlyDeleting) {
-                                        // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                                        $("#addFieldActivities").modal('show');
-                                        displayAttributes(e.layer);
-                                    }
+                                    // startEditingFieldEvent(e.layer);
+                                    // 
+                                    marker = L.marker(e.layer.getBounds().getCenter());
+                                    drawnFieldEvents.addLayer(marker);
+
+                                    lay = drawnFieldEvents.getLayers()[drawnFieldEvents.getLayers().length-1];
+                                    id =lay._leaflet_id
+                                    feature = lay.toGeoJSON();
+                                    feature.properties.id = id;
+                                    console.log(feature);
+                                    fieldEventLayer.addFeature(feature,function(error, response) {
+                                        if (response) {
+                                            console.log("pass");
+                                        } else if (error){
+                                            console.log(error);
+                                        }
+                                    });
+                                    startEditingFieldEvent(lay);
+                                    
+                                    drawnFieldEvents.clearLayers();
+                                    $("#addFieldActivities").modal('show');
+                                    // if (!currentlyDeleting) {
+                                    //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                                    //     displayAttributes(e.layer);
+                                    // }
                                 });
+
+
+
                                 // when clicked, stop editing the current feature and edit the clicked feature
                                 // when new features are loaded clear our current guides and feature groups
                                 // then load the current features into the guides and feature group
@@ -1213,7 +1249,7 @@ $(window).load(function() {
                                     drawnFieldEvents.clearLayers();
                                     // for each feature push the layer representing that feature into the guides and deletion group
                                     fieldEventLayer.eachFeature(function(layer) {
-                                        drawnBirds.addLayer(layer);
+                                        drawnFieldEvents.addLayer(layer);
                                     });
                                 });
 
