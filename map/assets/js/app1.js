@@ -143,9 +143,9 @@ $(window).load(function() {
     var baseMaps = {
         "Topographic": topo,
         "Streets": streets,
-        "Imagery": imagery,
-        "NationalGeographic": natgeo,
-        "ShadedRelief": ssadref
+        "Imagery": imagery//,
+        // "NationalGeographic": natgeo,
+        // "ShadedRelief": ssadref
     };
 
     /* Overlay Layers */
