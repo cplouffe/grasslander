@@ -534,7 +534,7 @@ $(window).load(function() {
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
-                url: servicesUrl + '/Bird_sightings/FeatureServer/0',
+                url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/bird_observations/FeatureServer/0',
                 token: response.token
             });
             layers.push(birdLayer);
@@ -630,8 +630,8 @@ $(window).load(function() {
 
                     );
                     disableEditing = false;
-                    $("#addBirdActivities").modal('show');
 
+                    $("#addBirdActivities").modal('show');
                 }
 
 
@@ -729,7 +729,7 @@ $(window).load(function() {
                 //map.addLayer(parcelLayer);
                 //map.addLayer(farmLayer);
                 map.addLayer(drawnFarms);
-                parcelLayer.bringToFront();
+               // parcelLayer.bringToFront();
                 $("#farmsetupinstructions").modal("show");
                 // variable to track the layer being edited
                 var currentlyEditing = false;
@@ -830,39 +830,6 @@ $(window).load(function() {
                     $('#farmComments').val(e.layer.feature.properties.farm_comments);
                     $("#addFarmAttributes").modal('show');
                     displayAttributes(e.layer);
-                    // switch (e.layer.options.fillColor) {
-                    //     case '#0000FF':
-                    //         e.layer.setStyle({
-                    //             fillColor: "#ff7800"
-                    //         });
-                    //         e.layer.options.fillColor = '#ff7800';
-                    //         var id = e.layer.feature.id
-                    //             // farmLayer.deleteFeature(id);
-                    //             // farmLayer.addFeature(e.layer.toGeoJSON());
-                    //         e.layer.bringToBack()
-                    //         farmLayer.addFeature(e.layer.toGeoJSON());
-                    //         break;
-                    //     case "#ff7800":
-                    //         e.layer.setStyle({
-                    //             fillColor: "#0000FF"
-                    //         });
-                    //         e.layer.options.fillColor = '#0000FF';
-                    //         var id = e.layer.feature.id
-                    //         farmLayer.deleteFeature(id);
-                    //         // farmLayer.deleteFeature(id);
-                    //         // e.layer.bringToBack()
-                    //         break;
-                    //     case null:
-                    //         e.layer.setStyle({
-                    //             fillColor: "#0000FF"
-                    //         });
-                    //         e.layer.options.fillColor = '#0000FF';
-                    //         var id = e.layer.feature.id
-                    //         farmLayer.deleteFeature(id);
-                    //         e.layer.bringToBack()
-
-                    //         break;
-                    // }
                 });
                 $("#submitDataFarm").click(function() {
                     stopEditingFarm();
@@ -1039,14 +1006,13 @@ $(window).load(function() {
 
                     function handleBirdEdit(layer) {
                         // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
-                        // alert($('#exampleTextarea').val())
-                        // layer.feature.properties.title = $('#exampleTextarea').val();
-                        // layer.feature.properties.daterep = $('#datetimepicker10').val();
-                        layer.feature.properties.field_id = layer.feature.id;
-                        layer.feature.properties.date = new Date();
-                        layer.feature.properties.type = $('#type').val();
-                        layer.feature.properties.activity = $('#activity').val();
-                        layer.feature.properties.farm_type = $('#farm_type').val();
+                        console.log($('#birdActivityDate').val());
+                        layer.feature.properties.username  = username;
+                        layer.feature.properties.comments = $('#birdComments').val();
+                        layer.feature.properties.date = $('#birdActivityDate').val();
+                        layer.feature.properties.observiation_type = $('#birdObservationType').val();
+                        layer.feature.properties.bird_type = $('#birdType').val();
+                        layer.feature.properties.bird_acitivty = $('#birdAcitivty').val();
                         birdLayer.updateFeature({
                             type: 'Feature',
                             id: layer.feature.id,
@@ -1075,15 +1041,15 @@ $(window).load(function() {
 
 
                     // when clicked, stop editing the current feature and edit the clicked feature
-                    birdLayer.on('click', function(e) {
-                        // stopEditing();
-                        startEditingBird(e.layer);
-                        if (!currentlyDeleting) {
-                            // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                            $("#addBirdActivities").modal('show');
-                            displayAttributes(e.layer);
-                        }
-                    });
+                    // birdLayer.on('click', function(e) {
+                    //     // stopEditing();
+                    //     startEditingBird(e.layer);
+                    //     if (!currentlyDeleting) {
+                    //         // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                    //         $("#addBirdActivities").modal('show');
+                    //         displayAttributes(e.layer);
+                    //     }
+                    // });
                     // when clicked, stop editing the current feature and edit the clicked feature
                     // when new features are loaded clear our current guides and feature groups
                     // then load the current features into the guides and feature group
@@ -1097,7 +1063,7 @@ $(window).load(function() {
                     });
 
                     $("#submitDataBird").click(function() {
-                        stopEditingBird();
+                          stopEditingBird();
                         $("#addBirdActivities").modal('hide');
                     });
                 });
