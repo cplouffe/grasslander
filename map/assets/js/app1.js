@@ -746,7 +746,7 @@ $(window).load(function() {
                 map.removeControl(drawFieldControl);
                 map.removeControl(drawBirdControl);
                 map.removeControl(drawnFieldEvenControl);
-               
+
                 map.removeLayer(birdLayer);
                 map.removeLayer(fieldEventLayer);
                 map.removeLayer(drawnFieldEvents);
@@ -764,8 +764,7 @@ $(window).load(function() {
                 //map.addLayer(parcelLayer);
                 //map.addLayer(farmLayer);
                 map.addLayer(drawnFarms);
-                parcelLayer.bringToBack();
-                farmLayer.bringToFront();
+                parcelLayer.bringToFront();
                 $("#farmsetupinstructions").modal("show");
                 // variable to track the layer being edited
                 var currentlyEditing = false;
@@ -839,6 +838,20 @@ $(window).load(function() {
                         drawnFarms.addLayer(layer);
                     });
                 });
+                
+
+                    farmLayer.on('click', function(e) {
+
+                      
+                        $("#addFarmAttributes").modal('show');
+                        // if (!currentlyDeleting) {
+                        //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                        //     displayAttributes(e.layer);
+                        // }
+                    });
+
+
+
                 parcelLayer.on('click', function(e) {
                     feature = e.layer.toGeoJSON();
                     feature.properties.roll = e.layer.feature.properties.arn;
@@ -949,7 +962,7 @@ $(window).load(function() {
                     // layer.feature.properties.title = $('#exampleTextarea').val();
                     // layer.feature.properties.daterep = $('#datetimepicker10').val();
                     layer.feature.properties.field_id = layer.feature.id;
-                   // layer.feature.properties.date = new Date();
+                    // layer.feature.properties.date = new Date();
                     layer.feature.properties.field_type = $('#fieldStatusSelect').val();
                     layer.feature.properties.field_status = $('#fieldTypeSelect').val();
                     layer.feature.properties.field_comments = $('#fieldComments').val();
@@ -964,6 +977,18 @@ $(window).load(function() {
                         }
                     });
                 }
+
+
+                    fieldLayer.on('click', function(e) {
+
+                      
+                        $("#addFieldAttributes").modal('show');
+                        // if (!currentlyDeleting) {
+                        //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                        //     displayAttributes(e.layer);
+                        // }
+                    });
+
 
                 function displayAttributes(layer) {
                     console.log(layer.feature.properties);
@@ -1006,8 +1031,7 @@ $(window).load(function() {
                 map.removeLayer(drawnBirds);
                 map.removeLayer(drawnFields);
                 map.removeLayer(drawnFarms);
-                map.removeLayer(drawnFarms);
-                map.removeLayer(drawnFarms);
+
                 $("#addActivitySelect").modal("show");
 
 
@@ -1077,6 +1101,14 @@ $(window).load(function() {
                         console.log(layer.feature.properties);
                         // $('#exampleTextarea').val(layer.feature.properties.title);
                     }
+
+
+
+
+
+
+
+
                     // when clicked, stop editing the current feature and edit the clicked feature
                     birdLayer.on('click', function(e) {
                         // stopEditing();
@@ -1135,7 +1167,7 @@ $(window).load(function() {
                     var currentlyEditing = false;
                     var currentlyDeleting = false;
                     map.addLayer(drawnFieldEvents);
-                   // map.addControl(drawnFieldEvenControl);
+                    // map.addControl(drawnFieldEvenControl);
                     // track if we should disable custom editing as a result of other actions (create/delete)
                     var disableEditing = false;
                     // start editing a given layer
@@ -1213,30 +1245,31 @@ $(window).load(function() {
                         // stopEditing();
                         // startEditingFieldEvent(e.layer);
                         //
-                        marker = L.marker(e.layer.getBounds().getCenter());
-                        drawnFieldEvents.addLayer(marker);
+                        if (stepNum == 3) {
 
-                        lay = drawnFieldEvents.getLayers()[drawnFieldEvents.getLayers().length - 1];
-                        id = lay._leaflet_id;
-                        feature = lay.toGeoJSON();
-                        feature.properties.id = id;
-                        feature.id = id;
-                        console.log(feature);
-                        fieldEventLayer.addFeature(feature, function(error, response) {
-                            if (response) {
-                                console.log(response);
-                            } else if (error) {
-                                console.log(error);
-                            }
-                        });
-                        startEditingFieldEvent(lay);
+                                    marker = L.marker(e.layer.getBounds().getCenter());
+                                    drawnFieldEvents.addLayer(marker);
 
-                        drawnFieldEvents.clearLayers();
-                        $("#addFieldActivities").modal('show');
-                        // if (!currentlyDeleting) {
-                        //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                        //     displayAttributes(e.layer);
-                        // }
+                                    lay = drawnFieldEvents.getLayers()[drawnFieldEvents.getLayers().length - 1];
+                                    id = lay._leaflet_id;
+                                    feature = lay.toGeoJSON();
+                                    feature.properties.id = id;
+                                    feature.id = id;
+                                    console.log(feature);
+                                    fieldEventLayer.addFeature(feature, function(error, response) {
+                                        if (response) {
+                                            console.log(response);
+                                        } else if (error) {
+                                            console.log(error);
+                                        }
+                                    });
+                                    startEditingFieldEvent(lay);
+
+                                    drawnFieldEvents.clearLayers();
+                                    $("#addFieldActivities").modal('show');
+
+                        }
+
                     });
 
 
