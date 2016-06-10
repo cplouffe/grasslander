@@ -143,9 +143,9 @@ $(window).load(function() {
     var baseMaps = {
         "Topographic": topo,
         "Streets": streets,
-        "Imagery": imagery,
-        "NationalGeographic": natgeo,
-        "ShadedRelief": ssadref
+        "Imagery": imagery//,
+        // "NationalGeographic": natgeo,
+        // "ShadedRelief": ssadref
     };
 
     /* Overlay Layers */
@@ -534,14 +534,14 @@ $(window).load(function() {
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                url: servicesUrl + '/Bird_sightings/FeatureServer/0',
                 token: response.token
             });
             layers.push(birdLayer);
 
             // grab fieldEventLayer points
             var fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                url: servicesUrl + '/Field_Events_New/FeatureServer/0',
                 token: response.token
             });
             layers.push(fieldEventLayer);
@@ -613,7 +613,6 @@ $(window).load(function() {
                     disableEditing = false;
                     $("#addFarmAttributes").modal('show');
                 } else if (stepNum == 2) {
-
                     fieldLayer.addFeature(e.layer.toGeoJSON());
                     disableEditing = false;
                     $("#addFieldAttributes").modal('show');
@@ -625,7 +624,6 @@ $(window).load(function() {
                             } else if (error) {
                                 console.log(error);
                             }
-
                         }
 
 
@@ -805,11 +803,11 @@ $(window).load(function() {
                         drawnFarms.addLayer(layer);
                     });
                 });
-                
+
 
                     farmLayer.on('click', function(e) {
 
-                      
+
                         $("#addFarmAttributes").modal('show');
                         // if (!currentlyDeleting) {
                         //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
@@ -948,7 +946,7 @@ $(window).load(function() {
 
                     fieldLayer.on('click', function(e) {
 
-                      
+
                         $("#addFieldAttributes").modal('show');
                         // if (!currentlyDeleting) {
                         //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
