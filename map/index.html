@@ -37,6 +37,8 @@
     <script src="https://rawgithub.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Calcite -->
+    <link rel="stylesheet" href="assets/css/calcite-bootstrap.min.css">
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
@@ -86,22 +88,6 @@
         </div>
         </div>
         </div> -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="loginmodal-container">
-                <h1>Login to Your Account</h1>
-                <br>
-                <form>
-                    <input type="text" name="user" id='username' placeholder="Username">
-                    <input type="password" name="pass" id='password' placeholder="Password">
-                    <input type="submit" name="login" id="loginbtn" data-dismiss="modal" class="login loginmodal-submit" value="Login">
-                </form>
-                <div class="login-help">
-                    <a href="#">Register</a> - <a href="#">Forgot Password</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -144,7 +130,7 @@
             <!--/.navbar-collapse -->
         </div>
     </div>
-    <div id="container">
+    <div id="container" class="calcite-map">
         <div id="sidebar">
             <div class="sidebar-wrapper">
                 <div class="panel panel-default" id="features">
@@ -183,6 +169,24 @@
             </div>
         </div>
         <div id="map"></div>
+    </div>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <div class="loginmodal-container">
+                    <h1>Login to Your Account</h1>
+                    <br>
+                    <form>
+                        <input type="text" name="user" id='username' placeholder="Username">
+                        <input type="password" name="pass" id='password' placeholder="Password">
+                        <input type="submit" name="login" id="loginbtn" data-dismiss="modal" class="login loginmodal-submit" value="Login">
+                    </form>
+                    <div class="login-help">
+                        <a href="#">Register</a> - <a href="#">Forgot Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -402,10 +406,10 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
+                    <button type="submit" id="submitDataFarm" class="btn btn-primary" data-dismiss="modal">Submit</button>
                     <button type="submit" id="cancelFarmAdd" class="btn btn-default" data-dismiss="modal">
                     Close
                     </button>
-                    <button type="submit" id="submitDataFarm" class="btn btn-primary" data-dismiss="modal">Submit</button>
                 </div>
             </div>
         </div>
@@ -454,10 +458,10 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
+                    <button type="submit" id="submitDataField" class="btn btn-primary" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                     Close
                     </button>
-                    <button type="submit" id="submitDataField" class="btn btn-primary" data-dismiss="modal">Submit</button>
                 </div>
             </div>
         </div>
@@ -515,10 +519,10 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
+                    <button type="submit" id="submitDataBird" class="btn btn-primary" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                     Close
                     </button>
-                    <button type="submit" id="submitDataBird" class="btn btn-primary" data-dismiss="modal">Submit</button>
                 </div>
             </div>
         </div>
@@ -560,10 +564,13 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
+                    <button type="submit" id="submitDataBird" class="btn btn-primary" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                     Close
                     </button>
+
                     <button type="submit" onclick="stopEditingBird();" id="submitDataBird" class="btn btn-primary" data-dismiss="modal">Submit</button>
+
                 </div>
             </div>
         </div>

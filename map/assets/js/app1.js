@@ -534,14 +534,14 @@ $(window).load(function() {
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
-                url: 'https://www.grasslander.org:6443/arcgis/rest/services/grasslander/bird_observations/FeatureServer/0',
+                url: servicesUrl + '/bird_observations/FeatureServer/0',
                 token: response.token
             });
             layers.push(birdLayer);
 
             // grab fieldEventLayer points
             var fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + '/Field_Events_New/FeatureServer/0',
+                url: servicesUrl + '/field_activity/FeatureServer/0',
                 token: response.token
             });
             layers.push(fieldEventLayer);
@@ -585,7 +585,7 @@ $(window).load(function() {
 
             });
 
- 
+
 
             // Query features that need to populate the sidebar when map is panned/moved
             map.on("moveend", function(e) {
@@ -1632,7 +1632,7 @@ $(window).load(function() {
             // switchStep()
         });
            /// These grab the features within map bounds and add them to the map as a list. Ideally (above function) when you click on these their attribute modal will pop up showing you their detials.
-           
+
 
         // function getEventTarget(e) {
         //     e = e || window.event;
