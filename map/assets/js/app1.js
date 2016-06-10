@@ -522,14 +522,14 @@ $(window).load(function() {
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                url: servicesUrl + '/Bird_sightings/FeatureServer/0',
                 token: response.token
             });
             layers.push(birdLayer);
 
             // grab fieldEventLayer points
             var fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                url: servicesUrl + '/Field_Events_New/FeatureServer/0',
                 token: response.token
             });
             layers.push(fieldEventLayer);
@@ -634,18 +634,15 @@ $(window).load(function() {
                     disableEditing = false;
                     $("#addFarmAttributes").modal('show');
                 } else if (stepNum == 2) {
-                    
                     fieldLayer.addFeature(e.layer.toGeoJSON());
                     disableEditing = false;
                     $("#addFieldAttributes").modal('show');
                 } else if (stepNum == 3) {
                     console.log(e.layer.toGeoJSON());
-                    birdLayer.addFeature(e.layer.toGeoJSON(), function(response,error){
-                        if (response){
+                    birdLayer.addFeature(e.layer.toGeoJSON(), function(response, error) {
+                        if (response) {
                             console.log(response);
-                        }
-                    
-                        else if (error){
+                        } else if (error) {
                             console.log(error);
                         }
 
