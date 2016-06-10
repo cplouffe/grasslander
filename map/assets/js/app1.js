@@ -204,9 +204,9 @@ $(window).load(function() {
     //L.control.groupedLayers(baseLayers, groupedOverlays, options).addTo(map);
 
     map = L.map("map", {
-        zoom: 12,
+        zoom: 14,
         center: [43.5448, -80.2482],
-        zoomControl: true,
+        zoomControl: {position:"bottomright"},
         layers: [imagery],
         // Needed to turn attribution control on for Geocod
         attributionControl: true
@@ -552,11 +552,11 @@ $(window).load(function() {
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
                 token: response.token,
-                simplifyFactor: 2,
+                simplifyFactor: .2,
                 cacheLayers: true,
                 style: parcelStyle,
                 maxZoom: 20,
-                minZoom: 12
+                minZoom: 13
             });
             layers.push(parcelLayer);
 
@@ -1309,7 +1309,7 @@ $(window).load(function() {
             //////////////////////////////////////////////////////////////////////
 
             var locateControl = L.control.locate({
-                position: "bottomright",
+                position: "bottomleft",
                 drawCircle: true,
                 follow: true,
                 setView: true,
