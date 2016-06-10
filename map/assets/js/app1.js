@@ -580,7 +580,6 @@ $(window).load(function() {
                 /* Loop through theaters layer and add only features which are in the map bounds */
                 fieldLayer.eachFeature(function(layer) {
                     if (map.hasLayer(fieldLayer)) {
-                        console.log(layer);
                         if (map.getBounds().contains(layer.getBounds())) {
                             $("#feature-list tbody").append('<tr class="feature-row" title="fieldLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.type + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
                         }
@@ -635,12 +634,26 @@ $(window).load(function() {
                     disableEditing = false;
                     $("#addFarmAttributes").modal('show');
                 } else if (stepNum == 2) {
-                    console.log(e.layer.toGeoJSON());
+                    
                     fieldLayer.addFeature(e.layer.toGeoJSON());
                     disableEditing = false;
                     $("#addFieldAttributes").modal('show');
                 } else if (stepNum == 3) {
-                    birdLayer.addFeature(e.layer.toGeoJSON());
+                    console.log(e.layer.toGeoJSON());
+                    birdLayer.addFeature(e.layer.toGeoJSON(), function(response,error){
+                        if (response){
+                            console.log(response);
+                        }
+                    
+                        else if (error){
+                            console.log(error);
+                        }
+
+                    }
+
+
+
+                        );
                     disableEditing = false;
                     $("#addBirdActivities").modal('show');
 
@@ -814,6 +827,7 @@ $(window).load(function() {
                 parcelLayer.on('click', function(e) {
                     feature = e.layer.toGeoJSON();
                     feature.properties.roll = e.layer.feature.properties.arn;
+                    console.log(feature);
                     farmLayer.addFeature(feature);
 
                     $('#rollNumber').val(e.layer.feature.properties.roll);
@@ -1192,10 +1206,11 @@ $(window).load(function() {
                         id = lay._leaflet_id;
                         feature = lay.toGeoJSON();
                         feature.properties.id = id;
+                        feature.id = id;
                         console.log(feature);
                         fieldEventLayer.addFeature(feature, function(error, response) {
                             if (response) {
-                                console.log("pass");
+                                console.log(response);
                             } else if (error) {
                                 console.log(error);
                             }
