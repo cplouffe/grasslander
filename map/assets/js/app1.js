@@ -429,7 +429,7 @@ $(window).load(function() {
 
         function makeRequest(layer) {
 
-                L.esri.request(layer.options.url, {}, function(error, response) {
+                L.esri.request(layer.options.url, {where: '1=1'}, function(error, response) {
                     console.log(1);
                 });
 
@@ -491,6 +491,7 @@ $(window).load(function() {
                 url: servicesUrl + '/Field/FeatureServer/0',
                 opacity: 1,
                 style: fieldStyle,
+                token: response.token,
                 onEachFeature: function(feature, layer) {
                     if (feature.properties) {
                         var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.type + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
@@ -521,13 +522,15 @@ $(window).load(function() {
 
             // grab birdLayer points
             var birdLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0' //,
+                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                token: response.token
             });
             layers.push(birdLayer);
 
             // grab fieldEventLayer points
             var fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + '/BirdSightings2/FeatureServer/0'
+                url: servicesUrl + '/BirdSightings2/FeatureServer/0',
+                token: response.token
             });
             layers.push(fieldEventLayer);
 
@@ -536,6 +539,7 @@ $(window).load(function() {
             var parcelLayer = L.esri.featureLayer({
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
+                token: response.token,
                 simplifyFactor: 2,
                 cacheLayers: true,
                 style: parcelStyle,
@@ -1098,7 +1102,7 @@ $(window).load(function() {
 
 
                     // birdLayer.addTo(map);
-           
+
                     fieldEventLayer.addTo(map);
                     var currentlyEditing = false;
                     var currentlyDeleting = false;
@@ -1272,25 +1276,48 @@ $(window).load(function() {
 
             // Determine which step user should be at on log in
 
-            function setLoginState(username, layers) {
+            function setLoginState(username) {
 
                 var where;
-                layers.every(function(layer, i) {
+                // layers.every(function(layer, i) {
                     where = "created_user = '" + username + "'";
-                    // Check if user already has farms
-                    layer.query().where(where).run(function(error, fc) {
-                        if (fc.features.length > 0) {
-                            return false;
-                        } else {
-                            console.log(0);
-                        }
-                    });
+                // Check if user already has farms
+                farmLayer.query().where(where).run(function(error, fc) {
+                    if (fc && fc.features.length > 0) {
+                        // Check if user has fields
+                        fieldLayer.query().where(where).run(function(error, fc1) {
+                            if (fc1 && fc1.features.length > 0) {
+                                document.getElementById('step3').click();
+                            } else {
+                                document.getElementById('step2').click();
+                            }
+                        });
+                    } else {
+                        document.getElementById('step1').click();
+                    }
                 });
-
 
             }
 
             setLoginState(username, layers);
+
+            // function setLoginState(username, layers) {
+
+            //     var where;
+            //     layers.forEach(function(layer, i) {
+            //         where = "created_user = '" + username + "'";
+            //         // Check if user already has farms
+            //         layer.query().where(where).run(function(error, fc) {
+            //             if (fc && fc.features.length < 1) {
+            //                 console.log(i);
+            //             }
+            //         });
+            //     });
+
+
+            // }
+
+            // setLoginState(username, layers);
 
         });
 
