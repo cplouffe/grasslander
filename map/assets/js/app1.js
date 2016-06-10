@@ -204,9 +204,9 @@ $(window).load(function() {
     //L.control.groupedLayers(baseLayers, groupedOverlays, options).addTo(map);
 
     map = L.map("map", {
-        zoom: 17,
-        center: [43.6532, -79.3832],
-        zoomControl: false,
+        zoom: 12,
+        center: [43.5448, -80.2482],
+        zoomControl: true,
         layers: [imagery],
         // Needed to turn attribution control on for Geocod
         attributionControl: true
@@ -556,7 +556,7 @@ $(window).load(function() {
                 cacheLayers: true,
                 style: parcelStyle,
                 maxZoom: 20,
-                minZoom: 13
+                minZoom: 12
             });
             layers.push(parcelLayer);
 
@@ -805,15 +805,15 @@ $(window).load(function() {
                 });
 
 
-                    farmLayer.on('click', function(e) {
+                    // farmLayer.on('click', function(e) {
 
 
-                        $("#addFarmAttributes").modal('show');
-                        // if (!currentlyDeleting) {
-                        //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                        //     displayAttributes(e.layer);
-                        // }
-                    });
+                    //     $("#addFarmAttributes").modal('show');
+                    //     // if (!currentlyDeleting) {
+                    //     //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                    //     //     displayAttributes(e.layer);
+                    //     // }
+                    // });
 
 
 
@@ -1072,7 +1072,7 @@ $(window).load(function() {
 
                     map.on('draw:created', function(e) {
 
-                        startEditingField(e.layer);
+                        startEditingBird(e.layer);
                     });
 
 
