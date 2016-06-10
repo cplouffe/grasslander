@@ -1228,7 +1228,7 @@ $(window).load(function() {
 
 
 
- // function syncSidebar() {
+ function syncSidebar() {
                 /* Empty sidebar features */
                 $("#feature-list tbody").empty();
                 /* Loop through theaters layer and add only features which are in the map bounds */
@@ -1255,13 +1255,13 @@ $(window).load(function() {
                     }
                 });
 
- //                featureList = new List("features", {
- //                    valueNames: ["feature-name"]
- //                });
- //                featureList.sort("feature-name", {
- //                    order: "asc"
- //                });
- //            }
+                featureList = new List("features", {
+                    valueNames: ["feature-name"]
+                });
+                featureList.sort("feature-name", {
+                    order: "asc"
+                });
+            }
 
 
 
