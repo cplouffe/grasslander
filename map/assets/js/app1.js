@@ -8,6 +8,9 @@ $(window).load(function() {
         parcelSearch = [],
         parcelLayer,
         farmLayer,
+        farmCheck = false,
+        fieldCheck = false,
+        activitCheck = false,
         stepNum,
         baseUrl = 'https://www.grasslander.org:6443/arcgis',
         servicesUrl = baseUrl + '/rest/services/grasslander',
@@ -321,7 +324,7 @@ $(window).load(function() {
                 allowIntersection: false, // polygons cannot intersect thenselves
                 drawError: {
                     color: 'red', // color the shape will turn when intersects
-                    message: '<strong>Oh snap!<strong> you can\'t draw that!' // message that will show when intersect
+                    message: '<strong>You have drawn an invalid polygon. Please redraw your field.</strong>' // message that will show when intersect
                 },
             }
         }
@@ -422,6 +425,16 @@ $(window).load(function() {
 
         }
 
+        // Configure authentication for a given layer
+
+        function makeRequest(layer) {
+
+                L.esri.request(layer.options.url, {}, function(error, response) {
+                    console.log(1);
+                });
+
+        }
+
         // Log user into app
         serverAuth(function(error, response) {
 
@@ -445,6 +458,7 @@ $(window).load(function() {
                 style: farmStyle,
                 token: response.token,
                 onEachFeature: function(feature, layer) {
+                    if (!farmCheck) farmCheck = true;
                     layer.options.fillColor = '#0000FF';
                     if (feature.properties) {
                         var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.farm_id + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
@@ -532,6 +546,7 @@ $(window).load(function() {
 
             // Authenticate all layers used in app
             layers.forEach(configureAuth);
+            // layers.forEach(makeRequest);
 
 
             function sidebarClick(id) {
@@ -1295,6 +1310,28 @@ $(window).load(function() {
             } else {
                 isCollapsed = false;
             }
+
+            // Determine which step user should be at on log in
+
+            function setLoginState(username, layers) {
+
+                var where;
+                layers.every(function(layer, i) {
+                    where = "created_user = '" + username + "'";
+                    // Check if user already has farms
+                    layer.query().where(where).run(function(error, fc) {
+                        if (fc.features.length > 0) {
+                            return false;
+                        } else {
+                            console.log(0);
+                        }
+                    });
+                });
+
+
+            }
+
+            setLoginState(username, layers);
 
         });
 
