@@ -729,7 +729,7 @@ $(window).load(function() {
                 //map.addLayer(parcelLayer);
                 //map.addLayer(farmLayer);
                 map.addLayer(drawnFarms);
-                parcelLayer.bringToFront();
+               // parcelLayer.bringToFront();
                 $("#farmsetupinstructions").modal("show");
                 // variable to track the layer being edited
                 var currentlyEditing = false;
