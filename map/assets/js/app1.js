@@ -585,40 +585,7 @@ $(window).load(function() {
 
             });
 
-            /// These grab the features within map bounds and add them to the map as a list. Ideally (above function) when you click on these their attribute modal will pop up showing you their detials.
-            function syncSidebar() {
-                /* Empty sidebar features */
-                $("#feature-list tbody").empty();
-                /* Loop through theaters layer and add only features which are in the map bounds */
-                fieldLayer.eachFeature(function(layer) {
-                    if (map.hasLayer(fieldLayer)) {
-                        if (map.getBounds().contains(layer.getBounds())) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="fieldLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.type + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        }
-                    }
-                });
-                fieldEventLayer.eachFeature(function(layer) {
-                    if (map.hasLayer(fieldEventLayer)) {
-                        if (map.getBounds().contains(layer.getBounds())) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        }
-                    }
-                });
-                birdLayer.eachFeature(function(layer) {
-                    if (map.hasLayer(birdLayer)) {
-                        if (map.getBounds().contains(layer.getBounds())) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        }
-                    }
-                });
-
-                featureList = new List("features", {
-                    valueNames: ["feature-name"]
-                });
-                featureList.sort("feature-name", {
-                    order: "asc"
-                });
-            }
+ 
 
             // Query features that need to populate the sidebar when map is panned/moved
             map.on("moveend", function(e) {
@@ -1293,6 +1260,48 @@ $(window).load(function() {
 
                 });
             });
+/////////////////////////////////////////////
+
+
+
+ function syncSidebar() {
+                /* Empty sidebar features */
+                $("#feature-list tbody").empty();
+                /* Loop through theaters layer and add only features which are in the map bounds */
+                // fieldLayer.eachFeature(function(layer) {
+                //     if (map.hasLayer(fieldLayer)) {
+                //         if (map.getBounds().contains(layer.getBounds())) {
+                //             $("#feature-list tbody").append('<tr class="feature-row" title="fieldLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.type + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                //         }
+                //     }
+                // });
+                fieldEventLayer.eachFeature(function(layer) {
+                    if (map.hasLayer(fieldEventLayer)) {
+                        if (map.getBounds().contains(layer.getBounds())) {
+                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                        }
+                    }
+                });
+                birdLayer.eachFeature(function(layer) {
+                    if (map.hasLayer(birdLayer)) {
+                        console.log(layer);
+                        if (map.getBounds().contains(layer.getBounds())) {
+                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                        }
+                    }
+                });
+
+                featureList = new List("features", {
+                    valueNames: ["feature-name"]
+                });
+                featureList.sort("feature-name", {
+                    order: "asc"
+                });
+            }
+
+
+
+
 
 
             //////////////////////////////////////////////////////////////////////
@@ -1620,8 +1629,8 @@ $(window).load(function() {
             alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
             // switchStep()
         });
-
-
+           /// These grab the features within map bounds and add them to the map as a list. Ideally (above function) when you click on these their attribute modal will pop up showing you their detials.
+           
 
         // function getEventTarget(e) {
         //     e = e || window.event;
