@@ -808,7 +808,6 @@ $(window).load(function() {
                     });
                 });
                 parcelLayer.on('click', function(e) {
-                    e.layer.bringToBack();
                     feature = e.layer.toGeoJSON();
                     feature.properties.roll = e.layer.feature.properties.arn;
                     farmLayer.addFeature(feature);
@@ -858,48 +857,8 @@ $(window).load(function() {
                     stopEditingFarm();
                     $("#addFarmAttributes").modal('hide');
                     $("#proceed-modal").modal('show');
-
-
-                    $('#rollNumber').val(e.layer.feature.properties.roll);
-                    $('#conNumber').val(e.layer.feature.properties.con);
-                    $('#lotNumber').val(e.layer.feature.properties.lot);
-                    $('#farm_type').val(e.layer.feature.properties.farm_type);
-                    $('#farm_id').val(e.layer.feature.properties.farm_id);
                     $("#addFarmAttributes").modal('show');
                     displayAttributes(e.layer);
-                    // switch (e.layer.options.fillColor) {
-                    //     case '#0000FF':
-                    //         e.layer.setStyle({
-                    //             fillColor: "#ff7800"
-                    //         });
-                    //         e.layer.options.fillColor = '#ff7800';
-                    //         var id = e.layer.feature.id
-                    //             // farmLayer.deleteFeature(id);
-                    //             // farmLayer.addFeature(e.layer.toGeoJSON());
-                    //         e.layer.bringToBack()
-                    //         farmLayer.addFeature(e.layer.toGeoJSON());
-                    //         break;
-                    //     case "#ff7800":
-                    //         e.layer.setStyle({
-                    //             fillColor: "#0000FF"
-                    //         });
-                    //         e.layer.options.fillColor = '#0000FF';
-                    //         var id = e.layer.feature.id
-                    //         farmLayer.deleteFeature(id);
-                    //         // farmLayer.deleteFeature(id);
-                    //         // e.layer.bringToBack()
-                    //         break;
-                    //     case null:
-                    //         e.layer.setStyle({
-                    //             fillColor: "#0000FF"
-                    //         });
-                    //         e.layer.options.fillColor = '#0000FF';
-                    //         var id = e.layer.feature.id
-                    //         farmLayer.deleteFeature(id);
-                    //         e.layer.bringToBack()
-
-                    //         break;
-                    // }
                 });
                 $("#submitDataFarm").click(function() {
                     stopEditingFarm();
@@ -1119,7 +1078,7 @@ $(window).load(function() {
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 $("#startFieldActivity").click(function() {
 
-                    //$("#fieldactivitysetupinstructions").modal("show");
+                    $("#fieldactivitysetupinstructions").modal("show");
 
 
                     map.removeControl(drawFarmControl);
@@ -1139,7 +1098,7 @@ $(window).load(function() {
 
 
                     // birdLayer.addTo(map);
-                    farmLayer.bringToBack();
+           
                     fieldEventLayer.addTo(map);
                     var currentlyEditing = false;
                     var currentlyDeleting = false;
