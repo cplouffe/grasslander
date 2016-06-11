@@ -18,6 +18,7 @@ $(window).load(function() {
         fieldLayer,
         birdLayer,
         fieldEventLayer,
+        username,
         farmCheck = false,
         fieldCheck = false,
         activitCheck = false,
@@ -309,6 +310,8 @@ L.control.zoom({
         }
     }
 
+    // Handle feature creation for all layers
+
     function handleFeatureCreation(layer) {
 
         switch(layer) {
@@ -318,13 +321,24 @@ L.control.zoom({
                 curFeature.properties.con = $('#conNumber').val();
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
+            case fieldLayer:
+                curFeature.properties.field_type = $('#fieldStatusSelect').val();
+                curFeature.properties.field_status = $('#fieldTypeSelect').val();
+                curFeature.properties.field_comments = $('#fieldComments').val();
+                // Haven't handled field_id yet
+                break;
             case birdLayer:
-                curFeature.properties.username  = username;
+                curFeature.properties.username = username;
                 curFeature.properties.comments  = $('#birdComments').val();
                 curFeature.properties.date = $('#birdActivityDate').val();
+                // Need to spell this correctly in feature class...
                 curFeature.properties.observiation_type  = $('#birdObservationType').val();
                 curFeature.properties.bird_type = $('#birdType').val();
                 curFeature.properties.bird_activity = $('#birdActivity').val();
+                break;
+            case fieldEventLayer:
+                // Determine properties that need to be added to fieldEventLayer and append to curFeature
+                break;
         }
 
         // Add new feature to layer
@@ -428,7 +442,7 @@ L.control.zoom({
     $("#loginbtn").click(function() {
 
         //grab username from login modal
-        var username = $('#username').val();
+        username = $('#username').val();
         var password = $('#password').val();
         // console.log(username);
         // console.log(password);
@@ -887,10 +901,10 @@ L.control.zoom({
 
 
                 parcelLayer.on('click', function(e) {
-                    feature = e.layer.toGeoJSON();
-                    feature.properties.roll = e.layer.feature.properties.arn;
-                    console.log(feature);
-                    farmLayer.addFeature(feature);
+                    curFeature = e.layer.toGeoJSON();
+                    curFeature.properties.roll = e.layer.feature.properties.arn;
+                    console.log(curFeature);
+                    // farmLayer.addFeature(curFeature);
 
                     // $('#rollNumber').val(e.layer.feature.properties.roll);
                     $('#conNumber').val(e.layer.feature.properties.con);
