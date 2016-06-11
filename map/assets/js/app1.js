@@ -7,8 +7,17 @@ $(window).load(function() {
         activitiesSearch = [],
         parcelSearch = [],
         curFeature,
+        // variable to track the layer being edited
+        currentlyEditing = false,
+        currentlyDeleting = false,
+        // create a feature group for Leaflet Draw to hook into for delete functionality
+        // track if we should disable custom editing as a result of other actions (create/delete)
+        disableEditing = false,
         parcelLayer,
         farmLayer,
+        fieldLayer,
+        birdLayer,
+        fieldEventLayer,
         farmCheck = false,
         fieldCheck = false,
         activitCheck = false,
@@ -300,6 +309,31 @@ L.control.zoom({
         }
     }
 
+    function handleFeatureCreation(layer) {
+
+        switch(layer) {
+            case farmLayer:
+                curFeature.properties.farm_comments = $('#farmComments').val();
+                curFeature.properties.lot = $('#lotNumber').val();
+                curFeature.properties.con = $('#conNumber').val();
+                curFeature.properties.farm_type = $('#farmType').val();
+                break;
+            case birdLayer:
+                curFeature.properties.username  = username;
+                curFeature.properties.comments  = $('#birdComments').val();
+                curFeature.properties.date = $('#birdActivityDate').val();
+                curFeature.properties.observiation_type  = $('#birdObservationType').val();
+                curFeature.properties.bird_type = $('#birdType').val();
+                curFeature.properties.bird_activity = $('#birdActivity').val();
+        }
+
+        // Add new feature to layer
+        layer.addFeature(curFeature);
+        curFeature = undefined;
+
+
+    }
+
     // create a new farm Draw control
     var drawnFarms = L.featureGroup();
     var drawFarmControl = new L.Control.Draw({
@@ -396,8 +430,8 @@ L.control.zoom({
         //grab username from login modal
         var username = $('#username').val();
         var password = $('#password').val();
-        console.log(username);
-        console.log(password);
+        // console.log(username);
+        // console.log(password);
 
         // define feature services and authenticate user
 
@@ -449,20 +483,23 @@ L.control.zoom({
 
         }
 
-        // Determine what to do with editor
+        // Show the editing modal for a given layer
 
-        function openEditorModal(feature, layer, type) {
+        function showEditorModal(layer) {
 
-            var d = $.Deferred();
-
-            switch(type) {
-                case 'farm':
-                $("#addFarmAttributes").modal('show');
-                break;
-                case 'field':
-                break;
-                case 'bird':
-                break;
+            switch(layer) {
+                case farmLayer:
+                    $("#addFarmAttributes").modal('show');
+                    // submitDataFarm button for submit
+                    break;
+                case fieldLayer:
+                    $("#addFieldAttributes").modal('show');
+                    // submitDataField button for submit
+                    break;
+                case birdLayer:
+                    $("#addBirdActivities").modal('show');
+                    // submitDataBird button for submit
+                    break;
             }
 
         }
@@ -484,7 +521,7 @@ L.control.zoom({
             // $('#login-modal').modal('hide');
 
             // Farm layer authentication
-            var farmLayer = L.esri.featureLayer({
+            farmLayer = L.esri.featureLayer({
                 url: servicesUrl + '/Farms/FeatureServer/0',
                 opacity: 1,
                 style: farmStyle,
@@ -519,7 +556,7 @@ L.control.zoom({
             layers.push(farmLayer);
 
             // grab fieldLayer polygons
-            var fieldLayer = L.esri.featureLayer({
+            fieldLayer = L.esri.featureLayer({
                 url: servicesUrl + '/Field/FeatureServer/0',
                 opacity: 1,
                 style: fieldStyle,
@@ -553,14 +590,14 @@ L.control.zoom({
             layers.push(fieldLayer);
 
             // grab birdLayer points
-            var birdLayer = L.esri.featureLayer({
+            birdLayer = L.esri.featureLayer({
                 url: servicesUrl + '/bird_observations/FeatureServer/0',
                 token: response.token
             });
             layers.push(birdLayer);
 
             // grab fieldEventLayer points
-            var fieldEventLayer = L.esri.featureLayer({
+            fieldEventLayer = L.esri.featureLayer({
                 url: servicesUrl + '/field_activity/FeatureServer/0',
                 token: response.token
             });
@@ -568,7 +605,7 @@ L.control.zoom({
 
             // Parcel layer
             // var parcelLayer = L.esri.dynamicMapLayer({
-            var parcelLayer = L.esri.featureLayer({
+            parcelLayer = L.esri.featureLayer({
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
                 token: response.token,
@@ -627,49 +664,43 @@ L.control.zoom({
             map.on('draw:created', function(e) {
                 // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
 
+                var curLayer;
                 // Set current feature
                 curFeature = e.layer.toGeoJSON();
-                var curLayer,
-                    curType;
+                // if (!currentlyEditing) currentlyEditing = e.layer;
                 switch(stepNum) {
                     // Farms
                     case 1:
                         // console.log(curFeature);
                         curLayer = farmLayer;
-                        curType = 'farm';
-                        farmLayer.addFeature(curFeature);
-                        disableEditing = false;
-                        $("#addFarmAttributes").modal('show');
+                        // farmLayer.addFeature(curFeature);
+                        // disableEditing = false;
+                        // $("#addFarmAttributes").modal('show');
                         break;
                         // Fields
                     case 2:
                         curLayer = fieldLayer;
-                        curType = 'field';
-                        fieldLayer.addFeature(curFeature);
-                        disableEditing = false;
-                        $("#addFieldAttributes").modal('show');
+                        // fieldLayer.addFeature(curFeature);
+                        // disableEditing = false;
+                        // $("#addFieldAttributes").modal('show');
                         break;
                         // Birds
                     case 3:
                         // console.log(curFeature);
                         curLayer = birdLayer;
-                        curType = 'bird';
-                        birdLayer.addFeature(curFeature, function(response, error) {
-                            if (response) {
-                                console.log(response);
-                            } else if (error) {
-                                console.log(error);
-                            }
-                        });
+                        // disableEditing = false;
+                        // birdLayer.addFeature(curFeature, function(response, error) {
+                        //     if (response) {
+                        //         console.log(response);
+                        //     } else if (error) {
+                        //         console.log(error);
+                        //     }
+                        // });
                         break;
                 }
 
-                openEditorModal(curFeature, curLayer, curType);
-
                 disableEditing = false;
-                $("#addBirdActivities").modal('show');
-
-
+                showEditorModal(curLayer);
 
             });
 
@@ -769,12 +800,6 @@ L.control.zoom({
                 map.addLayer(drawnFarms);
                 parcelLayer.bringToFront();
                 $("#farmsetupinstructions").modal("show");
-                // variable to track the layer being edited
-                var currentlyEditing = false;
-                var currentlyDeleting = false;
-                // create a feature group for Leaflet Draw to hook into for delete functionality
-                // track if we should disable custom editing as a result of other actions (create/delete)
-                var disableEditing = false;
 
                 // start editing a given layer
                 function startEditingFarm(layer) {
@@ -792,7 +817,11 @@ L.control.zoom({
                     if (currentlyEditing) {
                         handleFarmEdit(currentlyEditing);
                         currentlyEditing.editing.disable();
+                        // if not editing, add new feature
+                    }  else {
+                        handleFeatureCreation(farmLayer);
                     }
+
                     currentlyEditing = undefined;
                 }
 
@@ -1076,15 +1105,23 @@ L.control.zoom({
                         if (currentlyEditing) {
                             handleBirdEdit(currentlyEditing);
                             currentlyEditing.editing.disable();
+                        } else {
+                            handleFeatureCreation(birdLayer);
                         }
                         currentlyEditing = undefined;
                     }
 
                     function handleBirdEdit(layer) {
+
                         // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
                         // alert($('#exampleTextarea').val())
                         // layer.feature.properties.title = $('#exampleTextarea').val();
                         // layer.feature.properties.daterep = $('#datetimepicker10').val();
+
+                        // Check if this is a new feature
+                        if (curFeature) {
+                            console.log(curFeature);
+                        }
                         layer.feature.properties.username  = username;
                         layer.feature.properties.comments  = $('#birdComments').val();
                         layer.feature.properties.date = $('#birdActivityDate').val();
@@ -1113,9 +1150,9 @@ L.control.zoom({
 
 
 
-                    map.on('draw:created', function(e) {
-                        startEditingBird(e.layer);
-                    });
+                    // map.on('draw:created', function(e) {
+                    //     startEditingBird(e.layer);
+                    // });
 
 
 
