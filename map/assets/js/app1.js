@@ -553,7 +553,7 @@ L.control.zoom({
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
                 token: response.token,
-                simplifyFactor: .2,
+                simplifyFactor: 2,
                 cacheLayers: true,
                 style: parcelStyle,
                 maxZoom: 20,
