@@ -6,6 +6,7 @@ $(window).load(function() {
         fieldsSearch = [],
         activitiesSearch = [],
         parcelSearch = [],
+        curFeature,
         parcelLayer,
         farmLayer,
         farmCheck = false,
@@ -1072,7 +1073,6 @@ L.control.zoom({
 
 
                     map.on('draw:created', function(e) {
-
                         startEditingBird(e.layer);
                     });
 
