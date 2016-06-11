@@ -218,7 +218,7 @@ $(window).load(function() {
         zoom: 14,
         center: [43.5448, -80.2482],
         zoomControl: false,
-        layers: [imagery],
+        layers: [topo],
         // Needed to turn attribution control on for Geocod
         attributionControl: true
     });
@@ -879,12 +879,19 @@ L.control.zoom({
                 // when new features are loaded clear our current guides and feature groups
                 // then load the current features into the guides and feature group
                 farmLayer.on('load', function() {
+                    var bounds = L.latLngBounds([]);
                     // wipe the current layers available for deltion and clear the current guide layers.
                     drawnFarms.clearLayers();
                     // for each feature push the layer representing that feature into the guides and deletion group
                     farmLayer.eachFeature(function(layer) {
+                        var layerBounds = layer.getBounds();
+
                         drawnFarms.addLayer(layer);
                     });
+                        // once we've looped through all the features, zoom the map to the extent of the collection
+                    map.fitBounds(bounds);
+
+
                 });
 
 
@@ -896,8 +903,6 @@ L.control.zoom({
                     //     //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
                     //     //     displayAttributes(e.layer);
                     //     // }
-                    // });
-
 
 
                 parcelLayer.on('click', function(e) {
@@ -1030,15 +1035,15 @@ L.control.zoom({
                 }
 
 
-                    fieldLayer.on('click', function(e) {
+                    // fieldLayer.on('click', function(e) {
 
 
-                        $("#addFieldAttributes").modal('show');
-                        // if (!currentlyDeleting) {
-                        //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                        //     displayAttributes(e.layer);
-                        // }
-                    });
+                    //     $("#addFieldAttributes").modal('show');
+                    //     // if (!currentlyDeleting) {
+                    //     //     // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                    //     //     displayAttributes(e.layer);
+                    //     // }
+                    // });
 
 
                 function displayAttributes(layer) {
