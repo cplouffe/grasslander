@@ -449,6 +449,24 @@ L.control.zoom({
 
         }
 
+        // Determine what to do with editor
+
+        function openEditorModal(feature, layer, type) {
+
+            var d = $.Deferred();
+
+            switch(type) {
+                case 'farm':
+                $("#addFarmAttributes").modal('show');
+                break;
+                case 'field':
+                break;
+                case 'bird':
+                break;
+            }
+
+        }
+
         // Log user into app
         serverAuth(function(error, response) {
 
@@ -609,35 +627,53 @@ L.control.zoom({
             map.on('draw:created', function(e) {
                 // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
 
-                if (stepNum == 1) {
-                    console.log(e.layer.toGeoJSON());
-                    farmLayer.addFeature(e.layer.toGeoJSON());
-                    disableEditing = false;
-                    $("#addFarmAttributes").modal('show');
-                } else if (stepNum == 2) {
-                    fieldLayer.addFeature(e.layer.toGeoJSON());
-                    disableEditing = false;
-                    $("#addFieldAttributes").modal('show');
-                } else if (stepNum == 3) {
-                    console.log(e.layer.toGeoJSON());
-                    birdLayer.addFeature(e.layer.toGeoJSON(), function(response, error) {
+                // Set current feature
+                curFeature = e.layer.toGeoJSON();
+                var curLayer,
+                    curType;
+                switch(stepNum) {
+                    // Farms
+                    case 1:
+                        // console.log(curFeature);
+                        curLayer = farmLayer;
+                        curType = 'farm';
+                        farmLayer.addFeature(curFeature);
+                        disableEditing = false;
+                        $("#addFarmAttributes").modal('show');
+                        break;
+                        // Fields
+                    case 2:
+                        curLayer = fieldLayer;
+                        curType = 'field';
+                        fieldLayer.addFeature(curFeature);
+                        disableEditing = false;
+                        $("#addFieldAttributes").modal('show');
+                        break;
+                        // Birds
+                    case 3:
+                        // console.log(curFeature);
+                        curLayer = birdLayer;
+                        curType = 'bird';
+                        birdLayer.addFeature(curFeature, function(response, error) {
                             if (response) {
                                 console.log(response);
                             } else if (error) {
                                 console.log(error);
                             }
-                        }
-
-
-
-                    );
-                    disableEditing = false;
-                    $("#addBirdActivities").modal('show');
-
+                        });
+                        break;
                 }
+
+                openEditorModal(curFeature, curLayer, curType);
+
+                disableEditing = false;
+                $("#addBirdActivities").modal('show');
+
 
 
             });
+
+
 
             // listen to the draw deleted event
             map.on('draw:deleted', function(e) {
@@ -739,6 +775,7 @@ L.control.zoom({
                 // create a feature group for Leaflet Draw to hook into for delete functionality
                 // track if we should disable custom editing as a result of other actions (create/delete)
                 var disableEditing = false;
+
                 // start editing a given layer
                 function startEditingFarm(layer) {
                     $('#exampleTextarea').val = layer.feature.properties.title;
@@ -762,6 +799,7 @@ L.control.zoom({
                 function handleFarmEdit(layer) {
                     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
                     // alert($('#exampleTextarea').val())
+                    console.log(curFeature);
                     layer.feature.properties.farm_comments = $('#farmComments').val();
                     layer.feature.properties.lot = $('#lotNumber').val();
                     layer.feature.properties.con = $('#conNumber').val();
@@ -866,6 +904,9 @@ L.control.zoom({
                     //         break;
                     // }
                 });
+
+
+                // Handle farm edits
                 $("#submitDataFarm").click(function() {
                     stopEditingFarm();
                     $("#addFarmAttributes").modal('hide');
