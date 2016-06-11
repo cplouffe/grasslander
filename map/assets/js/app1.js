@@ -206,14 +206,15 @@ $(window).load(function() {
     map = L.map("map", {
         zoom: 14,
         center: [43.5448, -80.2482],
-        zoomControl: {position:"bottomright"},
+        zoomControl: false,
         layers: [imagery],
         // Needed to turn attribution control on for Geocod
         attributionControl: true
     });
 
-
-    // Initialize Geocoder
+L.control.zoom({
+     position:'bottomright'
+}).addTo(map);    // Initialize Geocoder
     initGeocoder();
 
 
@@ -556,7 +557,7 @@ $(window).load(function() {
                 cacheLayers: true,
                 style: parcelStyle,
                 maxZoom: 20,
-                minZoom: 13
+                minZoom: 12
             });
             layers.push(parcelLayer);
 
