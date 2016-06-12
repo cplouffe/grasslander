@@ -223,11 +223,13 @@ $(window).load(function() {
         attributionControl: true
     });
 
-L.control.zoom({
-     position:'bottomright'
-}).addTo(map);    // Initialize Geocoder
-    initGeocoder();
+    L.control.zoom({
+         position:'bottomright'
+    }).addTo(map);
 
+    // Initialize Geocoder
+
+    initGeocoder();
 
     L.control.layers(baseMaps, gLayers).addTo(map);
 
@@ -274,7 +276,11 @@ L.control.zoom({
         var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(),
             // Create the geocoding control and add it to the map
             searchControl = L.esri.Geocoding.geosearch({
-                providers: [arcgisOnline]
+                providers: [arcgisOnline],
+                // Don't limit search based on zoom level
+                useMapBounds: false,
+                expanded: true,
+                collapseAfterResult: false
             });
         // Add geocoderControl to navbar instead of map
         searchControl._map = map;
@@ -519,6 +525,7 @@ L.control.zoom({
         }
 
         // Log user into app
+
         serverAuth(function(error, response) {
 
             // If user does not provide valid credentials, stop log in process
@@ -784,6 +791,7 @@ L.control.zoom({
 
                 switchStep();
                 return false;
+
             });
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $("#step1").click(function() {
@@ -832,7 +840,7 @@ L.control.zoom({
                         handleFarmEdit(currentlyEditing);
                         currentlyEditing.editing.disable();
                         // if not editing, add new feature
-                    }  else {
+                    } else {
                         handleFeatureCreation(farmLayer);
                     }
 
