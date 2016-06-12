@@ -48,20 +48,20 @@ $(window).load(function() {
         $('#birdActivityDate').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true
-            // },
-            // function(start, end, label) {
-            //     var years = moment().diff(start, 'years');
-            //     alert("You are " + years + " years old.");
+                // },
+                // function(start, end, label) {
+                //     var years = moment().diff(start, 'years');
+                //     alert("You are " + years + " years old.");
         });
     });
     $(function() {
         $('#fieldActivityDate').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true
-            // },
-            // function(start, end, label) {
-            //     var years = moment().diff(start, 'years');
-            //     alert("You are " + years + " years old.");
+                // },
+                // function(start, end, label) {
+                //     var years = moment().diff(start, 'years');
+                //     alert("You are " + years + " years old.");
         });
     });
     if (!("ontouchstart" in window)) {
@@ -150,33 +150,34 @@ $(window).load(function() {
         "Topographic": topo,
         "Streets": streets,
         "Imagery": imagery //,
-        // "NationalGeographic": natgeo,
-        // "ShadedRelief": ssadref
+            // "NationalGeographic": natgeo,
+            // "ShadedRelief": ssadref
     };
 
     /* Overlay Layers */
-    var aafc_inventory = L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?', {
-        layers: '0',
-        attribution: 'AAFC Annual Crop Inventory 2014'
-    });
+    https: //www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer
+        var aafc_inventory = L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?', {
+            layers: '0',
+            attribution: 'AAFC Annual Crop Inventory 2014'
+        });
     var studyArea = L.esri.featureLayer({
-        url: servicesUrl + '/Grasslandbase/MapServer/4'
+        url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/4'
 
     });
     var nhic_bobo = L.esri.featureLayer({
-        url: servicesUrl + '/Grasslandbase/MapServer/3'
+        url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/3'
 
     });
     var nhic_lark = L.esri.featureLayer({
-        url: servicesUrl + '/Grasslandbase/MapServer/2'
+        url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/2'
 
     });
     var ebird_bobo = L.esri.featureLayer({
-        url: servicesUrl + '/Grasslandbase/MapServer/1'
+        url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/1'
 
     });
     var ebird_lark = L.esri.featureLayer({
-        url: servicesUrl + '/Grasslandbase/MapServer/0'
+        url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/0'
     });
 
     var gLayers = {
@@ -189,6 +190,45 @@ $(window).load(function() {
 
 
     };
+
+    ebird_bobo.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.common_nam + "</p><p>Date Seen: " + featureCollection.features[0].properties.time_obser;
+        }
+    });
+
+    ebird_lark.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.common_nam + "</p><p>Date Seen: " + featureCollection.features[0].properties.time_obser;
+        }
+    });
+
+    ebird_lark.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.commonname + "</p><p>Date Seen: " + featureCollection.features[0].properties.last_obs;
+        }
+    });
+    nhic_bobo.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.commonname + "</p><p>Date Seen: " + featureCollection.features[0].properties.last_obs;
+        }
+    });
+
+
+
+
+
+
+
+
     // Overlay layers are grouped
     var groupedOverlays = {
         "Bird Observations": {
@@ -210,7 +250,7 @@ $(window).load(function() {
     //L.control.groupedLayers(baseLayers, groupedOverlays, options).addTo(map);
 
     map = L.map("map", {
-        zoom: 12,
+        zoom: 7,
         center: [43.5448, -80.2482],
         zoomControl: false,
         layers: [topo],
@@ -223,6 +263,8 @@ $(window).load(function() {
     }).addTo(map);
 
     // Initialize Geocoder
+    studyArea.addTo(map);
+
 
     initGeocoder();
 
@@ -338,7 +380,11 @@ $(window).load(function() {
                 curFeature.properties.bird_activity = $('#birdActivity').val();
                 break;
             case fieldEventLayer:
-                // Determine properties that need to be added to fieldEventLayer and append to curFeature
+                curFeature.properties.username = username;
+                curFeature.properties.comments = $('#fieldActivityComments').val();
+                curFeature.properties.date = $('#fieldActivityDate').val();
+                // Need to spell this correctly in feature class...
+                curFeature.properties.type = $('#fieldActivityType').val();
                 break;
         }
 
@@ -767,7 +813,7 @@ $(window).load(function() {
                 map.removeLayer(fieldEventLayer);
                 map.removeLayer(drawnFieldEvents);
                 map.removeLayer(drawnFarms);
-
+map.removeLayer(studyArea);
                 map.removeLayer(drawnBirds);
                 map.removeLayer(drawnFields);
                 // map.removeLayer(farmLayer);
@@ -800,7 +846,7 @@ $(window).load(function() {
                     return false;
                 });
 
-            
+
 
                 document.getElementById("full-extent-btn").click();
 
@@ -881,24 +927,24 @@ $(window).load(function() {
 
                 parcelLayer.on('click', function(e) {
                     curFeature = e.layer.toGeoJSON();
-                    if (currentlyDeleting){
+                    if (currentlyDeleting) {
 
-                    } else{
-                    //drawnFarms.addLayer(e.layer);
-                    //curFeature.properties.roll = e.layer.feature.properties.arn;
-                    //console.log(curFeature);
-                    farmLayer.addFeature(curFeature);
-                     $("#addFarmAttributes").modal('show');
-                    startEditingFarm(e.layer);
-                   
-                    // $('#rollNumber').val(e.layer.feature.properties.roll);
-                    $('#conNumber').val(e.layer.feature.properties.con);
-                    $('#lotNumber').val(e.layer.feature.properties.lot);
-                    $('#farmType').val(e.layer.feature.properties.farm_type);
-                    $('#farmComments').val(e.layer.feature.properties.farm_comments);
-                    map.removeLayer(e.layer);
-                    displayAttributes(e.layer);
-                }
+                    } else {
+                        //drawnFarms.addLayer(e.layer);
+                        //curFeature.properties.roll = e.layer.feature.properties.arn;
+                        //console.log(curFeature);
+                        farmLayer.addFeature(curFeature);
+                        $("#addFarmAttributes").modal('show');
+                        startEditingFarm(e.layer);
+
+                        // $('#rollNumber').val(e.layer.feature.properties.roll);
+                        $('#conNumber').val(e.layer.feature.properties.con);
+                        $('#lotNumber').val(e.layer.feature.properties.lot);
+                        $('#farmType').val(e.layer.feature.properties.farm_type);
+                        $('#farmComments').val(e.layer.feature.properties.farm_comments);
+                        map.removeLayer(e.layer);
+                        displayAttributes(e.layer);
+                    }
 
                 });
                 // Handle farm edits
@@ -908,7 +954,7 @@ $(window).load(function() {
                     $("#addFarmAttributes").modal('hide');
                     $("#proceed-modal").modal('show');
                 });
-               
+
 
 
 
@@ -951,7 +997,7 @@ $(window).load(function() {
                 map.removeControl(drawFieldControl);
                 map.removeControl(drawBirdControl);
                 map.removeControl(drawnFieldEvenControl);
-
+map.removeLayer(studyArea);
                 map.removeLayer(parcelLayer);
                 map.removeLayer(fieldLayer);
                 map.removeLayer(farmLayer);
@@ -965,7 +1011,7 @@ $(window).load(function() {
                 farmLayer.addTo(map);
                 fieldLayer.addTo(map);
                 map.addLayer(drawnFields);
-                
+
                 $("#fieldsetupinstructions").modal("show");
 
                 var currentlyEditing = false;
@@ -1075,6 +1121,7 @@ $(window).load(function() {
                 map.removeControl(drawFieldControl);
                 map.removeControl(drawBirdControl);
                 map.removeControl(drawnFieldEvenControl);
+                map.removeLayer(studyArea);
 
                 map.removeLayer(parcelLayer);
                 map.removeLayer(fieldLayer);
@@ -1110,14 +1157,34 @@ $(window).load(function() {
                     return false;
                 });
 
-
-
                 $("#full-extent-btn").click();
                 $("#addActivitySelect").modal("show");
 
                 $("#startBirdActivity").click(function() {
 
+                $("#full-extent-btn").click(function() {
+                    var bounds = L.latLngBounds([]);
+                    var c = 0;
+                    farmLayer.eachFeature(function(layer) {
+                        if (layer) {
+                            c += 1;
+                            var layerBounds = layer.getBounds();
+                            // extend the bounds of the collection to fit the bounds of the new feature
+                            bounds.extend(layerBounds);
+                        }
 
+                    });
+                    if (c > 0) {
+                        console.log(bounds);
+
+                        map.fitBounds(bounds);
+                    }
+
+                    $(".navbar-collapse.in").collapse("hide");
+                    return false;
+                });
+
+                $("#full-extent-btn").click();
                     fieldLayer.on('load', function() {
                         var bounds = L.latLngBounds([]);
                         fieldLayer.eachFeature(function(layer) {
@@ -1218,8 +1285,29 @@ $(window).load(function() {
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 $("#startFieldActivity").click(function() {
 
-                    $("#fieldactivitysetupinstructions").modal("show");
+                $("#full-extent-btn").click(function() {
+                    var bounds = L.latLngBounds([]);
+                    var c = 0;
+                    farmLayer.eachFeature(function(layer) {
+                        if (layer) {
+                            c += 1;
+                            var layerBounds = layer.getBounds();
+                            // extend the bounds of the collection to fit the bounds of the new feature
+                            bounds.extend(layerBounds);
+                        }
 
+                    });
+                    if (c > 0) {
+                        console.log(bounds);
+
+                        map.fitBounds(bounds);
+                    }
+
+                    $(".navbar-collapse.in").collapse("hide");
+                    return false;
+                });
+
+                $("#full-extent-btn").click();
 
                     map.removeControl(drawFarmControl);
                     map.removeControl(drawFieldControl);
