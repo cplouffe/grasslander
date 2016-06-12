@@ -859,7 +859,7 @@ $(window).load(function() {
                 function displayAttributes(layer) {
                     console.log(layer.feature.properties);
                 }
-              
+
                 // when new features are loaded clear our current guides and feature groups
                 // then load the current features into the guides and feature group
                 farmLayer.on('load', function() {
@@ -964,12 +964,14 @@ $(window).load(function() {
                     if (currentlyEditing) {
                         handleFieldEdit(currentlyEditing);
                         currentlyEditing.editing.disable();
+                    } else {
+                        handleFeatureCreation(fieldLayer);
                     }
                     currentlyEditing = undefined;
                 }
 
                 function handleFieldEdit(layer) {
- 
+
                     layer.feature.properties.field_id = layer.feature.id;
                     layer.feature.properties.field_type = $('#fieldStatusSelect').val();
                     layer.feature.properties.field_status = $('#fieldTypeSelect').val();
@@ -1046,7 +1048,7 @@ $(window).load(function() {
                     fieldLayer.eachFeature(function(layer) {
                         var layerBounds = layer.getBounds();
 
-                       
+
                           // extend the bounds of the collection to fit the bounds of the new feature
                         bounds.extend(layerBounds);
                     });
@@ -1208,6 +1210,8 @@ $(window).load(function() {
                         if (currentlyEditing) {
                             handleFieldEventEdit(currentlyEditing);
                             currentlyEditing.editing.disable();
+                        } else {
+                            // handleFeatureCreation(fieldLayer);
                         }
                         currentlyEditing = undefined;
                     }
