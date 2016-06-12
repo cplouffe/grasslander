@@ -871,6 +871,7 @@ L.control.zoom({
                     map.fitBounds(bounds);
 
                 });
+                farmLayer.off('load');
 
                 parcelLayer.on('click', function(e) {
                     curFeature = e.layer.toGeoJSON();
@@ -934,6 +935,7 @@ L.control.zoom({
                     map.fitBounds(bounds);
 
                 });
+                farmLayer.off('load')
                 $("#fieldsetupinstructions").modal("show");
 
                 var currentlyEditing = false;
