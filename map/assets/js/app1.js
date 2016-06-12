@@ -1073,7 +1073,7 @@ $(window).load(function() {
                     fieldLayer.addTo(map);
                     birdLayer.addTo(map);
                     fieldLayer.addTo(map);
-
+                    $("#full-extent-btn").click();
                 $("#full-extent-btn").click(function() {
                     var bounds = L.latLngBounds([]);
                     var c = 0;
@@ -1106,9 +1106,9 @@ $(window).load(function() {
 
                 $("#startBirdActivity").click(function() {
                     // $("#addActivitySelect").modal("hide");
-                    $("#birdactivitysetupinstructions").modal("show");
+                    // $("#birdactivitysetupinstructions").modal("show");
                     // add our drawing controls to the
-
+                    $("#full-extent-btn").click();
 
                     fieldLayer.on('load', function() {
                         var bounds = L.latLngBounds([]);
