@@ -348,7 +348,15 @@ $(window).load(function() {
         }
 
         // Add new feature to layer
-        layer.addFeature(curFeature);
+        console.log(curFeature);
+        layer.addFeature(curFeature, function(response, error){
+            if (respone){
+console.log(respone);
+            } else if (error){
+                console.log(error);
+            }
+
+           } );
         curFeature = undefined;
 
 
@@ -552,25 +560,7 @@ $(window).load(function() {
                     layer.options.fillColor = '#0000FF';
                     if (feature.properties) {
                         var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.farm_id + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
-                        //Can assing 'on click' modal hear, but moving it to "draw:created" to make attribute popup fire after creating
 
-                        // // layer.on({
-                        // //     click: function(e) {
-                        // //         $("#feature-title").html(feature.properties.type);
-                        // //         $("#feature-info").html(content);
-                        // //         $("#featureModal").modal("show");
-                        // //         highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
-                        // //     }
-                        // // });
-                        // $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        // farmsSearch.push({
-                        //     name: "testing", //layer.feature.properties.NAME,
-                        //     address: layer.feature.properties.ADDRESS1,
-                        //     source: "Farms",
-                        //     id: L.stamp(layer),
-                        //     lat: layer.feature.geometry.coordinates[1],
-                        //     lng: layer.feature.geometry.coordinates[0]
-                        // });
                     }
                 }
             });
@@ -585,25 +575,7 @@ $(window).load(function() {
                 onEachFeature: function(feature, layer) {
                     if (feature.properties) {
                         var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.type + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
-                        //Can assing 'on click' modal hear, but moving it to "draw:created" to make attribute popup fire after creating
-
-                        // layer.on({
-                        //     click: function(e) {
-                        //         $("#feature-title").html(feature.properties.type);
-                        //         $("#feature-info").html(content);
-                        //         $("#featureModal").modal("show");
-                        //         highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
-                        //     }
-                        // });
-                        // $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/theater.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        // fieldsSearch.push({
-                        //     name: "testing", //layer.feature.properties.NAME,
-                        //     address: layer.feature.properties.ADDRESS1,
-                        //     source: "Fields",
-                        //     id: L.stamp(layer),
-                        //     lat: layer.feature.geometry.coordinates[1],
-                        //     lng: layer.feature.geometry.coordinates[0]
-                        // });
+ 
                     }
                 }
 
@@ -684,8 +656,8 @@ $(window).load(function() {
             // listen to the draw created event
             map.on('draw:created', function(e) {
                 // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
-
-                var curLayer;
+    map.fireEvent('dataload', event);
+         var curLayer;
                 // Set current feature
                 curFeature = e.layer.toGeoJSON();
                 // if (!currentlyEditing) currentlyEditing = e.layer;
@@ -695,14 +667,14 @@ $(window).load(function() {
                         // console.log(curFeature);
                         curLayer = farmLayer;
                         // farmLayer.addFeature(curFeature);
-                        // disableEditing = false;
+                        disableEditing = false;
                         // $("#addFarmAttributes").modal('show');
                         break;
                         // Fields
                     case 2:
                         curLayer = fieldLayer;
                         // fieldLayer.addFeature(curFeature);
-                        // disableEditing = false;
+                        //disableEditing = false;
                         // $("#addFieldAttributes").modal('show');
                         break;
                         // Birds
@@ -808,10 +780,8 @@ $(window).load(function() {
 
                 parcelLayer.addTo(map);
                 farmLayer.addTo(map);
-                //map.addLayer(parcelLayer);
-                //map.addLayer(farmLayer);
+                parcelLayer.bringToBack();
                 map.addLayer(drawnFarms);
-                parcelLayer.bringToFront();
                 $("#farmsetupinstructions").modal("show");
 
                 // start editing a given layer
@@ -863,40 +833,49 @@ $(window).load(function() {
                 // when new features are loaded clear our current guides and feature groups
                 // then load the current features into the guides and feature group
                 farmLayer.on('load', function() {
+
                     var bounds = L.latLngBounds([]);
+                    var c = 0;
                     // wipe the current layers available for deltion and clear the current guide layers.
                     drawnFarms.clearLayers();
                     // for each feature push the layer representing that feature into the guides and deletion group
                     farmLayer.eachFeature(function(layer) {
+                        if (layer){
                         var layerBounds = layer.getBounds();
 
                         drawnFarms.addLayer(layer);
                           // extend the bounds of the collection to fit the bounds of the new feature
                         bounds.extend(layerBounds);
+                    }
+
                     });
                         // once we've looped through all the features, zoom the map to the extent of the collection
                         console.log(bounds);
-                    map.fitBounds(bounds);
+
+                        map.fitBounds(bounds);
 
                 });
-                farmLayer.off('load');
+                
 
                 parcelLayer.on('click', function(e) {
                     curFeature = e.layer.toGeoJSON();
-                    curFeature.properties.roll = e.layer.feature.properties.arn;
-                    console.log(curFeature);
-                    // farmLayer.addFeature(curFeature);
+                    //drawnFarms.addLayer(e.layer);
+                    //curFeature.properties.roll = e.layer.feature.properties.arn;
+                    //console.log(curFeature);
+                    //farmLayer.addFeature(curFeature);
+                    startEditingFarm(e.layer);
 
                     // $('#rollNumber').val(e.layer.feature.properties.roll);
                     $('#conNumber').val(e.layer.feature.properties.con);
                     $('#lotNumber').val(e.layer.feature.properties.lot);
                     $('#farmType').val(e.layer.feature.properties.farm_type);
                     $('#farmComments').val(e.layer.feature.properties.farm_comments);
-                    $("#addFarmAttributes").modal('show');
+                    
                     displayAttributes(e.layer);
 
                 });
                 // Handle farm edits
+    
                 $("#submitDataFarm").click(function() {
                     stopEditingFarm();
                     $("#addFarmAttributes").modal('hide');
@@ -906,6 +885,7 @@ $(window).load(function() {
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $("#step2").click(function() {
+                farmLayer.off('load');
                 $("#step-modal").modal("hide");
                 stepNum = 2;
                 map.removeControl(drawFarmControl);
@@ -1128,26 +1108,6 @@ $(window).load(function() {
 
 
 
-                    // map.on('draw:created', function(e) {
-                    //     startEditingBird(e.layer);
-                    // });
-
-
-
-
-                    // when clicked, stop editing the current feature and edit the clicked feature
-                    // birdLayer.on('click', function(e) {
-                    //     // stopEditing();
-                    //     startEditingBird(e.layer);
-                    //     if (!currentlyDeleting) {
-                    //         // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                    //         $("#addBirdActivities").modal('show');
-                    //         displayAttributes(e.layer);
-                    //     }
-                    });
-                    // when clicked, stop editing the current feature and edit the clicked feature
-                    // when new features are loaded clear our current guides and feature groups
-                    // then load the current features into the guides and feature group
                     birdLayer.on('load', function() {
                         // wipe the current layers available for deltion and clear the current guide layers.
                         drawnBirds.clearLayers();
@@ -1336,21 +1296,21 @@ $(window).load(function() {
                 //         }
                 //     }
                 // });
-                fieldEventLayer.eachFeature(function(layer) {
-                    if (map.hasLayer(fieldEventLayer)) {
-                        if (map.getBounds().contains(layer.getBounds())) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        }
-                    }
-                });
-                birdLayer.eachFeature(function(layer) {
-                    if (map.hasLayer(birdLayer)) {
-                        console.log(layer);
-                        if (map.getBounds().contains(layer.getBounds())) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                        }
-                    }
-                });
+                // fieldEventLayer.eachFeature(function(layer) {
+                //     if (map.hasLayer(layer)) {
+                //         if (map.getBounds().contains(layer.getBounds())) {
+                //             $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                //         }
+                //     }
+                // });
+                // birdLayer.eachFeature(function(layer) {
+                //     if (map.hasLayer(layer)) {
+                //         console.log(layer);
+                //         if (map.getBounds().contains(layer.getBounds())) {
+                //             $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                //         }
+                //     }
+                // });
 
                 featureList = new List("features", {
                     valueNames: ["feature-name"]
