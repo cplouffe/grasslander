@@ -778,6 +778,35 @@ $(window).load(function() {
                 parcelLayer.addTo(map);
                 farmLayer.addTo(map);
                 map.addLayer(drawnFarms);
+                $("#full-extent-btn").click(function() {
+                    var bounds = L.latLngBounds([]);
+                    var c = 0;
+                    farmLayer.eachFeature(function(layer) {
+                        if (layer) {
+                            c += 1;
+                            var layerBounds = layer.getBounds();
+                            // extend the bounds of the collection to fit the bounds of the new feature
+                            bounds.extend(layerBounds);
+                        }
+
+                    });
+                    if (c > 0) {
+                        console.log(bounds);
+
+                        map.fitBounds(bounds);
+                    }
+
+                    $(".navbar-collapse.in").collapse("hide");
+                    return false;
+                });
+
+            
+
+                document.getElementById("full-extent-btn").click();
+
+
+
+
                 $("#farmsetupinstructions").modal("show");
 
                 // start editing a given layer
@@ -830,28 +859,21 @@ $(window).load(function() {
                 // then load the current features into the guides and feature group
                 farmLayer.on('load', function() {
 
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
                     // wipe the current layers available for deltion and clear the current guide layers.
                     drawnFarms.clearLayers();
                     // for each feature push the layer representing that feature into the guides and deletion group
                     farmLayer.eachFeature(function(layer) {
                         if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
+
 
                             drawnFarms.addLayer(layer);
                             // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
+
                         }
 
                     });
                     // once we've looped through all the features, zoom the map to the extent of the collection
-                    if (c > 0) {
-                        console.log(bounds);
 
-                        map.fitBounds(bounds);
-                    }
 
                 });
 
@@ -859,19 +881,24 @@ $(window).load(function() {
 
                 parcelLayer.on('click', function(e) {
                     curFeature = e.layer.toGeoJSON();
+                    if (currentlyDeleting){
+
+                    } else{
                     //drawnFarms.addLayer(e.layer);
                     //curFeature.properties.roll = e.layer.feature.properties.arn;
                     //console.log(curFeature);
                     farmLayer.addFeature(curFeature);
+                     $("#addFarmAttributes").modal('show');
                     startEditingFarm(e.layer);
-                    $("#addFarmAttributes").modal('hide');
+                   
                     // $('#rollNumber').val(e.layer.feature.properties.roll);
                     $('#conNumber').val(e.layer.feature.properties.con);
                     $('#lotNumber').val(e.layer.feature.properties.lot);
                     $('#farmType').val(e.layer.feature.properties.farm_type);
                     $('#farmComments').val(e.layer.feature.properties.farm_comments);
-
+                    map.removeLayer(e.layer);
                     displayAttributes(e.layer);
+                }
 
                 });
                 // Handle farm edits
@@ -881,6 +908,16 @@ $(window).load(function() {
                     $("#addFarmAttributes").modal('hide');
                     $("#proceed-modal").modal('show');
                 });
+               
+
+
+
+
+
+            });
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            $("#step2").click(function() {
                 $("#full-extent-btn").click(function() {
                     var bounds = L.latLngBounds([]);
                     var c = 0;
@@ -903,16 +940,11 @@ $(window).load(function() {
                     return false;
                 });
 
+                $("#full-extent-btn").click();
 
 
 
 
-
-            });
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            $("#step2").click(function() {
-                farmLayer.off('load');
                 $("#step-modal").modal("hide");
                 stepNum = 2;
                 map.removeControl(drawFarmControl);
@@ -933,24 +965,7 @@ $(window).load(function() {
                 farmLayer.addTo(map);
                 fieldLayer.addTo(map);
                 map.addLayer(drawnFields);
-                farmLayer.on('load', function() {
-                    var bounds = L.latLngBounds([]);
-                    // wipe the current layers available for deltion and clear the current guide layers.
-                    drawnFarms.clearLayers();
-                    // for each feature push the layer representing that feature into the guides and deletion group
-                    farmLayer.eachFeature(function(layer) {
-                        var layerBounds = layer.getBounds();
-
-                        drawnFarms.addLayer(layer);
-                        // extend the bounds of the collection to fit the bounds of the new feature
-                        bounds.extend(layerBounds);
-                    });
-                    // once we've looped through all the features, zoom the map to the extent of the collection
-                    console.log(bounds);
-                    map.fitBounds(bounds);
-
-                });
-                farmLayer.off('load')
+                
                 $("#fieldsetupinstructions").modal("show");
 
                 var currentlyEditing = false;
@@ -1069,11 +1084,10 @@ $(window).load(function() {
                 map.removeLayer(drawnBirds);
                 map.removeLayer(drawnFields);
                 map.removeLayer(drawnFarms);
-                    farmLayer.addTo(map);
-                    fieldLayer.addTo(map);
-                    birdLayer.addTo(map);
-                    fieldLayer.addTo(map);
-                    $("#full-extent-btn").click();
+                farmLayer.addTo(map);
+                fieldLayer.addTo(map);
+                birdLayer.addTo(map);
+                fieldLayer.addTo(map);
                 $("#full-extent-btn").click(function() {
                     var bounds = L.latLngBounds([]);
                     var c = 0;
@@ -1098,17 +1112,11 @@ $(window).load(function() {
 
 
 
-
-
+                $("#full-extent-btn").click();
                 $("#addActivitySelect").modal("show");
 
-
-
                 $("#startBirdActivity").click(function() {
-                    // $("#addActivitySelect").modal("hide");
-                    // $("#birdactivitysetupinstructions").modal("show");
-                    // add our drawing controls to the
-                    $("#full-extent-btn").click();
+
 
                     fieldLayer.on('load', function() {
                         var bounds = L.latLngBounds([]);
@@ -1121,7 +1129,6 @@ $(window).load(function() {
                         });
                         // once we've looped through all the features, zoom the map to the extent of the collection
                         console.log(bounds);
-                        map.fitBounds(bounds);
 
                     });
                     // fieldEventLayer.addTo(map);
@@ -1412,44 +1419,44 @@ $(window).load(function() {
 
             //////////////////////////////////////////////////////////////////////
 
-            var locateControl = L.control.locate({
-                position: "bottomleft",
-                drawCircle: true,
-                follow: true,
-                setView: true,
-                keepCurrentZoomLevel: true,
-                markerStyle: {
-                    weight: 1,
-                    opacity: 0.8,
-                    fillOpacity: 0.8
-                },
-                circleStyle: {
-                    weight: 1,
-                    clickable: false
-                },
-                icon: "fa fa-location-arrow",
-                metric: false,
-                strings: {
-                    title: "My location",
-                    popup: "You are within {distance} {unit} from this point",
-                    outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
-                },
-                locateOptions: {
-                    minZoom: 14,
-                    maxZoom: 20,
-                    watch: true,
-                    enableHighAccuracy: true,
-                    maximumAge: 10000,
-                    timeout: 10000
-                }
-            }).addTo(map);
-            /* Larger screens get expanded layer control and visible sidebar */
-            var isCollapsed;
-            if (document.body.clientWidth <= 767) {
-                isCollapsed = true;
-            } else {
-                isCollapsed = false;
-            }
+            // var locateControl = L.control.locate({
+            //     position: "bottomleft",
+            //     drawCircle: true,
+            //     follow: true,
+            //     setView: true,
+            //     keepCurrentZoomLevel: true,
+            //     markerStyle: {
+            //         weight: 1,
+            //         opacity: 0.8,
+            //         fillOpacity: 0.8
+            //     },
+            //     circleStyle: {
+            //         weight: 1,
+            //         clickable: false
+            //     },
+            //     icon: "fa fa-location-arrow",
+            //     metric: false,
+            //     strings: {
+            //         title: "My location",
+            //         popup: "You are within {distance} {unit} from this point",
+            //         outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
+            //     },
+            //     locateOptions: {
+            //         minZoom: 14,
+            //         maxZoom: 20,
+            //         watch: true,
+            //         enableHighAccuracy: true,
+            //         maximumAge: 10000,
+            //         timeout: 10000
+            //     }
+            // }).addTo(map);
+            // /* Larger screens get expanded layer control and visible sidebar */
+            // var isCollapsed;
+            // if (document.body.clientWidth <= 767) {
+            //     isCollapsed = true;
+            // } else {
+            //     isCollapsed = false;
+            // }
 
             // Determine which step user should be at on log in
 
