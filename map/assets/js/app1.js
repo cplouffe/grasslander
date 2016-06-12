@@ -160,7 +160,7 @@ $(window).load(function() {
     };
 
     /* Overlay Layers */
-    var aafc_inventory = L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?request=GetCapabilities&service=WMS', {
+    var aafc_inventory =  L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?',  {
         layers: '0',
         attribution: 'AAFC Annual Crop Inventory 2014'
     });
