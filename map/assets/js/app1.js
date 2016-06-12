@@ -879,6 +879,7 @@ $(window).load(function() {
                     map.fitBounds(bounds);
 
                 });
+                farmLayer.off('load');
 
                 parcelLayer.on('click', function(e) {
                     curFeature = e.layer.toGeoJSON();
@@ -942,6 +943,7 @@ $(window).load(function() {
                     map.fitBounds(bounds);
 
                 });
+                farmLayer.off('load')
                 $("#fieldsetupinstructions").modal("show");
 
                 var currentlyEditing = false;
@@ -1134,14 +1136,14 @@ $(window).load(function() {
 
 
                     // when clicked, stop editing the current feature and edit the clicked feature
-                    birdLayer.on('click', function(e) {
-                        // stopEditing();
-                        startEditingBird(e.layer);
-                        if (!currentlyDeleting) {
-                            // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                            $("#addBirdActivities").modal('show');
-                            displayAttributes(e.layer);
-                        }
+                    // birdLayer.on('click', function(e) {
+                    //     // stopEditing();
+                    //     startEditingBird(e.layer);
+                    //     if (!currentlyDeleting) {
+                    //         // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                    //         $("#addBirdActivities").modal('show');
+                    //         displayAttributes(e.layer);
+                    //     }
                     });
                     // when clicked, stop editing the current feature and edit the clicked feature
                     // when new features are loaded clear our current guides and feature groups
