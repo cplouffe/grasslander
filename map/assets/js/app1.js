@@ -1124,14 +1124,14 @@ L.control.zoom({
 
 
                     // when clicked, stop editing the current feature and edit the clicked feature
-                    birdLayer.on('click', function(e) {
-                        // stopEditing();
-                        startEditingBird(e.layer);
-                        if (!currentlyDeleting) {
-                            // $('#exampleTextarea').val(e.layer.feature.properties.title);
-                            $("#addBirdActivities").modal('show');
-                            displayAttributes(e.layer);
-                        }
+                    // birdLayer.on('click', function(e) {
+                    //     // stopEditing();
+                    //     startEditingBird(e.layer);
+                    //     if (!currentlyDeleting) {
+                    //         // $('#exampleTextarea').val(e.layer.feature.properties.title);
+                    //         $("#addBirdActivities").modal('show');
+                    //         displayAttributes(e.layer);
+                    //     }
                     });
                     // when clicked, stop editing the current feature and edit the clicked feature
                     // when new features are loaded clear our current guides and feature groups
