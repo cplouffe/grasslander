@@ -19,9 +19,9 @@ $(window).load(function() {
         fieldLayer,
         birdLayer,
         fieldEventLayer,
-        birdEdit,
-        fieldEventEdit,
         username,
+        birdEdit = false,
+        fieldEventEdit = false,
         farmCheck = false,
         fieldCheck = false,
         activitCheck = false,
@@ -122,6 +122,13 @@ $(window).load(function() {
         highlight.clearLayers();
     }
 
+
+
+
+
+
+
+
     // workaround for old ie
     if (!window.location.origin) {
         window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
@@ -187,6 +194,43 @@ $(window).load(function() {
 
     };
 
+    ebird_bobo.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.common_nam + "</p><p>Date Seen: " + featureCollection.features[0].properties.time_obser;
+        }
+    });
+
+    ebird_lark.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.common_nam + "</p><p>Date Seen: " + featureCollection.features[0].properties.time_obser;
+        }
+    });
+
+    ebird_lark.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.commonname + "</p><p>Date Seen: " + featureCollection.features[0].properties.last_obs;
+        }
+    });
+    nhic_bobo.bindPopup(function(error, featureCollection) {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            return '<p>Bird Name: ' + featureCollection.features[0].properties.commonname + "</p><p>Date Seen: " + featureCollection.features[0].properties.last_obs;
+        }
+    });
+
+
+
+
+
+
+
 
     // Overlay layers are grouped
     var groupedOverlays = {
@@ -237,6 +281,34 @@ $(window).load(function() {
         iconAnchor: [0, 0],
     });
 
+
+    // var save_progress_button = L.Control.extend({
+    //     options: {
+    //         position: "bottomleft",
+    //         title: "Send Message",
+    //     },
+    //     onAdd: function() {
+    //         var a = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom1");
+    //         return a.style.width = "30px", a.style.height = "30px", a.title = "Move to the next step...",
+    //             a.onAdd = function() {
+    //                 this._tooltip = this._createTooltip("Next Step")
+    //             },
+    //             a.onclick = function() {
+    //                 switchStep();
+    //             }, a
+    //     }
+    // });
+
+    // map.addControl(new save_progress_button);
+
+
+
+
+    //CAM - here is the geoseach controller. Can you remove it and add it to <input id="searchbox" type="text" placeholder="Search" class="form-control">
+
+    // var geosearch = new L.Control.GeoSearch({
+    //     provider: new L.GeoSearch.Provider.Esri()
+    // }).addTo(map);
 
     function initGeocoder() {
 
@@ -311,10 +383,10 @@ $(window).load(function() {
                 curFeature.properties.bird_activity = $('#birdActivity').val();
                 break;
             case fieldEventLayer:
-                console.log(curFeature);
                 curFeature.properties.username = username;
                 curFeature.properties.comments = $('#fieldActivityComments').val();
                 curFeature.properties.date = $('#fieldActivityDate').val();
+                // Need to spell this correctly in feature class...
                 curFeature.properties.type = $('#fieldActivityType').val();
                 break;
         }
@@ -343,6 +415,9 @@ $(window).load(function() {
         }
 
     });
+
+
+
 
     var drawnFields = L.featureGroup();
     // create a new Leaflet Draw control
@@ -490,7 +565,7 @@ $(window).load(function() {
                     $("#addBirdActivities").modal('show');
                     // submitDataBird button for submit
                     break;
-                case fieldEventLayer:
+                case birdLayer:
                     $("#addFieldActivities").modal('show');
                     // submitDataBird button for submit
                     break;
@@ -512,6 +587,8 @@ $(window).load(function() {
             $('#login-modal').modal('hide');
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
+
+            // $('#login-modal').modal('hide');
 
             // Farm layer authentication
             farmLayer = L.esri.featureLayer({
@@ -555,7 +632,7 @@ $(window).load(function() {
 
             // grab fieldEventLayer points
             fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + 'field_events/FeatureServer/0',
+                url: servicesUrl + '/MyMapService/FeatureServer/0',
                 token: response.token
             });
             layers.push(fieldEventLayer);
@@ -624,13 +701,15 @@ $(window).load(function() {
                 var curLayer;
                 // Set current feature
                 curFeature = e.layer.toGeoJSON();
-                console.log(curFeature);
                 // if (!currentlyEditing) currentlyEditing = e.layer;
                 switch (stepNum) {
                     // Farms
                     case 1:
+                        // console.log(curFeature);
                         curLayer = farmLayer;
+                        // farmLayer.addFeature(curFeature);
                         disableEditing = false;
+                        // $("#addFarmAttributes").modal('show');
                         break;
                         // Fields
                     case 2:
@@ -644,18 +723,21 @@ $(window).load(function() {
                         if (birdEdit) {
                             // console.log(curFeature);
                             curLayer = birdLayer;
-                            // disableEditing = false;
-
                             break;
+
                         } else if (fieldEventEdit) {
                             curLayer = fieldEventLayer;
+                            // disableEditing = false;
+                            // birdLayer.addFeature(curFeature, function(response, error) {
+                            //     if (response) {
+                            //         console.log(response);
+                            //     } else if (error) {
+                            //         console.log(error);
+                            //     }
+                            // });
                             break;
-
-
                         }
-
                 }
-
                 disableEditing = false;
                 showEditorModal(curLayer);
 
@@ -693,19 +775,33 @@ $(window).load(function() {
                     currentlyDeleting = false;
                 } else if (stepNum == 3) {
 
+                    if (birdEdit) {
+                        e.layers.eachLayer(function(layer) {
+                            var id = layer.feature.id;
+                            delArray.push(id);
+                        });
+                        birdLayer.deleteFeatures(delArray, function(error, response) {
+                            if (error) {
+                                console.log(error, response);
+                            }
+                        });
+                        disableEditing = false;
+                        currentlyDeleting = false;
 
+                    } else if (fieldEventEdit) {
+                        e.layers.eachLayer(function(layer) {
+                            var id = layer.feature.id;
+                            delArray.push(id);
+                        });
+                        fieldEventEdit.deleteFeatures(delArray, function(error, response) {
+                            if (error) {
+                                console.log(error, response);
+                            }
+                        });
+                        disableEditing = false;
+                        currentlyDeleting = false;
+                    }
 
-                    e.layers.eachLayer(function(layer) {
-                        var id = layer.feature.id;
-                        delArray.push(id);
-                    });
-                    birdLayer.deleteFeatures(delArray, function(error, response) {
-                        if (error) {
-                            console.log(error, response);
-                        }
-                    });
-                    disableEditing = false;
-                    currentlyDeleting = false;
 
                 }
 
@@ -866,8 +962,8 @@ $(window).load(function() {
                         //drawnFarms.addLayer(e.layer);
                         //curFeature.properties.roll = e.layer.feature.properties.arn;
                         //console.log(curFeature);
-                        //farmLayer.addFeature(curFeature);
-                        //$("#addFarmAttributes").modal('show');
+                        farmLayer.addFeature(curFeature);
+                        $("#addFarmAttributes").modal('show');
                         startEditingFarm(e.layer);
 
                         // $('#rollNumber').val(e.layer.feature.properties.roll);
@@ -888,40 +984,10 @@ $(window).load(function() {
                     $("#proceed-modal").modal('show');
                 });
 
-
-
-
-
-
             });
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
             $("#step2").click(function() {
-
-                stepNum = 2;
-                map.removeControl(drawFarmControl);
-                map.removeControl(drawFieldControl);
-                map.removeControl(drawBirdControl);
-                map.removeControl(drawnFieldEvenControl);
-                map.removeLayer(studyArea);
-                map.removeLayer(parcelLayer);
-                map.removeLayer(fieldLayer);
-                map.removeLayer(farmLayer);
-                map.removeLayer(birdLayer);
-                map.removeLayer(fieldEventLayer);
-                map.removeLayer(drawnBirds);
-                map.removeLayer(drawnFields);
-                map.removeLayer(drawnFarms);
-                // add our drawing controls to the map
-                map.addControl(drawFieldControl);
-                farmLayer.addTo(map);
-                fieldLayer.addTo(map);
-                map.addLayer(drawnFields);
-
-
-
-
                 $("#full-extent-btn").click(function() {
                     var bounds = L.latLngBounds([]);
                     var c = 0;
@@ -950,7 +1016,25 @@ $(window).load(function() {
 
 
                 $("#step-modal").modal("hide");
-
+                stepNum = 2;
+                map.removeControl(drawFarmControl);
+                map.removeControl(drawFieldControl);
+                map.removeControl(drawBirdControl);
+                map.removeControl(drawnFieldEvenControl);
+                map.removeLayer(studyArea);
+                map.removeLayer(parcelLayer);
+                map.removeLayer(fieldLayer);
+                map.removeLayer(farmLayer);
+                map.removeLayer(birdLayer);
+                map.removeLayer(fieldEventLayer);
+                map.removeLayer(drawnBirds);
+                map.removeLayer(drawnFields);
+                map.removeLayer(drawnFarms);
+                // add our drawing controls to the map
+                map.addControl(drawFieldControl);
+                farmLayer.addTo(map);
+                fieldLayer.addTo(map);
+                map.addLayer(drawnFields);
 
                 $("#fieldsetupinstructions").modal("show");
 
@@ -1045,19 +1129,13 @@ $(window).load(function() {
                     return false;
                 });
 
-
-
-
-
-
             });
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $("#step3").click(function() {
-                // $("#activitysetupinstructions").modal("show");
-                stepNum = 3;
-
                 birdEdit = false;
                 fieldEventEdit = false;
+                // $("#activitysetupinstructions").modal("show");
+                stepNum = 3;
                 map.removeControl(drawFarmControl);
                 map.removeControl(drawFieldControl);
                 map.removeControl(drawBirdControl);
@@ -1101,17 +1179,10 @@ $(window).load(function() {
                 $("#full-extent-btn").click();
                 $("#addActivitySelect").modal("show");
 
-
-
                 $("#startBirdActivity").click(function() {
-
+                    birdEdit = true;
+                    fieldEventEdit = false;
                     $("#full-extent-btn").click(function() {
-
-                        birdEdit = true;
-                        fieldEventEdit = false;
-
-
-
                         var bounds = L.latLngBounds([]);
                         var c = 0;
                         farmLayer.eachFeature(function(layer) {
@@ -1233,7 +1304,6 @@ $(window).load(function() {
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 $("#startFieldActivity").click(function() {
-
                     birdEdit = false;
                     fieldEventEdit = true;
 
@@ -1278,14 +1348,13 @@ $(window).load(function() {
                     farmLayer.addTo(map);
                     fieldLayer.addTo(map);
 
-                    map.addLayer(drawnFieldEvents);
-                    fieldEventLayer.addTo(map);
-
 
                     // birdLayer.addTo(map);
 
+                    fieldEventLayer.addTo(map);
                     var currentlyEditing = false;
                     var currentlyDeleting = false;
+                    map.addLayer(drawnFieldEvents);
                     // map.addControl(drawnFieldEvenControl);
                     // track if we should disable custom editing as a result of other actions (create/delete)
                     var disableEditing = false;
@@ -1296,7 +1365,6 @@ $(window).load(function() {
                         // read only
                         if (!disableEditing) {
                             layer.editing.enable();
-
                             currentlyEditing = layer;
                         }
                     }
@@ -1313,15 +1381,6 @@ $(window).load(function() {
                     }
 
                     function handleFieldEventEdit(layer) {
-                        console.log(layer);
-                        id = layer._leaflet_id;
-                        geom = layer.toGeoJSON().geometry;
-                        properties = layer.toGeoJSON().properties;
-                        properties.test = "test";
-                        properties.something = "something";
-                        console.log(geom);
-                        console.log(properties);
-                        //update properties as per form values
 
                         fieldEventLayer.updateFeature({
                             type: 'Feature',
@@ -1347,37 +1406,30 @@ $(window).load(function() {
                     // when clicked, stop editing the current feature and edit the clicked feature
 
                     fieldLayer.on('click', function(e) {
-                      curFeature = e.layer.toGeoJSON();
-                    if (currentlyDeleting) {
 
-                    } else {
-                        //drawnFarms.addLayer(e.layer);
-                        //curFeature.properties.roll = e.layer.feature.properties.arn;
-                        //console.log(curFeature);
-                        //farmLayer.addFeature(curFeature);
-                        //$("#addFarmAttributes").modal('show');
-                        startEditingFarm(e.layer);
+                        // stopEditing();
+                        // startEditingFieldEvent(e.layer);
+                        //
+                        if (stepNum == 3) {
+                            curFeature = e.layer.toGeoJSON();
+                            if (currentlyDeleting) {
 
-                        // $('#rollNumber').val(e.layer.feature.properties.roll);
-                        $('#conNumber').val(e.layer.feature.properties.con);
-                        $('#lotNumber').val(e.layer.feature.properties.lot);
-                        $('#farmType').val(e.layer.feature.properties.farm_type);
-                        $('#farmComments').val(e.layer.feature.properties.farm_comments);
-                        map.removeLayer(e.layer);
-                        displayAttributes(e.layer);
+                            } else {
+                                //drawnFarms.addLayer(e.layer);
+                                //curFeature.properties.roll = e.layer.feature.properties.arn;
+                                //console.log(curFeature);
+                                fieldEventLayer.addFeature(curFeature);
+                                $("#addFieldActivities").modal('show');
+                                // startEditingFieldEvent(curFeature);
+                                // map.removeLayer(e.layer);
+                                displayAttributes(e.layer);
+                            }
 
-// marker = L.marker(e.layer.getBounds().getCenter());
-//                             drawnFieldEvents.addLayer(marker);
-
-//                             lay = drawnFieldEvents.getLayers()[drawnFieldEvents.getLayers().length - 1];
-//                             id = lay._leaflet_id;
-//                             feature = lay.toGeoJSON();
-//                             feature.properties.id = id;
-//                             feature.id = id;
-//                             console.log(feature);
-//                             displayAttributes(e.layer);
                         }
+
                     });
+
+
 
                     // when clicked, stop editing the current feature and edit the clicked feature
                     // when new features are loaded clear our current guides and feature groups
@@ -1390,6 +1442,7 @@ $(window).load(function() {
                             drawnFieldEvents.addLayer(layer);
                         });
                     });
+
                     $("#submitDataFieldEvent").click(function() {
                         stopEditingFieldEvent();
                         $("#addFieldActivities").modal('hide');
@@ -1398,6 +1451,8 @@ $(window).load(function() {
                 });
             });
             /////////////////////////////////////////////
+
+
 
             function syncSidebar() {
                 /* Empty sidebar features */
@@ -1410,30 +1465,22 @@ $(window).load(function() {
                 //         }
                 //     }
                 // });
-                if (stepNum == 3) {
-                    fieldEventLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            if (map.hasLayer(layer)) {
-                                if (true) {
-                                    //map.getBounds().contains(layer.getBounds())
-                                    $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                                }
-                            }
-                        }
-                    });
-                    birdLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            if (map.hasLayer(layer)) {
-                                console.log(layer);
-                                if (true) {
-                                    //map.getBounds().contains(layer.getBounds())
-                                    $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                                }
-                            }
+                // fieldEventLayer.eachFeature(function(layer) {
+                //     if (map.hasLayer(layer)) {
+                //         if (map.getBounds().contains(layer.getBounds())) {
+                //             $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                //         }
+                //     }
+                // });
+                // birdLayer.eachFeature(function(layer) {
+                //     if (map.hasLayer(layer)) {
+                //         console.log(layer);
+                //         if (map.getBounds().contains(layer.getBounds())) {
+                //             $("#feature-list tbody").append('<tr class="feature-row" title="farmLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/ic_nature_black_24px.svg"></td><td class="feature-name">' + layer.feature.properties + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                //         }
+                //     }
+                // });
 
-                        }
-                    });
-                }
                 featureList = new List("features", {
                     valueNames: ["feature-name"]
                 });
@@ -1448,7 +1495,6 @@ $(window).load(function() {
 
 
             //////////////////////////////////////////////////////////////////////
-            //Broken without secure url
 
             // var locateControl = L.control.locate({
             //     position: "bottomleft",
@@ -1538,12 +1584,212 @@ $(window).load(function() {
 
 
 
+        //  Prevent hitting enter from refreshing the page
+        // $("#searchbox").keypress(function(e) {
+        //     if (e.which == 13) {
+        //         e.preventDefault();
+        //     }
+        // });
 
         $("#featureModal").on("hidden.bs.modal", function(e) {
             $(document).on("mouseout", ".feature-row", clearHighlight);
         });
 
+        /* Typeahead search functionality */
+        // $(document).one("ajaxStop", function() {
+        //     $("#loading").hide();
+        //     sizeLayerControl();
+        //     /* Fit map to boroughs bounds */
+        //     map.fitBounds(boroughs.getBounds());
+        //     featureList = new List("features", {
+        //         valueNames: ["feature-name"]
+        //     });
+        //     featureList.sort("feature-name", {
+        //         order: "asc"
+        //     });
 
+        //     var farmsBH = new Bloodhound({
+        //         name: "Farms",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: farmsSearch,
+        //         limit: 10
+        //     });
+        //     var parcelBH = new Bloodhound({
+        //         name: "Parcels",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: parcelSearch,
+        //         limit: 10
+        //     });
+
+        //     var fieldsBH = new Bloodhound({
+        //         name: "Fields",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: fieldsSearch,
+        //         limit: 10
+        //     });
+
+        //     var activitiesBH = new Bloodhound({
+        //         name: "Activities",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         local: activitiesSearch,
+        //         limit: 10
+        //     });
+
+        //     var geonamesBH = new Bloodhound({
+        //         name: "GeoNames",
+        //         datumTokenizer: function(d) {
+        //             return Bloodhound.tokenizers.whitespace(d.name);
+        //         },
+        //         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //         remote: {
+        //             url: "http://api.geonames.org/searchJSON?username=bootleaf&featureClass=P&maxRows=5&countryCode=US&name_startsWith=%QUERY",
+        //             filter: function(data) {
+        //                 return $.map(data.geonames, function(result) {
+        //                     return {
+        //                         name: result.name + ", " + result.adminCode1,
+        //                         lat: result.lat,
+        //                         lng: result.lng,
+        //                         source: "GeoNames"
+        //                     };
+        //                 });
+        //             },
+        //             ajax: {
+        //                 beforeSend: function(jqXhr, settings) {
+        //                     settings.url += "&east=" + map.getBounds().getEast() + "&west=" + map.getBounds().getWest() + "&north=" + map.getBounds().getNorth() + "&south=" + map.getBounds().getSouth();
+        //                     $("#searchicon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+        //                 },
+        //                 complete: function(jqXHR, status) {
+        //                     $('#searchicon').removeClass("fa-refresh fa-spin").addClass("fa-search");
+        //                 }
+        //             }
+        //         },
+        //         limit: 10
+        //     });
+        //     activitiesBH.initialize();
+        //     farmsBH.initialize();
+        //     parcelBH.initialize();
+        //     fieldsBH.initialize();
+        //     geonamesBH.initialize();
+
+
+        //     /* Highlight search box text on click */
+        //     $("#searchbox").click(function() {
+        //         $(this).select();
+        //     });
+
+
+
+
+
+        //     /* instantiate the typeahead UI */
+        //     $("#searchbox").typeahead({
+        //         minLength: 3,
+        //         highlight: true,
+        //         hint: false
+        //     },
+        //     {
+        //         name: "Farms",
+        //         displayKey: "name",
+        //         source: farmsBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'>Activities</h4>"
+        //         }
+        //     },
+        //     {
+        //         name: "Fields",
+        //         displayKey: "name",
+        //         source: fieldsBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "Parcels",
+        //         displayKey: "ARN",
+        //         source: parcelBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "Activities",
+        //         displayKey: "name",
+        //         source: activitiesBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'>class='fa  fa-pagelines'<img src='fa fa-pagelines' width='24' height='28'>&nbsp;Fields</h4>",
+        //             suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+        //         }
+        //     },
+        //     {
+        //         name: "GeoNames",
+        //         displayKey: "name",
+        //         source: geonamesBH.ttAdapter(),
+        //         templates: {
+        //             header: "<h4 class='typeahead-header'><img src='assets/img/globe.png' width='25' height='25'>&nbsp;GeoNames</h4>"
+        //         }
+        //     }).on("typeahead:selected", function(obj, datum) {
+        //         if (datum.source === "farmLayer") {
+        //             map.fitBounds(datum.bounds);
+        //         }
+        //         if (datum.source === "Farm") {
+        //             if (!map.hasLayer(farmLayer)) {
+        //                 map.addLayer(farmLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "Fields") {
+        //             if (!map.hasLayer(fieldLayer)) {
+        //                 map.addLayer(fieldLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "Parcels") {
+        //             if (!map.hasLayer(parcelLayer)) {
+        //                 map.addLayer(parcelLayer);
+        //             }
+        //             map.setView([datum.lat, datum.lng], 17);
+        //             if (map._layers[datum.id]) {
+        //                 map._layers[datum.id].fire("click");
+        //             }
+        //         }
+        //         if (datum.source === "GeoNames") {
+        //             map.setView([datum.lat, datum.lng], 14);
+        //         }
+        //         if ($(".navbar-collapse").height() > 50) {
+        //             $(".navbar-collapse").collapse("hide");
+        //         }
+        //     }).on("typeahead:opened", function() {
+        //         $(".navbar-collapse.in").css("max-height", $(document).height() - $(".navbar-header").height());
+        //         $(".navbar-collapse.in").css("height", $(document).height() - $(".navbar-header").height());
+        //     }).on("typeahead:closed", function() {
+        //         $(".navbar-collapse.in").css("max-height", "");
+        //         $(".navbar-collapse.in").css("height", "");
+        //     });
+        //     $(".twitter-typeahead").css("position", "static");
+        //     $(".twitter-typeahead").css("display", "block");
+
+
+        // });
 
         var listItem = $('#setupDropdown > li');
 
@@ -1573,7 +1819,20 @@ $(window).load(function() {
             alert("User setups page isn't available yet. Please email ***** to have any changes done to your account.");
             // switchStep()
         });
+        /// These grab the features within map bounds and add them to the map as a list. Ideally (above function) when you click on these their attribute modal will pop up showing you their detials.
 
+
+        // function getEventTarget(e) {
+        //     e = e || window.event;
+        //     return e.target || e.srcElement;
+        // }
+
+
+        // var ul = document.getElementById('setupDropdown');
+        // ul.onclick = function(event) {
+        //     var target = getEventTarget(event);
+        //     console.log(target.innerHTML);
+        // };
 
     });
 });
