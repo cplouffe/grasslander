@@ -1,4 +1,5 @@
 $(window).load(function() {
+
     var map,
         featureList,
         layers = [],
