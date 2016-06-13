@@ -37,6 +37,11 @@
     <script src="https://rawgithub.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- something else entirely -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+<link rel="stylesheet" href="assets/leaflet.awesome-markers.css">
+<script src="/assets/js/leaflet.awesome-markers.js"></script>
+
     <!-- Calcite -->
     <link rel="stylesheet" href="assets/css/calcite-bootstrap.min.css">
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
@@ -123,6 +128,10 @@
  -->                            <li id="step1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
                             <li id="step2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
                             <li id="step3"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
+                      
+                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>    Bird Activities</a></li>
+                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>   Field Activities</a></li>
+                
                         </ul>
                     </li>
                     <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
@@ -141,14 +150,14 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-xs-8 col-md-8">
                                 <input type="text" class="form-control search" placeholder="Filter" />
                             </div>
                             <div class="col-xs-4 col-md-4">
                                 <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="sidebar-table">
                         <table class="table table-hover" id="feature-list">
@@ -575,7 +584,7 @@
                     <h4 class="modal-title">How to setup your farm:</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Step 1: Use the search bar fidn your farm using an address, or approximate location and then pan the map to your area.</p>
+                    <p>Step 1: Use the search bar find your farm using an address, or approximate location and then pan the map to your area.</p>
                     <p>Step 2: Identify your property parcel and click it. If you have multiple parcels you can click the "Add More" button at the end.</p>
                     <p>Step 3: Fill in the form with the information about your farm and submit.</p>
                     <p>Step 4: If you are finished with attributing the land parcels that belong to your farmstead you can click "Proceed".</p>
@@ -615,7 +624,7 @@
                     Please select what kind of activity you would like to add.
                 </div>
                 <div class="modal-body">
-                <p>To Bird Observations: Please drop a point using the tool in the top left corner of where you were when you observed to bird. Fill out the form and submit.</p>
+                <p> Bird Observations: Please drop a point using the tool in the top left corner of where you were when you observed to bird. Fill out the form and submit.</p>
                     <p>To Add Field Activities: Please click on the field you would like to add an activity to. Fill out the form and submit.</p>
                 </div>
                 <div class="modal-footer">
@@ -714,6 +723,8 @@
     <script src="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/leaflet.markercluster.js"></script>
     <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
     <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js'></script>
+
     <!-- Load Clustered Feature Layer from CDN -->
     <script src="https://cdn.jsdelivr.net/leaflet.esri.clustered-feature-layer/2.0.0-beta.1/esri-leaflet-clustered-feature-layer.js"></script>
     <script src="assets/js/app1.js"></script>
