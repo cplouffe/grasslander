@@ -638,7 +638,7 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
 
@@ -1148,13 +1148,13 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
 
-                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var dateObj = new Date(evt.feature.properties.date);
                     var month = dateObj.getUTCMonth() + 1; //months from 1-12
                     var day = dateObj.getUTCDate();
                     var year = dateObj.getUTCFullYear();
@@ -1162,7 +1162,7 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 // ebird_bobo.bindPopup(function (evt) {
@@ -1175,6 +1175,9 @@ $(window).load(function() {
 
 
             $("#startBirdActivity").click(function() {
+             birdLayer.unbindPopup();
+                fieldEventLayer.unbindPopup();
+
                 birdLayer.bindPopup(function(evt) {
                     var dateObj = new Date(evt.feature.properties.date);
                     var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -1184,13 +1187,13 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
 
-                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var dateObj = new Date(evt.feature.properties.date);
                     var month = dateObj.getUTCMonth() + 1; //months from 1-12
                     var day = dateObj.getUTCDate();
                     var year = dateObj.getUTCFullYear();
@@ -1198,7 +1201,7 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 $("#step-modal").modal("hide");
@@ -1331,8 +1334,9 @@ $(window).load(function() {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $("#startFieldActivity").click(function() {
-                birdLayer.unbindPopup();
+             birdLayer.unbindPopup();
                 fieldEventLayer.unbindPopup();
+
                 birdLayer.bindPopup(function(evt) {
                     var dateObj = new Date(evt.feature.properties.date);
                     var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -1342,13 +1346,13 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
 
-                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var dateObj = new Date(evt.feature.properties.date);
                     var month = dateObj.getUTCMonth() + 1; //months from 1-12
                     var day = dateObj.getUTCDate();
                     var year = dateObj.getUTCFullYear();
@@ -1356,7 +1360,7 @@ $(window).load(function() {
                     newdate = year + "/" + month + "/" + day;
 
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 $("#step-modal").modal("hide");
@@ -1508,7 +1512,11 @@ $(window).load(function() {
             });
 
 
+              fieldLayer.bindPopup(function(evt) {
+           
 
+                    return L.Util.template('<p>Field Type: {field_type}<br>Field Comment: {field_comments}</p>', evt.feature.properties);
+                });
 
 
             function syncSidebar() {
