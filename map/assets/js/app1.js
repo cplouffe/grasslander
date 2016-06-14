@@ -316,25 +316,23 @@ $(window).load(function() {
     function handleFeatureCreation(layer) {
         switch (layer) {
 
-
             case farmLayer:
-                                        console.log('adding farm values');
-
+                console.log('adding farm values');
                 curFeature.properties.farmer_comments = $('#farmComments').val();
                 curFeature.properties.lot_number = $('#lotNumber').val();
                 curFeature.properties.concession_number = $('#conNumber').val();
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
-            case fieldLayer:
-                            console.log('adding field values');
 
+            case fieldLayer:
+                console.log('adding field values');
                 curFeature.properties.field_type = $('#fieldTypeSelect').val();
                 curFeature.properties.field_comments = $('#fieldComments').val();
                 // Haven't handled field_id yet
                 break;
+
             case birdLayer:
                 console.log('adding bird values');
-
                 curFeature.properties.bird_sex  = $('#birdAcitivtySex').val();
                 curFeature.properties.bird_comments  = $('#birdComments').val();
                 curFeature.properties.date = $('#birdActivityDate').val();
@@ -343,14 +341,15 @@ $(window).load(function() {
                 curFeature.properties.bird_type = $('#birdType').val();
                 curFeature.properties.time_of_day  = $('#birdAcitivtyTime').val();
                 break;
-            case fieldEventLayer:
-                                        console.log('adding fieldevent values');
 
+            case fieldEventLayer:
+                console.log('adding fieldevent values');
                 curFeature.properties.username = username;
                 curFeature.properties.comments = $('#fieldActivityComments').val();
                 curFeature.properties.date  = $('#fieldActivityDate').val();
                 curFeature.properties.activity_type  = $('#fieldActivitySelect').val();
                 break;
+
         }
 
         // Add new feature to layer
@@ -619,7 +618,7 @@ $(window).load(function() {
 
 
 
-                fieldEventIcon
+                // fieldEventIcon
             });
             layers.push(fieldEventLayer);
 
@@ -1513,7 +1512,7 @@ $(window).load(function() {
 
 
               fieldLayer.bindPopup(function(evt) {
-           
+
 
                     return L.Util.template('<p>Field Type: {field_type}<br>Field Comment: {field_comments}</p>', evt.feature.properties);
                 });
