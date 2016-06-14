@@ -318,37 +318,38 @@ $(window).load(function() {
 
 
             case farmLayer:
-                curFeature.properties.farm_comments = $('#farmComments').val();
-                curFeature.properties.lot = $('#lotNumber').val();
-                curFeature.properties.con = $('#conNumber').val();
+                                        console.log('adding farm values');
+
+                curFeature.properties.farmer_comments = $('#farmComments').val();
+                curFeature.properties.lot_number = $('#lotNumber').val();
+                curFeature.properties.concession_number = $('#conNumber').val();
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
             case fieldLayer:
-                curFeature.properties.field_type = $('#fieldStatusSelect').val();
-                curFeature.properties.field_status = $('#fieldTypeSelect').val();
+                            console.log('adding field values');
+
+                curFeature.properties.field_type = $('#fieldTypeSelect').val();
                 curFeature.properties.field_comments = $('#fieldComments').val();
                 // Haven't handled field_id yet
                 break;
             case birdLayer:
-                console.log('line');
+                console.log('adding bird values');
 
-                curFeature.properties.username = username;
-                curFeature.properties.comments = $('#birdComments').val();
+                curFeature.properties.bird_sex  = $('#birdAcitivtySex').val();
+                curFeature.properties.bird_comments  = $('#birdComments').val();
                 curFeature.properties.date = $('#birdActivityDate').val();
-                // Need to spell this correctly in feature class...
-                curFeature.properties.observiation_type = $('#birdObservationType').val();
+                curFeature.properties.bird_behavior = $('#birdActivity').val();
+                curFeature.properties.observation_type  = $('#birdObservationType').val();
                 curFeature.properties.bird_type = $('#birdType').val();
-                curFeature.properties.bird_activity = $('#birdActivity').val();
+                curFeature.properties.time_of_day  = $('#birdAcitivtyTime').val();
                 break;
             case fieldEventLayer:
+                                        console.log('adding fieldevent values');
 
                 curFeature.properties.username = username;
                 curFeature.properties.comments = $('#fieldActivityComments').val();
-                curFeature.properties.fdate = $('#fieldActivityDate').val();
-                // Need to spell this correctly in feature class...
-                curFeature.properties.activity = $('#fieldActivitySelect').val();
-
-
+                curFeature.properties.date  = $('#fieldActivityDate').val();
+                curFeature.properties.activity_type  = $('#fieldActivitySelect').val();
                 break;
         }
 
@@ -561,7 +562,7 @@ $(window).load(function() {
 
             // Farm layer authentication
             farmLayer = L.esri.featureLayer({
-                url: servicesUrl + '/Farms/FeatureServer/0',
+                url: servicesUrl + '/grassland_all/FeatureServer/3',
                 opacity: 1,
                 style: farmStyle,
                 token: response.token,
@@ -578,7 +579,7 @@ $(window).load(function() {
 
             // grab fieldLayer polygons
             fieldLayer = L.esri.featureLayer({
-                url: servicesUrl + '/Field/FeatureServer/0',
+                url: servicesUrl + '/grassland_all/FeatureServer/2',
                 opacity: 1,
                 style: fieldStyle,
                 token: response.token,
@@ -594,7 +595,7 @@ $(window).load(function() {
 
             // grab birdLayer points
             birdLayer = L.esri.featureLayer({
-                url: servicesUrl + '/bird_observations/FeatureServer/0',
+                url: servicesUrl + '/grassland_all/FeatureServer/0',
                 token: response.token,
                 pointToLayer: function(geojson, latlng) {
                     return L.marker(latlng, {
@@ -606,7 +607,7 @@ $(window).load(function() {
 
             // grab fieldEventLayer points
             fieldEventLayer = L.esri.featureLayer({
-                url: servicesUrl + '/field_events/FeatureServer/0',
+                url: servicesUrl + '/grassland_all/FeatureServer/1',
                 token: response.token,
 
                 pointToLayer: function(geojson, latlng) {
@@ -621,6 +622,39 @@ $(window).load(function() {
                 fieldEventIcon
             });
             layers.push(fieldEventLayer);
+
+            function bindPopUps() {
+                birdLayer.unbindPopup();
+                fieldEventLayer.unbindPopup();
+
+
+
+                birdLayer.bindPopup(function(evt) {
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                });
+
+
+                fieldEventLayer.bindPopup(function(evt) {
+
+                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                });
+            }
 
             // Parcel layer
             // var parcelLayer = L.esri.dynamicMapLayer({
@@ -967,7 +1001,7 @@ $(window).load(function() {
                 // Handle farm edits
 
                 $("#submitDataFarm").click(function() {
-                    stopEditingFarm();
+                    handleFeatureCreation(farmLayer);
                     $("#addFarmAttributes").modal('hide');
                     $("#proceed-modal").modal('show');
                 });
@@ -1088,7 +1122,7 @@ $(window).load(function() {
 
 
                 $("#submitDataField").click(function() {
-                    stopEditingField();
+                    handleFeatureCreation(fieldLayer);
                     $("#addFieldAttributes").modal('hide');
                     $("#proceed-modal").modal('show');
 
@@ -1102,15 +1136,33 @@ $(window).load(function() {
             $("#step3").click(function() {
                 farmLayer.addTo(map);
 
-
+                birdLayer.unbindPopup();
+                fieldEventLayer.unbindPopup();
 
                 birdLayer.bindPopup(function(evt) {
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + new Date(evt.feature.properties.date) + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + new Date(evt.feature.properties.fdate) + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+
+                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 // ebird_bobo.bindPopup(function (evt) {
@@ -1123,15 +1175,30 @@ $(window).load(function() {
 
 
             $("#startBirdActivity").click(function() {
-
                 birdLayer.bindPopup(function(evt) {
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + new Date(evt.feature.properties.date) + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
 
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + new Date(evt.feature.properties.fdate) + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 $("#step-modal").modal("hide");
@@ -1181,12 +1248,6 @@ $(window).load(function() {
                 });
 
                 $("#full-extent-btn").click();
-
-
-
-
-
-
 
                 var currentlyEditing = false;
                 var currentlyDeleting = false;
@@ -1270,13 +1331,32 @@ $(window).load(function() {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $("#startFieldActivity").click(function() {
+                birdLayer.unbindPopup();
+                fieldEventLayer.unbindPopup();
                 birdLayer.bindPopup(function(evt) {
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: {created_date}<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
 
                 fieldEventLayer.bindPopup(function(evt) {
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: {created_date}<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
+
+                    var dateObj = new Date(evt.feature.properties.fdate);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity}<br> Comments:{comments}</p>', evt.feature.properties);
                 });
 
                 $("#step-modal").modal("hide");
@@ -1418,14 +1498,14 @@ $(window).load(function() {
 
 
 
-$('#startBirdActivity1').click(function() {
-         document.getElementById('startBirdActivity').click();
-        });
+            $('#startBirdActivity1').click(function() {
+                document.getElementById('startBirdActivity').click();
+            });
 
-$('#startFieldActivity2').click(function() {
+            $('#startFieldActivity2').click(function() {
 
-         document.getElementById('startFieldActivity').click();
-        });
+                document.getElementById('startFieldActivity').click();
+            });
 
 
 
@@ -1447,7 +1527,13 @@ $('#startFieldActivity2').click(function() {
                     if (map.hasLayer(layer)) {
                         if (layer) {
                             // if (map.getBounds().contains(layer)) {
-                                $("#feature-list tbody").append('<tr class="feature-row" title="birdLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/bobolink.png"></td><td class="feature-name">Bird Observation: ' + new Date(layer.feature.properties.date) + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                            var dateObj = new Date(layer.feature.properties.date);
+                            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
+
+                            newdate = year + "/" + month + "/" + day;
+                            $("#feature-list tbody").append('<tr class="feature-row" title="birdLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/bobolink.png"></td><td class="feature-name">Bird Observation: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
                             // }
                         }
                     }
@@ -1456,8 +1542,14 @@ $('#startFieldActivity2').click(function() {
 
                     if (map.hasLayer(layer)) {
                         if (layer) {
+                            var dateObj = new Date(layer.feature.properties.date);
+                            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
+
+                            newdate = year + "/" + month + "/" + day;
                             // if (map.getBounds().contains(layer)) {
-                                $("#feature-list tbody").append('<tr class="feature-row" title="fieldevents" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/combine_harvester.svg"></td><td class="feature-name"> Field Activity: ' + new Date(layer.feature.properties.fdate) + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                            $("#feature-list tbody").append('<tr class="feature-row" title="fieldevents" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/combine_harvester.svg"></td><td class="feature-name"> Field Activity: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
                             // }
                         }
 
