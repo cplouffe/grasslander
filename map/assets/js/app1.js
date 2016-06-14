@@ -78,11 +78,6 @@ $(window).load(function() {
         $(".navbar-collapse.in").collapse("hide");
         return false;
     });
-    $("#bobo-btn").click(function() {
-        $("#boboModal").modal("show");
-        $(".navbar-collapse.in").collapse("hide");
-        return false;
-    });
     $("#login-btn").click(function() {
         $("#loginModal").modal("show");
         $(".navbar-collapse.in").collapse("hide");
@@ -1421,6 +1416,8 @@ $(window).load(function() {
 
 
 
+
+
 $('#startBirdActivity1').click(function() {
          document.getElementById('startBirdActivity').click();
         });
@@ -1558,6 +1555,8 @@ $('#startFieldActivity2').click(function() {
             $(this).toggleClass('js-is-active');
 
         });
+
+
 
 
 
