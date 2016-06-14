@@ -30,15 +30,19 @@ $(window).load(function() {
         servicesUrl = baseUrl + '/rest/services/grasslander',
         tokenUrl = baseUrl + '/tokens/generateToken';
 
+    // Ensure that user cannot bypass login modal
     $("#login-modal").modal({
         backdrop: 'static',
         keyboard: false
     });
+    // Show login modal on startup
     $("#login-modal").modal("show");
 
-    $(window).resize(function() {
-        sizeLayerControl();
-    });
+
+    // $(window).resize(function() {
+    //     sizeLayerControl();
+    // });
+
     $(document).on("mouseout", ".feature-row", clearHighlight);
     $(document).ready(function() {
         $('.material-button-toggle').click(function() {
@@ -518,26 +522,29 @@ $(window).load(function() {
         function showEditorModal(layer) {
             console.log('kk');
             switch (layer) {
+
                 case farmLayer:
                     $("#addFarmAttributes").modal('show');
                     // submitDataFarm button for submit
                     break;
+
                 case fieldLayer:
                     $("#addFieldAttributes").modal('show');
                     // submitDataField button for submit
                     break;
+
                 case birdLayer:
                     $("#addBirdActivities").modal('show');
                     console.log('line');
-
                     // submitDataBird button for submit
                     break;
+
                 case fieldEventLayer:
                     $("#addFieldActivities").modal('show');
                     console.log('line');
-
                     // submitDataBird button for submit
                     break;
+
             }
 
         }
