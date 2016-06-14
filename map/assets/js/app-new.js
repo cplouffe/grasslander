@@ -35,6 +35,7 @@ $(window).load(function() {
         backdrop: 'static',
         keyboard: false
     });
+
     // Show login modal on startup
     $("#login-modal").modal("show");
 
@@ -83,7 +84,7 @@ $(window).load(function() {
         return false;
     });
     $("#login-btn").click(function() {
-        $("#loginModal").modal("show");
+        $("#login-modal").modal("show");
         $(".navbar-collapse.in").collapse("hide");
         return false;
     });
@@ -216,11 +217,13 @@ $(window).load(function() {
 
 
     function isMarkerInsidePolygon(marker, poly) {
-        var polyPoints = poly.getLatLngs();
-        var x = marker.getLatLng().lat,
-            y = marker.getLatLng().lng;
 
-        var inside = false;
+        var polyPoints = poly.getLatLngs(),
+            x = marker.getLatLng().lat,
+            y = marker.getLatLng().lng,
+
+            inside = false;
+
         for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
             var xi = polyPoints[i].lat,
                 yi = polyPoints[i].lng;
@@ -277,20 +280,53 @@ $(window).load(function() {
 
         // Specify provider
         var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(),
-            // Create the geocoding control and add it to the map
-            searchControl = L.esri.Geocoding.geosearch({
-                providers: [arcgisOnline],
-                // Don't limit search based on zoom level
-                useMapBounds: false,
-                expanded: true,
-                collapseAfterResult: false
-            });
-        // Add geocoderControl to navbar instead of map
-        searchControl._map = map;
+        // Create the geocoding control and add it to the map
+        searchControl = L.esri.Geocoding.geosearch({
+            providers: [arcgisOnline],
+            // Don't limit search based on zoom level
+            useMapBounds: false,
+            expanded: true,
+            collapseAfterResult: false
+        }).addTo(map);
 
-        var geocoderDiv = searchControl.onAdd(map);
-        // Add to div in Navbar
-        $('.form-group.has-feedback')[0].appendChild(geocoderDiv);
+        // Open popup at search result location
+        searchControl.on('results', function(data) {
+            if (data.results.length > 0) {
+                var popup = L.popup()
+                    .setLatLng(data.results[0].latlng)
+                    .setContent(data.results[0].text)
+                    .openOn(map);
+                map.setView(data.results[0].latlng);
+            }
+        });
+
+        // Style geocoder
+        var input = $(".geocoder-control-input");
+        input.click();
+        input.focus(function() {
+            $("#panelSearch .panel-body").css("height", "150px");
+        });
+        input.blur(function() {
+            $("#panelSearch .panel-body").css("height", "auto");
+        });
+
+        var parentName = $(".geocoder-control").parent().attr("id"),
+            geocoder = $(".geocoder-control"),
+            width = $(window).width();
+        if (width <= 767 && parentName !== "geocodeMobile") {
+            geocoder.detach();
+            $("#geocodeMobile").append(geocoder);
+        } else if (width > 767 && parentName !== "geocode") {
+            geocoder.detach();
+            $("#geocode").append(geocoder);
+        }
+
+        // // Add geocoderControl to navbar instead of map
+        // searchControl._map = map;
+
+        // var geocoderDiv = searchControl.onAdd(map);
+        // // Add to div in Navbar
+        // $('.form-group.has-feedback')[0].appendChild(geocoderDiv);
 
     }
 
@@ -459,7 +495,7 @@ $(window).load(function() {
     ///////////////////////
     //LOGIN
     ///////////////////////
-    $("#loginbtn").click(function() {
+    $("#login-submit").click(function() {
 
         //grab username from login modal
         username = $('#username').val();
@@ -1570,12 +1606,13 @@ $(window).load(function() {
                     }
                 });
 
-                featureList = new List("features", {
-                    valueNames: ["feature-name"]
-                });
-                featureList.sort("feature-name", {
-                    order: "asc"
-                });
+                // Issues with List JS so commenting out
+                // featureList = new List("features", {
+                //     valueNames: ["feature-name"]
+                // });
+                // featureList.sort("feature-name", {
+                //     order: "asc"
+                // });
             }
 
             //////////////////////////////////////////////////////////////////////
@@ -1662,12 +1699,7 @@ $(window).load(function() {
 
         });
 
-
-
-
-
-
-
+        // Handle step click events
         $('#step1d').click(function() {
             stepNum = 4;
             switchStep();

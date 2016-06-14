@@ -9,19 +9,29 @@
     <meta name="theme-color" content="#000000">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Project Grasslander</title>
+    <title>Grasslander</title>
+
     <!-- !!! Stylesheets !!! -->
     <!-- Date Range Picker -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Ion Icons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
     <!-- Calcite -->
     <link rel="stylesheet" href="assets/css/calcite-bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/calcite-maps-esri-leaflet.min.css">
     <link rel="stylesheet" href="assets/fonts/calcite-ui.css">
+
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
+
     <!-- Leaflet Draw -->
     <link rel="stylesheet" href="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw.css">
+
     <!-- Leaflet Locate Control -->
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <!-- Leaflet Marker Cluster (not currently used) -->
@@ -29,12 +39,13 @@
     <!-- <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css"> -->
     <!-- Leaflet Grouped Layer Control (not currently used) -->
     <!-- <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css"> -->
+
     <!-- Esri Leaflet Geocoder -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.0.3/esri-leaflet-geocoder.css">
-    <!-- Ion Icons -->
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Main Grasslander stylesheet -->
+
+    <!-- Grasslander -->
     <link rel="stylesheet" href="assets/css/app-new.css">
+
     <!-- !!! Icons !!! -->
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
@@ -44,7 +55,7 @@
 </head>
 <body class="calcite-nav-top">
 <!-- Navbar -->
-    <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bg-dark calcite-black-75">
+    <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bg-dark calcite-bgcolor-black">
         <!-- Header -->
         <div class="navbar-header">
             <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
@@ -54,27 +65,91 @@
             <div class="calcite-title-main">GrassLander</div>
             <div class="calcite-title-sub">Citizen Science for Grassland Birds Conservation</div>
         </div>
+        <!-- Nav -->
+        <ul class="nav navbar-nav">
+            <!-- Grassland Birds dropdown -->
+            <li class="dropdown">
+                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Grasslander Birds <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Bobolink Basics</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Population Trends</a></li>
+                    <li class="divider hidden-xs"></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Log Out</a></li>
+                </ul>
+            </li>
+            <!-- Farm setup dropdown -->
+            <li class="dropdown">
+               <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Your Farm <b class="caret"></b></a>
+               <ul id="setupDropdown" class="dropdown-menu">
+                   <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+                   <li id="step1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
+                   <li id="step2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
+                   <li id="step3"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
+                   <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Bird Activities</a></li>
+                   <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Field Activities</a></li>
+                </ul>
+            </li>
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
+           <!-- Geocoder search -->
+           <li><div class="calcite-navbar-search hidden-xs"><div id="geocode"></div></div></li>
+        </ul>
     </nav>
-    <!-- Modal -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-body">
-                <div class="loginmodal-container">
-                    <h1>Login to Your Account</h1>
-                    <br>
-                    <form>
-                        <input type="text" name="user" id='username' placeholder="Username">
-                        <input type="password" name="pass" id='password' placeholder="Password">
-                        <input type="submit" name="login" id="loginbtn" data-dismiss="modal" class="login loginmodal-submit" value="Login">
-                    </form>
-                    <div class="login-help">
-                        <a href="#">Register</a> - <a href="#">Forgot Password</a>
+    <!-- Map -->
+    <div class="calcite-map calcite-map-absolute">
+        <div id="sidebar">
+            <div class="sidebar-wrapper">
+                <div class="panel panel-default" id="features">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Your Activities
+                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="sidebar-table">
+                            <table class="table table-hover" id="feature-list">
+                                <thead class="hidden"></thead>
+                                <tbody class="list"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="map"></div>
     </div>
-    <!-- Modal -->
+    <!-- Login modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Login to GrassLander</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="user">Username</label>
+                                <input type="text" class="form-control" name="user" id="username" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <label for="pass">Password</label>
+                                <input type="password" class="form-control" name="pass" id="password" placeholder="Password">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="login-submit" class="btn btn-primary" name="login" data-dismiss="modal" value="Login">Login</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   <!--  <div class="login-help">
+                        <a href="#">Register</a> - <a href="#">Forgot Password</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About modal -->
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -167,7 +242,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Legend modal -->
     <div class="modal fade" id="legendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -177,7 +252,7 @@
                 </div>
                 <div class="modal-body">
                     <p>To be updated...</p>
-                    <svg viewBox="400 -400 960 960" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg viewBox="400 -400 960 960" width="100%" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <style type="text/css">
                         .axis path,
                         .axis line {
@@ -298,7 +373,7 @@
                         </svg>
                     </svg>
                     <p>To be updated.</p>
-                    <svg viewBox="400 -400 960 960" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg viewBox="400 -400 960 960" width="100%" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <style type="text/css">
                         .axis path,
                         .axis line {
@@ -468,7 +543,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Bobolink modal -->
     <div class="modal fade" id="boboModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -484,38 +559,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Login</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="contact-form">
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="name">Username:</label>
-                                <input type="text" class="form-control" id="username">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Password:</label>
-                                <input type="password" class="form-control" id="password">
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- Modal -->
+    <!-- Feature modal -->
     <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -532,14 +576,14 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Attribution modal -->
     <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">
-                        Developed by <a href='http://www.code-engage.com'>Matthew Tenney</a>
+                        Developed by <a href="http://www.code-engage.com">Matthew Tenney</a>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -550,7 +594,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Add farm attributes modal -->
     <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -594,7 +638,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Add field attributes modal -->
     <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -642,7 +686,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Add bird activities modal -->
     <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -717,7 +761,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Add Field activities modal -->
     <div class="modal fade" id="addFieldActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -758,7 +802,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Farm setup instructions modal -->
     <div class="modal fade" id="farmsetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -780,7 +824,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Field setup instructions modal -->
     <div class="modal fade" id="fieldsetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -799,7 +843,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Add activity select modal -->
     <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -817,7 +861,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Activity setup instructions modal -->
     <div class="modal fade" id="activitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -836,7 +880,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Bird activity setup instructions modal -->
     <div class="modal fade" id="birdactivitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -855,7 +899,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Field activity setup instructions modal -->
     <div class="modal fade" id="fieldactivitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -874,7 +918,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Modal -->
+    <!-- Proceed modal -->
     <div class="modal fade" id="proceed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -891,23 +935,30 @@
             </div>
         </div>
     </div>
+
     <!-- !!! Scripts !!! -->
     <!-- Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
     <!-- Moment JS -->
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
     <!-- Bootstrap -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <!-- Date Range Picker -->
     <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <!-- JQuery Validator (not used) -->
     <!-- <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script> -->
+
     <!-- Leaflet -->
     <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
+
     <!-- Leaflet Draw -->
     <script src="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw.js"></script>
+
     <!-- Leaflet Locate Control -->
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
     <!-- Leaflet MarkerCluster (not currently used) -->
@@ -919,16 +970,22 @@
     <!-- Typeahead (not currently used) -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script> -->
+
+    <!-- List JS -->
+    <script src="assets/js/list.min.js"></script>
+
     <!-- Esri Leaflet -->
     <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+
     <!-- Esri Leaflet Geocoder -->
     <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.0.3/esri-leaflet-geocoder.js"></script>
     <!-- Esri Leaflet Clustered Feature Layer (not currently used) -->
     <!-- <script src="https://cdn.jsdelivr.net/leaflet.esri.clustered-feature-layer/2.0.0-beta.1/esri-leaflet-clustered-feature-layer.js"></script> -->
+
     <!-- Calcite Maps -->
     <script src="assets/js/calcitemaps.js"></script>
-    <!-- Main Grasslander Script -->
-    <!-- <script src="assets/js/app1.js"></script> -->
+
+    <!-- Grasslander -->
+    <script src="assets/js/app-new.js"></script>
 </body>
 </html>
