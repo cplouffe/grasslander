@@ -144,7 +144,7 @@ $(window).load(function() {
     };
 
     /* Overlay Layers */
-    https: //www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer
+    // https: //www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer
     var aafc_inventory = L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?', {
         layers: '0',
         attribution: 'AAFC Annual Crop Inventory 2014'
@@ -295,19 +295,19 @@ $(window).load(function() {
 
     function switchStep() {
         if (stepNum == 1) {
-            console.log(stepNum);
+            // console.log((stepNum);
             stepNum += 1;
             document.getElementById('step2').click();
         } else if (stepNum == 2) {
-            console.log(stepNum);
+            // console.log((stepNum);
             stepNum += 1;
             document.getElementById('step3').click();
         } else if (stepNum == 3) {
-            console.log(stepNum);
+            // console.log((stepNum);
             document.getElementById('step4').click();
         } else if (stepNum == 4) {
             // document.getElementById('step1').click();
-            console.log(stepNum);
+            // console.log((stepNum);
         }
     }
 
@@ -318,7 +318,7 @@ $(window).load(function() {
 
 
             case farmLayer:
-                                        console.log('adding farm values');
+                                        // console.log(('adding farm values');
 
                 curFeature.properties.farmer_comments = $('#farmComments').val();
                 curFeature.properties.lot_number = $('#lotNumber').val();
@@ -326,14 +326,14 @@ $(window).load(function() {
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
             case fieldLayer:
-                            console.log('adding field values');
+                            // console.log(('adding field values');
 
                 curFeature.properties.field_type = $('#fieldTypeSelect').val();
                 curFeature.properties.field_comments = $('#fieldComments').val();
                 // Haven't handled field_id yet
                 break;
             case birdLayer:
-                console.log('adding bird values');
+                // console.log(('adding bird values');
 
                 curFeature.properties.bird_sex  = $('#birdAcitivtySex').val();
                 curFeature.properties.bird_comments  = $('#birdComments').val();
@@ -344,7 +344,7 @@ $(window).load(function() {
                 curFeature.properties.time_of_day  = $('#birdAcitivtyTime').val();
                 break;
             case fieldEventLayer:
-                                        console.log('adding fieldevent values');
+                                        // console.log(('adding fieldevent values');
 
                 curFeature.properties.username = username;
                 curFeature.properties.comments = $('#fieldActivityComments').val();
@@ -354,7 +354,7 @@ $(window).load(function() {
         }
 
         // Add new feature to layer
-        console.log(curFeature);
+        // console.log((curFeature);
         layer.addFeature(curFeature);
         curFeature = undefined;
 
@@ -461,8 +461,8 @@ $(window).load(function() {
         //grab username from login modal
         username = $('#username').val();
         var password = $('#password').val();
-        // console.log(username);
-        // console.log(password);
+        // // console.log((username);
+        // // console.log((password);
 
         // define feature services and authenticate user
 
@@ -483,7 +483,7 @@ $(window).load(function() {
 
         function restartLogin(error) {
 
-            console.log(error);
+            // console.log((error);
             // Make prettier and into a modal down the line...
             alert('The username or password you entered is incorrect. Please provide valid credentials to log in.');
             $('#login-modal').modal('show');
@@ -509,7 +509,7 @@ $(window).load(function() {
             L.esri.request(layer.options.url, {
                 where: '1=1'
             }, function(error, response) {
-                console.log(1);
+                // console.log((1);
             });
 
         }
@@ -517,7 +517,7 @@ $(window).load(function() {
         // Show the editing modal for a given layer
 
         function showEditorModal(layer) {
-            console.log('kk');
+            // console.log(('kk');
             switch (layer) {
                 case farmLayer:
                     $("#addFarmAttributes").modal('show');
@@ -529,13 +529,13 @@ $(window).load(function() {
                     break;
                 case birdLayer:
                     $("#addBirdActivities").modal('show');
-                    console.log('line');
+                    // console.log(('line');
 
                     // submitDataBird button for submit
                     break;
                 case fieldEventLayer:
                     $("#addFieldActivities").modal('show');
-                    console.log('line');
+                    // console.log(('line');
 
                     // submitDataBird button for submit
                     break;
@@ -614,13 +614,9 @@ $(window).load(function() {
                     return L.marker(latlng, {
                         icon: fieldEventIcon
                     });
-                },
-
-
-
-
-                fieldEventIcon
+                }
             });
+
             layers.push(fieldEventLayer);
 
             function bindPopUps() {
@@ -677,7 +673,7 @@ $(window).load(function() {
 
 
             function sidebarClick(id) {
-                console.log(id);
+                // console.log((id);
                 var layer = layerGroup.getLayer(id);
                 map.setView(layer.getBounds(), 17);
                 layer.fire("click");
@@ -690,7 +686,7 @@ $(window).load(function() {
 
             $(document).on("click", ".feature-row", function(e) {
                 $(document).off("mouseout", ".feature-row", clearHighlight);
-                console.log($(this).context);
+                // console.log(($(this).context);
 
                 sidebarClick(parseInt($(this).attr("id"), 10));
 
@@ -704,7 +700,7 @@ $(window).load(function() {
             // when we start using creation tools disable our custom editing
             map.on('draw:createstart', function() {
                 disableEditing = true;
-                console.log('line');
+                // console.log(('line');
 
             });
 
@@ -718,7 +714,7 @@ $(window).load(function() {
             map.on('draw:created', function(e) {
                 // add the feature as GeoJSON (feature will be converted to ArcGIS JSON internally)
                 // map.fireEvent('dataload', event);
-                console.log('line');
+                // console.log(('line');
 
                 //var curLayer;
                 // Set current feature
@@ -727,7 +723,7 @@ $(window).load(function() {
                 switch (stepNum) {
                     // Farms
                     case 1:
-                        // console.log(curFeature);
+                        // // console.log((curFeature);
                         curLayer = farmLayer;
                         // farmLayer.addFeature(curFeature);
                         // disableEditing = false;
@@ -742,7 +738,7 @@ $(window).load(function() {
                         break;
                         // Birds
                     case 3:
-                        console.log('line');
+                        // console.log(('line');
 
 
                         curLayer = birdLayer;
@@ -750,14 +746,14 @@ $(window).load(function() {
                         break;
 
                     case 4:
-                        console.log('line');
+                        // console.log(('line');
 
                         curLayer = fieldEventLayer;
                         // disableEditing = false;
                         break;
                 }
 
-                console.log('line');
+                // console.log(('line');
 
                 showEditorModal(curLayer);
                 //map.fireEvent('load', event);
@@ -777,7 +773,7 @@ $(window).load(function() {
                     });
                     farmLayer.deleteFeatures(delArray, function(error, response) {
                         if (error) {
-                            console.log(error, response);
+                            // console.log((error, response);
                         }
                     });
                     disableEditing = false;
@@ -790,14 +786,14 @@ $(window).load(function() {
                     });
                     fieldLayer.deleteFeatures(delArray, function(error, response) {
                         if (error) {
-                            console.log(error, response);
+                            // console.log((error, response);
                         }
                     });
                     disableEditing = false;
                     currentlyDeleting = false;
                 } else if (stepNum == 3) {
 
-                    console.log('line');
+                    // console.log(('line');
 
                     e.layers.eachLayer(function(layer) {
                         var id = layer.feature.id;
@@ -805,14 +801,14 @@ $(window).load(function() {
                     });
                     birdLayer.deleteFeatures(delArray, function(error, response) {
                         if (error) {
-                            console.log(error, response);
+                            // console.log((error, response);
                         }
                     });
                     disableEditing = false;
                     currentlyDeleting = false;
 
                 } else if (stepNum == 4) {
-                    console.log('line');
+                    // console.log(('line');
 
                     e.layers.eachLayer(function(layer) {
                         var id = layer.feature.id;
@@ -820,7 +816,7 @@ $(window).load(function() {
                     });
                     fieldEventLayer.deleteFeatures(delArray, function(error, response) {
                         if (error) {
-                            console.log(error, response);
+                            // console.log((error, response);
                         }
                     });
                     disableEditing = false;
@@ -891,7 +887,7 @@ $(window).load(function() {
 
                     });
                     if (c > 0) {
-                        console.log(bounds);
+                        // console.log((bounds);
 
                         map.fitBounds(bounds);
                     }
@@ -931,7 +927,7 @@ $(window).load(function() {
                 function handleFarmEdit(layer) {
                     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
                     // alert($('#exampleTextarea').val())
-                    console.log(curFeature);
+                    // console.log((curFeature);
                     layer.feature.properties.farm_comments = $('#farmComments').val();
                     layer.feature.properties.lot = $('#lotNumber').val();
                     layer.feature.properties.con = $('#conNumber').val();
@@ -943,13 +939,13 @@ $(window).load(function() {
                         properties: layer.feature.properties
                     }, function(error, response) {
                         if (response) {
-                            console.log("response");
+                            // console.log(("response");
                         }
                     });
                 }
 
                 function displayAttributes(layer) {
-                    console.log(layer.feature.properties);
+                    // console.log((layer.feature.properties);
                 }
 
                 // when new features are loaded clear our current guides and feature groups
@@ -983,7 +979,7 @@ $(window).load(function() {
                     } else {
                         //drawnFarms.addLayer(e.layer);
                         //curFeature.properties.roll = e.layer.feature.properties.arn;
-                        //console.log(curFeature);
+                        //// console.log((curFeature);
                         farmLayer.addFeature(curFeature);
                         $("#addFarmAttributes").modal('show');
                         startEditingFarm(e.layer);
@@ -1023,7 +1019,7 @@ $(window).load(function() {
 
                     });
                     if (c > 0) {
-                        console.log(bounds);
+                        // console.log((bounds);
 
                         map.fitBounds(bounds);
                     }
@@ -1099,13 +1095,13 @@ $(window).load(function() {
                         properties: layer.feature.properties
                     }, function(error, response) {
                         if (response) {
-                            console.log("pass");
+                            // console.log(("pass");
                         }
                     });
                 }
 
                 function displayAttributes(layer) {
-                    console.log(layer.feature.properties);
+                    // console.log((layer.feature.properties);
                     // $('#exampleTextarea').val(layer.feature.properties.title);
                 }
 
@@ -1241,7 +1237,7 @@ $(window).load(function() {
 
                     });
                     if (c > 0) {
-                        console.log(bounds);
+                        // console.log((bounds);
 
                         map.fitBounds(bounds);
                     }
@@ -1259,7 +1255,7 @@ $(window).load(function() {
                 var disableEditing = false;
                 // start editing a given layer
                 function startEditingBirds(layer) {
-                    console.log('line');
+                    // console.log(('line');
 
                     if (!disableEditing) {
                         layer.editing.enable();
@@ -1270,12 +1266,12 @@ $(window).load(function() {
                 function stopEditingBirds() {
                     // if a layer is being edited, finish up and disable editing on it afterward.
                     if (currentlyEditing) {
-                        console.log('line');
+                        // console.log(('line');
 
                         handleBirdsEdit(currentlyEditing);
                         currentlyEditing.editing.disable();
                     } else {
-                        console.log('line');
+                        // console.log(('line');
 
                         handleFeatureCreation(birdLayer);
                     }
@@ -1283,7 +1279,7 @@ $(window).load(function() {
                 }
 
                 function handleBirdsEdit(layer) {
-                    console.log('line');
+                    // console.log(('line');
 
                     layer.feature.properties.field_id = layer.feature.id;
                     layer.feature.properties.field_type = $('#fieldStatusSelect').val();
@@ -1296,20 +1292,20 @@ $(window).load(function() {
                         properties: layer.feature.properties
                     }, function(error, response) {
                         if (response) {
-                            console.log("pass");
+                            // console.log(("pass");
                         }
                     });
                 }
 
                 function displayAttributes(layer) {
-                    console.log(layer.feature.properties);
+                    // console.log((layer.feature.properties);
                     // $('#exampleTextarea').val(layer.feature.properties.title);
                 }
 
                 // when new features are loaded clear our current guides and feature groups
                 // then load the current features into the guides and feature group
                 birdLayer.on('load', function() {
-                    console.log('line');
+                    // console.log(('line');
 
                     // wipe the current layers available for deltion and clear the current guide layers.
                     drawnBirds.clearLayers();
@@ -1323,7 +1319,7 @@ $(window).load(function() {
                 $("#submitDataBird").click(function() {
                     handleFeatureCreation(birdLayer);
                     //stopEditingBirds();
-                    console.log('line');
+                    // console.log(('line');
 
                     $("#addBirdActivities").modal('hide');
                     $("#step3").click();
@@ -1399,7 +1395,7 @@ $(window).load(function() {
                         }
 
                     });
-                    console.log(bounds);
+                    // console.log((bounds);
                     if (c > 0) {
 
 
@@ -1424,9 +1420,9 @@ $(window).load(function() {
                 var disableEditing = false;
                 // start editing a given layer
                 function startEditingFieldEvent(layer) {
-                    console.log('line');
+                    // console.log(('line');
                     if (!disableEditing) {
-                        console.log('line');
+                        // console.log(('line');
 
                         layer.editing.enable();
                         currentlyEditing = layer;
@@ -1436,12 +1432,12 @@ $(window).load(function() {
                 function stopEditingFieldEvent() {
                     // if a layer is being edited, finish up and disable editing on it afterward.
                     if (currentlyEditing) {
-                        console.log('line');
+                        // console.log(('line');
 
                         handleFieldEventEdit(currentlyEditing);
                         currentlyEditing.editing.disable();
                     } else {
-                        console.log('line');
+                        // console.log(('line');
 
                         handleFeatureCreation(birdLayer);
                     }
@@ -1449,7 +1445,7 @@ $(window).load(function() {
                 }
 
                 function handleFieldEventEdit(layer) {
-                    console.log('line');
+                    // console.log(('line');
 
                     layer.feature.properties.field_id = layer.feature.id;
                     curFeature.properties.username = username;
@@ -1464,20 +1460,20 @@ $(window).load(function() {
                         properties: layer.feature.properties
                     }, function(error, response) {
                         if (response) {
-                            console.log("pass");
+                            // console.log(("pass");
                         }
                     });
                 }
 
                 function displayAttributes(layer) {
-                    console.log(layer.feature.properties);
+                    // console.log((layer.feature.properties);
                     // $('#exampleTextarea').val(layer.feature.properties.title);
                 }
 
                 // when new features are loaded clear our current guides and feature groups
                 // then load the current features into the guides and feature group
                 fieldEventLayer.on('load', function() {
-                    console.log('line');
+                    // console.log(('line');
 
                     // wipe the current layers available for deltion and clear the current guide layers.
                     drawnFieldEvents.clearLayers();
@@ -1562,7 +1558,7 @@ $(window).load(function() {
 
                     });
                     if (c > 0) {
-                        console.log(bounds);
+                        // console.log((bounds);
 
                         map.fitBounds(bounds);
                     }
