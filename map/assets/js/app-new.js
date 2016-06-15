@@ -301,24 +301,25 @@ $(window).load(function() {
         });
 
         // Style geocoder
-        var input = $(".geocoder-control-input");
+        var input = $('.geocoder-control-input');
         input.click();
         input.focus(function() {
-            $("#panelSearch .panel-body").css("height", "150px");
+            $('#panelSearch .panel-body').css('height', '150px');
         });
         input.blur(function() {
-            $("#panelSearch .panel-body").css("height", "auto");
+            $('#panelSearch .panel-body').css('height', 'auto');
         });
 
-        var parentName = $(".geocoder-control").parent().attr("id"),
-            geocoder = $(".geocoder-control"),
+        var parentName = $('.geocoder-control').parent().attr('id'),
+            geocoder = $('.geocoder-control'),
             width = $(window).width();
-        if (width <= 767 && parentName !== "geocodeMobile") {
+        if (width <= 767 && parentName !== 'geocodeMobile') {
+            // geocoder.detach();
+            // $("#geocodeMobile").append(geocoder);
+            // $('.leaflet-top .leaflet-left').append(geocoder);
+        } else if (width > 767 && parentName !== 'geocode') {
             geocoder.detach();
-            $("#geocodeMobile").append(geocoder);
-        } else if (width > 767 && parentName !== "geocode") {
-            geocoder.detach();
-            $("#geocode").append(geocoder);
+            $('#geocode').append(geocoder);
         }
 
         // // Add geocoderControl to navbar instead of map
@@ -586,6 +587,39 @@ $(window).load(function() {
 
         }
 
+        // Create popup for a given feature
+
+        function createPopup(feature, type) {
+
+            var body = [],
+                props = feature.properties,
+                titleClass = 'popup-title',
+                bodyClass = 'popup-body',
+                linkClass = 'popup-info',
+                infoClass = 'more-info',
+                descClass = 'modal-description',
+                date = new Date(props.date),
+                month = date.getUTCMonth() + 1, //months from 1-12
+                day = date.getUTCDate(),
+                year = date.getUTCFullYear(),
+                obsDate = month + '/' + day + '/' + year;
+
+            body.push('<p>');
+            body.push('Observation Type: ' + props.observation_type + '<br>');
+            body.push('Bird Activity: ' + props.bird_behavior + '<br>');
+            body.push('Comments: ' + props.bird_comments + '<br><br>');
+            body.push('Observed on ' + obsDate);
+            body.push('</p>');
+
+            // Don't really need to state user, because this is private data...
+
+            var template = body.join('');
+            var popup = L.Util.template(template, props);
+
+            return popup;
+
+        }
+
         // Log user into app
 
         serverAuth(function(error, response) {
@@ -666,16 +700,21 @@ $(window).load(function() {
 
 
 
+                // birdLayer.bindPopup(function(evt) {
+                //     var dateObj = new Date(evt.feature.properties.date);
+                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                //     var day = dateObj.getUTCDate();
+                //     var year = dateObj.getUTCFullYear();
+
+                //     newdate = year + "/" + month + "/" + day;
+
+
+                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{comments}</p>', evt.feature.properties);
+                // });
+
                 birdLayer.bindPopup(function(evt) {
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observiation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{comments}</p>', evt.feature.properties);
+                  var popup = createPopup(evt.feature);
+                  return popup;
                 });
 
 
@@ -699,7 +738,8 @@ $(window).load(function() {
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
                 token: response.token,
-                simplifyFactor: 1,
+                simplifyFactor: 5,
+                precision: 5,
                 cacheLayers: true,
                 style: parcelStyle,
                 maxZoom: 20,
@@ -1168,25 +1208,23 @@ $(window).load(function() {
 
             });
 
-
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             function showActivityModal() {
+
                 farmLayer.addTo(map);
 
                 birdLayer.unbindPopup();
                 fieldEventLayer.unbindPopup();
 
+                // birdLayer.bindPopup(function(evt) {
+
+                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                // });
+
                 birdLayer.bindPopup(function(evt) {
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                  var popup = createPopup(evt.feature);
+                  return popup;
                 });
 
 
@@ -1218,16 +1256,21 @@ $(window).load(function() {
              birdLayer.unbindPopup();
                 fieldEventLayer.unbindPopup();
 
+                // birdLayer.bindPopup(function(evt) {
+                //     var dateObj = new Date(evt.feature.properties.date);
+                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                //     var day = dateObj.getUTCDate();
+                //     var year = dateObj.getUTCFullYear();
+
+                //     newdate = year + "/" + month + "/" + day;
+
+
+                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                // });
+
                 birdLayer.bindPopup(function(evt) {
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                  var popup = createPopup(evt.feature);
+                  return popup;
                 });
 
 
@@ -1378,16 +1421,21 @@ $(window).load(function() {
              birdLayer.unbindPopup();
                 fieldEventLayer.unbindPopup();
 
+                // birdLayer.bindPopup(function(evt) {
+                //     var dateObj = new Date(evt.feature.properties.date);
+                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                //     var day = dateObj.getUTCDate();
+                //     var year = dateObj.getUTCFullYear();
+
+                //     newdate = year + "/" + month + "/" + day;
+
+
+                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                // });
+
                 birdLayer.bindPopup(function(evt) {
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                  var popup = createPopup(evt.feature);
+                  return popup;
                 });
 
 
@@ -1546,16 +1594,21 @@ $(window).load(function() {
                 birdLayer.unbindPopup();
                 fieldEventLayer.unbindPopup();
 
+                // birdLayer.bindPopup(function(evt) {
+                //     var dateObj = new Date(evt.feature.properties.date);
+                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                //     var day = dateObj.getUTCDate();
+                //     var year = dateObj.getUTCFullYear();
+
+                //     newdate = year + "/" + month + "/" + day;
+
+
+                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                // });
+
                 birdLayer.bindPopup(function(evt) {
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                  var popup = createPopup(evt.feature);
+                  return popup;
                 });
 
 

@@ -68,36 +68,56 @@
         <!-- Nav -->
         <ul class="nav navbar-nav">
             <!-- About button -->
-            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
+            <!-- <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-fw fa-question-circle white"></i>&nbsp;About</a></li> -->
             <!-- Grassland Birds dropdown -->
-            <li class="dropdown">
-                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Grasslander Birds&nbsp;<b class="caret"></b></a>
+            <!-- <li class="dropdown">
+                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-globe white"></i>&nbsp;Grasslander Birds&nbsp;<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Bobolink Basics</a></li>
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Population Trends</a></li>
-                    <li class="divider hidden-xs"></li>
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Log Out</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Bobolink Basics</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-fw fa-picture-o"></i>&nbsp;Population Trends</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-fw fa-user"></i>&nbsp;Log Out</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- Farm setup dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Your Farm&nbsp;<b class="caret"></b></a>
+            <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
+                <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-cogs white"></i>&nbsp;Your Farm&nbsp;<b class="caret"></b></a>
                 <ul id="setupDropdown" class="dropdown-menu">
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
-                    <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
-                    <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Zoom To Full Extent</a></li>
+                    <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Farm</a></li>
+                    <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Fields</a></li>
                     <!-- <li class="dropdown-submenu">
-                        <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Activities</a>
+                        <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Activities</a>
                         <ul class="dropdown-menu"> -->
-                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Bird Activities</a></li>
-                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Field Activities</a></li>
+                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Bird Activities</a></li>
+                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Field Activities</a></li>
                         <!-- </ul>
                     </li> -->
                 </ul>
             </li>
-            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
-           <!-- Geocoder search -->
-           <li><div class="calcite-navbar-search hidden-xs"><div id="geocode"></div></div></li>
+            <li><a href="#" class="hidden-sm hidden-xs" data-toggle="tab" id="list-btn"><i class="fa fa-fw fa-list white"></i>&nbsp;Show Activities</a></li>
+            <!-- Geocoder search -->
+            <li><div class="calcite-navbar-search hidden-sm hidden-xs"><div id="geocode"></div></div></li>
+            <!-- Menu dropdown -->
+           <div class="dropdown calcite-dropdown calcite-bg-light calcite-text-dark" role="presentation">
+                 <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <div class="calcite-dropdown-toggle">
+                     <span class="sr-only">Toggle menu</span>
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                   </div>
+                 </a>
+                 <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="tab" id="about-btn"><i class="fa fa-fw fa-question-circle"></i>&nbsp;About</a></li>
+                    <li><a href="#" data-toggle="tab" id="bobo-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Bobolink Basics</a></li>
+                    <li><a href="#" data-toggle="tab" id="legend-btn"><i class="fa fa-fw fa-picture-o"></i>&nbsp;Population Trends</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" data-toggle="tab" id="login-btn"><i class="fa fa-fw fa-user"></i>&nbsp;Log Out</a></li>
+                 </ul>
+               </div>
+             </nav><!--/.navbar -->
         </ul>
     </nav>
     <!-- Map -->
@@ -107,7 +127,7 @@
                 <div class="panel panel-default" id="features">
                     <div class="panel-heading">
                         <h3 class="panel-title">Your Activities
-                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-fw fa-chevron-left"></i></button>
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -165,11 +185,11 @@
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                        <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the project</a></li>
-                        <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
-                        <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                        <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-fw fa-question-circle"></i>&nbsp;About the project</a></li>
+                        <li><a href="#contact" data-toggle="tab"><i class="fa fa-fw fa-envelope"></i>&nbsp;Contact us</a></li>
+                        <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-fw fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#boroughs-tab" data-toggle="tab">E-Bird data</a></li>
                                 <li><a href="#subway-lines-tab" data-toggle="tab">NHIC data</a></li>
