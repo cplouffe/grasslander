@@ -1524,6 +1524,56 @@ $(window).load(function() {
 
                     newdate = year + "/" + month + "/" + day;
 
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
+                });
+
+                $("#step-modal").modal("hide");
+                map.removeControl(drawFarmControl);
+                map.removeControl(drawFieldControl);
+                map.removeControl(drawBirdControl);
+                map.removeControl(drawnFieldEvenControl);
+                map.removeLayer(studyArea);
+                map.removeLayer(parcelLayer);
+                map.removeLayer(fieldLayer);
+                map.removeLayer(farmLayer);
+                map.removeLayer(birdLayer);
+                map.removeLayer(fieldEventLayer);
+                map.removeLayer(drawnBirds);
+                map.removeLayer(drawnFields);
+                map.removeLayer(drawnFarms);
+                // add our drawing controls to the map
+                farmLayer.addTo(map);
+                fieldLayer.addTo(map);
+                birdLayer.addTo(map);
+                fieldEventLayer.addTo(map);
+
+
+                $("#full-extent-btn").click(function() {
+                    var bounds = L.latLngBounds([]);
+                    var c = 0;
+                    farmLayer.eachFeature(function(layer) {
+                        if (layer) {
+                            c += 1;
+                            var layerBounds = layer.getBounds();
+                            // extend the bounds of the collection to fit the bounds of the new feature
+                            bounds.extend(layerBounds);
+                        }
+
+                    });
+                    if (c > 0) {
+                        console.log(bounds);
+
+                        map.fitBounds(bounds);
+                    }
+
+                    $(".navbar-collapse.in").collapse("hide");
+                    return false;
+                });
+
+                $("#full-extent-btn").click();
+
+
+            });
 
                     return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
                 });
