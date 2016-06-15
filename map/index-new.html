@@ -55,7 +55,7 @@
 </head>
 <body class="calcite-nav-top">
 <!-- Navbar -->
-    <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bg-dark calcite-bgcolor-black">
+    <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bgcolor-grasslander-green">
         <!-- Header -->
         <div class="navbar-header">
             <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
@@ -67,9 +67,11 @@
         </div>
         <!-- Nav -->
         <ul class="nav navbar-nav">
+            <!-- About button -->
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
             <!-- Grassland Birds dropdown -->
             <li class="dropdown">
-                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Grasslander Birds <b class="caret"></b></a>
+                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Grasslander Birds&nbsp;<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Bobolink Basics</a></li>
                     <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Population Trends</a></li>
@@ -79,14 +81,18 @@
             </li>
             <!-- Farm setup dropdown -->
             <li class="dropdown">
-               <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Your Farm <b class="caret"></b></a>
-               <ul id="setupDropdown" class="dropdown-menu">
-                   <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
-                   <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
-                   <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
-                   <li id="step3"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
-                   <li id="startBirdActivity1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Bird Activities</a></li>
-                   <li id="startFieldActivity2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Field Activities</a></li>
+                <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Your Farm&nbsp;<b class="caret"></b></a>
+                <ul id="setupDropdown" class="dropdown-menu">
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+                    <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
+                    <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
+                    <!-- <li class="dropdown-submenu">
+                        <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Activities</a>
+                        <ul class="dropdown-menu"> -->
+                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Bird Activities</a></li>
+                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Field Activities</a></li>
+                        <!-- </ul>
+                    </li> -->
                 </ul>
             </li>
             <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
@@ -122,7 +128,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
                     <h4 class="modal-title">Login to GrassLander</h4>
                 </div>
                 <div class="modal-body">
@@ -140,8 +146,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="login-submit" class="btn btn-primary" name="login" data-dismiss="modal" value="Login">Login</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" id="login-submit" class="btn btn-primary btn-block" name="login" data-dismiss="modal" value="Login">Login</button>
+                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
                    <!--  <div class="login-help">
                         <a href="#">Register</a> - <a href="#">Forgot Password</a>
                     </div> -->
@@ -610,25 +616,44 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Farm Type</label>
-                            <textarea class="form-control" id="farmType" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Concession Number (Optional)</label>
-                            <textarea class="form-control" id="conNumber" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Lot Number (Optional)</label>
-                            <textarea class="form-control" id="lotNumber" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Farm Comments</label>
-                            <textarea class="form-control" id="farmComments" rows="3"></textarea>
-                        </fieldset>
-                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                    </form>
+                    <!-- <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST"> -->
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Primary Farm Commodity</label>
+                        <select class="form-control" id="farmType">
+                           <optgroup label="Livestock">
+                            <option>Beef</option>
+                            <option>Dairy </option>
+                            <option>Sheep</option>
+                            <option>Goat</option>
+                            <option>Hog and Pig </option>
+                            <option>Poultry</option>
+                            <option>Horse and other equine</option>
+                            <option>Other (Please use comment field)</option>
+                             </optgroup>
+                            <optgroup label="Crops">
+                            <option>Cash crops (corn, wheat, soy, etc)</option>
+                            <option>Fruit and Vegetable</option>
+                            <option>Orchard and Tree Nut</option>
+                            <option>Greenhouse, nursery and floriculture</option>
+                            <option>Market garden</option>
+                            <option>Other (Please use comment field)</option>
+                            </optgroup>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Concession Number (Optional)</label>
+                        <textarea class="form-control" id="conNumber" rows="1"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Lot Number (Optional)</label>
+                        <textarea class="form-control" id="lotNumber" rows="1"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Farm Comments</label>
+                        <textarea class="form-control" id="farmComments" rows="3"></textarea>
+                    </fieldset>
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                    <!-- </form> -->
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -652,16 +677,16 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
-                        <fieldset class="form-group">
-                            <label for="exampleSelect1">Field Type</label>
-                            <select class="form-control" id="fieldTypeSelect">
-                                <option>Pasture</option>
-                                <option>Hayfield </option>
-                                <option>Other</option>
-                            </select>
-                        </fieldset>
-                        <!--  <fieldset class="form-group">
+                    <!-- <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST"> -->
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Field Type</label>
+                        <select class="form-control" id="fieldTypeSelect">
+                            <option>Pasture</option>
+                            <option>Hayfield </option>
+                            <option>Other</option>
+                        </select>
+                    </fieldset>
+                    <!--  <fieldset class="form-group">
                             <label for="exampleSelect1">Field Status</label>
                             <select class="form-control" id="fieldStatusSelect">
                                 <option>Field Status 1</option>
@@ -671,12 +696,13 @@
                                 <option>Field Status 5 </option>
                             </select>
                         </fieldset> -->
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Field Comments (describe type of field if field type is 'other' above, estimated field size (hectares or acres), presence of riparian area etc.)</label>
-                            <textarea class="form-control" id="fieldComments" rows="3"></textarea>
-                        </fieldset>
-                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                    </form>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Field Comments (describe type of field if field type is 'other' above, estimated field size (hectares or acres), presence of riparian area etc.)</label>
+                        <textarea class="form-control" id="fieldComments" rows="3"></textarea>
+                    </fieldset>
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                    <!--                     </form>
+ -->
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -855,6 +881,7 @@
                     <p>To Add Field Activities: Please drop a point using the tool in the top left corner in the field you would like to add an activity to. Fill out the form and submit.</p>
                 </div>
                 <div class="modal-footer">
+                    <button id="browseFarm" type="button" class="btn btn-default pull-left" data-dismiss="modal">Just browsing</button>
                     <button id="startBirdActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add bird activity</button>
                     <button id="startFieldActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add field activity</button>
                 </div>

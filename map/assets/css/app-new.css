@@ -11,10 +11,19 @@ html, body {
   padding: 0;
 }
 
-/* Calcite hack */
+/* Calcite map positioning hack */
 .calcite-map.calcite-map-absolute {
   top: 65px;
 }
+
+.calcite-bgcolor-grasslander-green {
+  background-color: #16a085;
+}
+
+/*.calcite-navbar.calcite-text-light .navbar-nav > li > a:hover {
+  background-color: #1abc9c;
+}*/
+
 /*body {
   padding-top: 50px;
 }*/
@@ -35,7 +44,7 @@ input[type="checkbox"] {
 #map {
   width: auto;
   height: 100%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
 }
 
 #loading {
@@ -53,11 +62,11 @@ input[type="checkbox"] {
   border: none;
   border-radius: 0px;
   -webkit-box-shadow: none;
-    box-shadow: none;
+  box-shadow: none;
 }
 
 #sidebar-hide-btn {
-  margin-top: -2px;
+  /* margin-top: -2px; */
 }
 
 #aboutTabsContent {
@@ -138,7 +147,7 @@ input[type="checkbox"] {
 
 .navbar .navbar-brand {
   /* font-weight: bold; */
-  font-size: 25px;
+  /* font-size: 25px; */
   color: #FFFFFF;
   /* font-size: 25px; */
 }
@@ -224,7 +233,7 @@ input[type="checkbox"] {
 
 @media (max-width: 992px) {
   .navbar .navbar-brand {
-    font-size: 18px;
+    /* font-size: 18px; */
   }
 }
 
@@ -279,6 +288,14 @@ input[type="checkbox"] {
 .geocoder-control-suggestions {
   top: 34px;
   z-index: 100;
+}
+
+.geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
+.geocoder-control-suggestions .geocoder-control-suggestion:hover {
+  background: #1abc9c;
+  transition: ease 0.1s;
+  color: #FFFFFF;
+  -webkit-transition: ease 0.1s;
 }
 
 @media (min-width: 768px) {
