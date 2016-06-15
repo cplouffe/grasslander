@@ -38,7 +38,6 @@
     <script src="https://rawgithub.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
     <!-- Calcite -->
     <link rel="stylesheet" href="assets/css/calcite-bootstrap.min.css">
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
@@ -126,9 +125,22 @@
  -->
                             <li id="step1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
                             <li id="step2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
-                            <li id="step3"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a></li>
-                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>    Bird Activities</a></li>
-                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>   Field Activities</a></li>
+                            <li class="divider"></li>
+                            <!--
+                                <li lass="dropdown-submenu" id="step3">
+                                <a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a>
+                                    <ul class="dropdown-menu">
+                                        <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>    Bird Activities</a></li>
+                                        <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>   Field Activities</a></li>
+                                    </ul>
+                                </li> -->
+                            <li class="dropdown-submenu">
+                                <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a>
+                                <ul class="dropdown-menu">
+                                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">&nbsp;&nbsp;Bird Activities</a></li>
+                                    <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">&nbsp;&nbsp;Field Activities</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
@@ -177,7 +189,7 @@
         </div>
         <div id="map"></div>
     </div>
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-body">
                 <div class="loginmodal-container">
@@ -670,7 +682,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -685,25 +697,44 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Farm Type</label>
-                            <textarea class="form-control" id="farmType" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Concession Number (Optional)</label>
-                            <textarea class="form-control" id="conNumber" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Lot Number (Optional)</label>
-                            <textarea class="form-control" id="lotNumber" rows="1"></textarea>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Farm Comments</label>
-                            <textarea class="form-control" id="farmComments" rows="3"></textarea>
-                        </fieldset>
-                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                    </form>
+                    <!-- <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST"> -->
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Primary Farm Commodity</label>
+                        <select class="form-control" id="farmType">
+                           <optgroup label="Livestock">
+                            <option>Beef</option>
+                            <option>Dairy </option>
+                            <option>Sheep</option>
+                            <option>Goat</option>
+                            <option>Hog and Pig </option>
+                            <option>Poultry</option>
+                            <option>Horse and other equine</option>
+                            <option>Other (Please use comment field)</option>
+                             </optgroup>
+                            <optgroup label="Crops">
+                            <option>Cash crops (corn, wheat, soy, etc)</option>
+                            <option>Fruit and Vegetable</option>
+                            <option>Orchard and Tree Nut</option>
+                            <option>Greenhouse, nursery and floriculture</option>
+                            <option>Market garden</option>
+                            <option>Other (Please use comment field)</option>
+                            </optgroup>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Concession Number (Optional)</label>
+                        <textarea class="form-control" id="conNumber" rows="1"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Lot Number (Optional)</label>
+                        <textarea class="form-control" id="lotNumber" rows="1"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Farm Comments</label>
+                        <textarea class="form-control" id="farmComments" rows="3"></textarea>
+                    </fieldset>
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                    <!-- </form> -->
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -714,7 +745,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -727,16 +758,16 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST">
-                        <fieldset class="form-group">
-                            <label for="exampleSelect1">Field Type</label>
-                            <select class="form-control" id="fieldTypeSelect">
-                                <option>Pasture</option>
-                                <option>Hayfield </option>
-                                <option>Other</option>
-                            </select>
-                        </fieldset>
-                        <!--  <fieldset class="form-group">
+                    <!-- <form data-async id="MyFrom" data-target="#outcomeFormDialog" method="POST"> -->
+                    <fieldset class="form-group">
+                        <label for="exampleSelect1">Field Type</label>
+                        <select class="form-control" id="fieldTypeSelect">
+                            <option>Pasture</option>
+                            <option>Hayfield </option>
+                            <option>Other</option>
+                        </select>
+                    </fieldset>
+                    <!--  <fieldset class="form-group">
                             <label for="exampleSelect1">Field Status</label>
                             <select class="form-control" id="fieldStatusSelect">
                                 <option>Field Status 1</option>
@@ -746,12 +777,13 @@
                                 <option>Field Status 5 </option>
                             </select>
                         </fieldset> -->
-                        <fieldset class="form-group">
-                            <label for="exampleTextarea">Field Comments (describe type of field if field type is 'other' above, estimated field size (hectares or acres), presence of riparian area etc.)</label>
-                            <textarea class="form-control" id="fieldComments" rows="3"></textarea>
-                        </fieldset>
-                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                    </form>
+                    <fieldset class="form-group">
+                        <label for="exampleTextarea">Field Comments (describe type of field if field type is 'other' above, estimated field size (hectares or acres), presence of riparian area etc.)</label>
+                        <textarea class="form-control" id="fieldComments" rows="3"></textarea>
+                    </fieldset>
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                    <!--                     </form>
+ -->
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -763,7 +795,7 @@
     </div>
     <!-- Modal1 -->
     <!-- Modal -->
-    <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -839,7 +871,7 @@
     </div>
     <!-- /.modal -->
     <!-- Modal -->
-    <div class="modal fade" id="addFieldActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFieldActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -922,7 +954,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -933,6 +965,8 @@
                     <p>To Add Field Activities: Please drop a point using the tool in the top left corner in the field you would like to add an activity to. Fill out the form and submit.</p>
                 </div>
                 <div class="modal-footer">
+
+                    <button id="browseFarm" type="button" class="btn btn-default pull-left" data-dismiss="modal">Just Browsing</button>
                     <button id="startBirdActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add bird activity</button>
                     <button id="startFieldActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add field activity</button>
                 </div>

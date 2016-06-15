@@ -30,19 +30,15 @@ $(window).load(function() {
         servicesUrl = baseUrl + '/rest/services/grasslander',
         tokenUrl = baseUrl + '/tokens/generateToken';
 
-    // Ensure that user cannot bypass login modal
     $("#login-modal").modal({
         backdrop: 'static',
         keyboard: false
     });
-    // Show login modal on startup
     $("#login-modal").modal("show");
 
-
-    // $(window).resize(function() {
-    //     sizeLayerControl();
-    // });
-
+    $(window).resize(function() {
+        sizeLayerControl();
+    });
     $(document).on("mouseout", ".feature-row", clearHighlight);
     $(document).ready(function() {
         $('.material-button-toggle').click(function() {
@@ -148,7 +144,7 @@ $(window).load(function() {
     };
 
     /* Overlay Layers */
-    // https: //www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer
+    https: //www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer
     var aafc_inventory = L.tileLayer.wms('http://www.agr.gc.ca/atlas/services/imageservices/aafc_crop_inventory_2014_30m/ImageServer/WMSServer?', {
         layers: '0',
         attribution: 'AAFC Annual Crop Inventory 2014'
@@ -232,7 +228,7 @@ $(window).load(function() {
         }
 
         return inside;
-    }
+    };
 
     var options = {
         // Show a checkbox next to non-exclusive group labels for toggling all
@@ -320,23 +316,25 @@ $(window).load(function() {
     function handleFeatureCreation(layer) {
         switch (layer) {
 
+
             case farmLayer:
-                console.log('adding farm values');
+                                        console.log('adding farm values');
+
                 curFeature.properties.farmer_comments = $('#farmComments').val();
                 curFeature.properties.lot_number = $('#lotNumber').val();
                 curFeature.properties.concession_number = $('#conNumber').val();
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
-
             case fieldLayer:
-                console.log('adding field values');
+                            console.log('adding field values');
+
                 curFeature.properties.field_type = $('#fieldTypeSelect').val();
                 curFeature.properties.field_comments = $('#fieldComments').val();
                 // Haven't handled field_id yet
                 break;
-
             case birdLayer:
                 console.log('adding bird values');
+
                 curFeature.properties.bird_sex  = $('#birdAcitivtySex').val();
                 curFeature.properties.bird_comments  = $('#birdComments').val();
                 curFeature.properties.date = $('#birdActivityDate').val();
@@ -345,15 +343,14 @@ $(window).load(function() {
                 curFeature.properties.bird_type = $('#birdType').val();
                 curFeature.properties.time_of_day  = $('#birdAcitivtyTime').val();
                 break;
-
             case fieldEventLayer:
-                console.log('adding fieldevent values');
+                                        console.log('adding fieldevent values');
+
                 curFeature.properties.username = username;
                 curFeature.properties.comments = $('#fieldActivityComments').val();
                 curFeature.properties.date  = $('#fieldActivityDate').val();
                 curFeature.properties.activity_type  = $('#fieldActivitySelect').val();
                 break;
-
         }
 
         // Add new feature to layer
@@ -522,29 +519,26 @@ $(window).load(function() {
         function showEditorModal(layer) {
             console.log('kk');
             switch (layer) {
-
                 case farmLayer:
                     $("#addFarmAttributes").modal('show');
                     // submitDataFarm button for submit
                     break;
-
                 case fieldLayer:
                     $("#addFieldAttributes").modal('show');
                     // submitDataField button for submit
                     break;
-
                 case birdLayer:
                     $("#addBirdActivities").modal('show');
                     console.log('line');
+
                     // submitDataBird button for submit
                     break;
-
                 case fieldEventLayer:
                     $("#addFieldActivities").modal('show');
                     console.log('line');
+
                     // submitDataBird button for submit
                     break;
-
             }
 
         }
@@ -625,7 +619,7 @@ $(window).load(function() {
 
 
 
-                // fieldEventIcon
+                fieldEventIcon
             });
             layers.push(fieldEventLayer);
 
@@ -1504,7 +1498,83 @@ $(window).load(function() {
 
             });
 
+            $("#browseFarm").click(function() {
+                birdLayer.unbindPopup();
+                fieldEventLayer.unbindPopup();
 
+                birdLayer.bindPopup(function(evt) {
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
+                });
+
+
+                fieldEventLayer.bindPopup(function(evt) {
+
+                    var dateObj = new Date(evt.feature.properties.date);
+                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    newdate = year + "/" + month + "/" + day;
+
+
+                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
+                });
+
+                $("#step-modal").modal("hide");
+                map.removeControl(drawFarmControl);
+                map.removeControl(drawFieldControl);
+                map.removeControl(drawBirdControl);
+                map.removeControl(drawnFieldEvenControl);
+                map.removeLayer(studyArea);
+                map.removeLayer(parcelLayer);
+                map.removeLayer(fieldLayer);
+                map.removeLayer(farmLayer);
+                map.removeLayer(birdLayer);
+                map.removeLayer(fieldEventLayer);
+                map.removeLayer(drawnBirds);
+                map.removeLayer(drawnFields);
+                map.removeLayer(drawnFarms);
+                // add our drawing controls to the map
+                farmLayer.addTo(map);
+                fieldLayer.addTo(map);
+                birdLayer.addTo(map);
+                fieldEventLayer.addTo(map);
+
+
+                $("#full-extent-btn").click(function() {
+                    var bounds = L.latLngBounds([]);
+                    var c = 0;
+                    farmLayer.eachFeature(function(layer) {
+                        if (layer) {
+                            c += 1;
+                            var layerBounds = layer.getBounds();
+                            // extend the bounds of the collection to fit the bounds of the new feature
+                            bounds.extend(layerBounds);
+                        }
+
+                    });
+                    if (c > 0) {
+                        console.log(bounds);
+
+                        map.fitBounds(bounds);
+                    }
+
+                    $(".navbar-collapse.in").collapse("hide");
+                    return false;
+                });
+
+                $("#full-extent-btn").click();
+
+
+            });
 
 
 
