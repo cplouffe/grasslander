@@ -59,6 +59,7 @@ $(window).load(function() {
 
         });
     });
+
     $(function() {
         $('#fieldActivityDate').daterangepicker({
             singleDatePicker: true,
@@ -66,12 +67,15 @@ $(window).load(function() {
 
         });
     });
+
     if (!("ontouchstart" in window)) {
         $(document).on("mouseover", ".feature-row", function(e) {
             highlight.clearLayers().addLayer(L.circleMarker([$(this).attr("lat"), $(this).attr("lng")], highlightStyle));
         });
     }
+
     $(document).on("mouseout", ".feature-row", clearHighlight);
+
     $("#about-btn").click(function() {
         $("#aboutModal").modal("show");
         $(".navbar-collapse.in").collapse("hide");
@@ -83,23 +87,28 @@ $(window).load(function() {
         $(".navbar-collapse.in").collapse("hide");
         return false;
     });
+
     $("#login-btn").click(function() {
         $("#login-modal").modal("show");
         $(".navbar-collapse.in").collapse("hide");
         return false;
     });
+
     $("#list-btn").click(function() {
         animateSidebar();
         return false;
     });
+
     $("#nav-btn").click(function() {
         $(".navbar-collapse").collapse("toggle");
         return false;
     });
+
     $("#sidebar-toggle-btn").click(function() {
         animateSidebar();
         return false;
     });
+
     $("#sidebar-hide-btn").click(function() {
         animateSidebar();
         return false;
@@ -121,13 +130,14 @@ $(window).load(function() {
         highlight.clearLayers();
     }
 
-
     // workaround for old ie
     if (!window.location.origin) {
         window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
     }
+
     // closes sidebar
     document.getElementById('list-btn').click();
+
     /* Basemap Layers */
     var topo = L.esri.basemapLayer("Topographic");
     var streets = L.esri.basemapLayer("Streets");
@@ -142,6 +152,7 @@ $(window).load(function() {
         fillOpacity: 0.7,
         radius: 10
     };
+
     var baseMaps = {
         "Topographic": topo,
         "Streets": streets,
@@ -154,22 +165,27 @@ $(window).load(function() {
         layers: '0',
         attribution: 'AAFC Annual Crop Inventory 2014'
     });
+
     var studyArea = L.esri.featureLayer({
         url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/4'
 
     });
+
     var nhic_bobo = L.esri.featureLayer({
         url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/3'
 
     });
+
     var nhic_lark = L.esri.featureLayer({
         url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/2'
 
     });
+
     var ebird_bobo = L.esri.featureLayer({
         url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/1'
 
     });
+
     var ebird_lark = L.esri.featureLayer({
         url: 'https://www.grasslander.org:6443/arcgis/rest/services/Grasslandbase/MapServer/0'
     });
@@ -255,10 +271,9 @@ $(window).load(function() {
         position: 'bottomright'
     }).addTo(map);
 
-    // Initialize Geocoder
     studyArea.addTo(map);
 
-
+    // Initialize Geocoder
     initGeocoder();
 
     L.control.layers(baseMaps, gLayers).addTo(map);
@@ -277,6 +292,8 @@ $(window).load(function() {
         iconAnchor: [24, 22],
         popupAnchor: [0, -12]
     });
+
+    // Initialize the geocoder
 
     function initGeocoder() {
 
@@ -334,30 +351,27 @@ $(window).load(function() {
     }
 
 
-    ///////////////switch step function.
+    // Switch step
 
     function switchStep() {
+
         if (stepNum == 1) {
-            // console.log(stepNum);
             stepNum += 1;
             document.getElementById('step2').click();
         } else if (stepNum == 2) {
-            // console.log(stepNum);
             stepNum += 1;
-            // document.getElementById('step3').click();
             showActivityModal();
         } else if (stepNum == 3) {
-            // console.log(stepNum);
             document.getElementById('step4').click();
         } else if (stepNum == 4) {
             // document.getElementById('step1').click();
-            // console.log(stepNum);
         }
     }
 
     // Handle feature creation for all layers
 
     function handleFeatureCreation(layer) {
+
         switch (layer) {
 
             case farmLayer:
@@ -397,14 +411,12 @@ $(window).load(function() {
         }
 
         // Add new feature to layer
-        // console.log(curFeature);
         layer.addFeature(curFeature);
         curFeature = undefined;
 
-
     }
 
-    // create a new farm Draw control
+    // Create a new farm Draw control
     var drawnFarms = L.featureGroup();
     var drawFarmControl = new L.Control.Draw({
         edit: {
@@ -421,9 +433,7 @@ $(window).load(function() {
 
     });
 
-
-
-
+    // Create a new field Draw control
     var drawnFields = L.featureGroup();
     // create a new Leaflet Draw control
     var drawFieldControl = new L.Control.Draw({
@@ -445,6 +455,7 @@ $(window).load(function() {
             }
         }
     });
+
     // create a new Leaflet Draw control
     var drawnBirds = L.featureGroup();
     var drawBirdControl = new L.Control.Draw({
@@ -462,6 +473,7 @@ $(window).load(function() {
             polygon: false
         }
     });
+
     // create a new Leaflet Draw control
     var drawnFieldEvents = L.featureGroup();
     var drawnFieldEvenControl = new L.Control.Draw({
@@ -479,6 +491,7 @@ $(window).load(function() {
             polygon: false
         }
     });
+
     // styles and icons here
     var parcelStyle = {
         "color": "#ff7800",
@@ -497,21 +510,18 @@ $(window).load(function() {
     };
 
     ///////////////////////
-    //LOGIN
+    // LOGIN
     ///////////////////////
     $("#login-submit").click(function() {
 
         //grab username from login modal
         username = $('#username').val();
         var password = $('#password').val();
-        // // console.log(username);
-        // // console.log(password);
 
-        // define feature services and authenticate user
-
-        // authentication
+        // Authenticate a given service
 
         function serverAuth(callback) {
+
             L.esri.post(tokenUrl, {
                 username: username,
                 password: password,
@@ -520,6 +530,7 @@ $(window).load(function() {
                 client: 'referer',
                 referer: window.location.origin
             }, callback);
+
         }
 
         // Restart login process
@@ -545,18 +556,6 @@ $(window).load(function() {
 
         }
 
-        // Configure authentication for a given layer
-
-        function makeRequest(layer) {
-
-            L.esri.request(layer.options.url, {
-                where: '1=1'
-            }, function(error, response) {
-                // console.log(1);
-            });
-
-        }
-
         // Show the editing modal for a given layer
 
         function showEditorModal(layer) {
@@ -575,13 +574,11 @@ $(window).load(function() {
 
                 case birdLayer:
                     $("#addBirdActivities").modal('show');
-                    // console.log('line');
                     // submitDataBird button for submit
                     break;
 
                 case fieldEventLayer:
                     $("#addFieldActivities").modal('show');
-                    // console.log('line');
                     // submitDataBird button for submit
                     break;
 
@@ -600,19 +597,32 @@ $(window).load(function() {
                 linkClass = 'popup-info',
                 infoClass = 'more-info',
                 descClass = 'modal-description',
-                date = new Date(props.date),
-                month = date.getUTCMonth() + 1, //months from 1-12
-                day = date.getUTCDate(),
-                year = date.getUTCFullYear(),
+                obsDate;
+
+            // Check for date to include in popup
+            if (props.date) {
+                var date = new Date(props.date),
+                    month = date.getUTCMonth() + 1, //months from 1-12
+                    day = date.getUTCDate(),
+                    year = date.getUTCFullYear();
                 obsDate = month + '/' + day + '/' + year;
+            }
 
             switch(type) {
+
                 case 'bird':
                     body.push('<p>');
                     body.push('Observation Type: ' + props.observation_type + '<br>');
                     body.push('Bird Activity: ' + props.bird_behavior + '<br>');
                     body.push('Comments: ' + props.bird_comments + '<br><br>');
                     body.push('Observed on ' + obsDate);
+                    body.push('</p>');
+                    break;
+
+                case 'field':
+                    body.push('<p>');
+                    body.push('Field Type: ' + props.field_type + '<br>');
+                    body.push('Field Comment: ' + props.field_comments);
                     body.push('</p>');
                     break;
 
@@ -623,8 +633,10 @@ $(window).load(function() {
                     body.push('Performed on ' + obsDate);
                     body.push('</p>');
                     break;
+
             }
-            // Don't really need to state user, because this is private data...
+
+            // Don't really need to include user in popup, as this is private data...
 
             var template = body.join('');
             var popup = L.Util.template(template, props);
@@ -648,8 +660,6 @@ $(window).load(function() {
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
 
-            // $('#login-modal').modal('hide');
-
             // Farm layer authentication
             farmLayer = L.esri.featureLayer({
                 url: servicesUrl + '/grassland_all/FeatureServer/3',
@@ -667,7 +677,7 @@ $(window).load(function() {
             });
             layers.push(farmLayer);
 
-            // grab fieldLayer polygons
+            // Grab fieldLayer polygons
             fieldLayer = L.esri.featureLayer({
                 url: servicesUrl + '/grassland_all/FeatureServer/2',
                 opacity: 1,
@@ -683,7 +693,13 @@ $(window).load(function() {
             });
             layers.push(fieldLayer);
 
-            // grab birdLayer points
+            // Bind fieldLayer popup
+            fieldLayer.bindPopup(function(evt) {
+                var popup = createPopup(evt.feature, 'field');
+                return popup;
+            });
+
+            // Grab birdLayer points
             birdLayer = L.esri.featureLayer({
                 url: servicesUrl + '/grassland_all/FeatureServer/0',
                 token: response.token,
@@ -695,7 +711,7 @@ $(window).load(function() {
             });
             layers.push(birdLayer);
 
-            // bind birdLayer popup
+            // Bind birdLayer popup
             birdLayer.bindPopup(function(evt) {
               var popup = createPopup(evt.feature, 'bird');
               return popup;
@@ -713,7 +729,7 @@ $(window).load(function() {
             });
             layers.push(fieldEventLayer);
 
-            // bind fieldEventLayer popup
+            // Bind fieldEventLayer popup
             fieldEventLayer.bindPopup(function(evt) {
               var popup = createPopup(evt.feature, 'fieldEvent');
               return popup;
@@ -736,9 +752,6 @@ $(window).load(function() {
 
             // Authenticate all layers used in app
             layers.forEach(configureAuth);
-            // layers.forEach(makeRequest);
-
-
 
             function sidebarClick(id) {
                 // console.log(id);
@@ -1536,11 +1549,6 @@ $(window).load(function() {
             $('#startFieldActivity2').click(function() {
 
                 document.getElementById('startFieldActivity').click();
-            });
-
-
-            fieldLayer.bindPopup(function(evt) {
-                return L.Util.template('<p>Field Type: {field_type}<br>Field Comment: {field_comments}</p>', evt.feature.properties);
             });
 
             // Populate features to be displayed in sidebar
