@@ -24,6 +24,18 @@ html, body {
   overflow: hidden;
 }
 
+.dropdown-menu,
+.calcite-dropdown.calcite-bg-light .dropdown-menu {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
+  -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
+  border: none;
+}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+/*  transition: all 0.1s ease;
+  -webkit-transition: all 0.1s ease;*/
+}
+
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a,
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a:focus,
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a:hover,
@@ -36,6 +48,11 @@ html, body {
   color: #fff;
   background-color: transparent;
   background-image: linear-gradient(to top, transparent calc(100% - 3px), #fff 3px);
+}
+
+.navbar-nav,
+.navbar-nav .dropdown-menu {
+  font-size: 16px;
 }
 
 .navbar-nav .open .dropdown-menu {
@@ -142,6 +159,10 @@ input[type="checkbox"] {
   /*top: 65px;*/
 }
 
+.leaflet-bottom.leaflet-right {
+  margin-bottom: 18px;
+}
+
 .leaflet-control,
 .leaflet-bar,
 .leaflet-bar a:first-child,
@@ -151,6 +172,12 @@ input[type="checkbox"] {
 
 .leaflet-control-layers {
   overflow: auto;
+}
+
+.leaflet-control-layers,
+.leaflet-bar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
+  -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
 }
 
 .leaflet-control-layers label {
@@ -290,6 +317,10 @@ input[type="checkbox"] {
 
 /* Geocoder */
 
+.calcite-navbar .calcite-navbar-search {
+  padding: 17px;
+}
+
 .geocoder-control {
   /*width: 260px;*/
   width: 34px;
@@ -299,21 +330,26 @@ input[type="checkbox"] {
   width: 260px;
 }
 
-.geocoder-control-input {
-/*  border-right: white solid 3px;
+.geocoder-control .geocoder-control-input {
+  /*  border-right: white solid 3px;
   height: 34px;
   font-size: 14px;
   background-size: 28px;*/
+  /*margin-top: 1px;*/
   cursor: auto;
-}
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
+  }
 
-.geocoder-control-suggestions {
-  top: 34px;
+.geocoder-control .geocoder-control-suggestions {
+  /*top: 35px;*/
   z-index: 100;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
 }
 
-.geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
-.geocoder-control-suggestions .geocoder-control-suggestion:hover {
+.geocoder-control .geocoder-control-suggestions .geocoder-control-suggestion.geocoder-control-selected,
+.geocoder-control .geocoder-control-suggestions .geocoder-control-suggestion:hover {
   background: #1abc9c;
   transition: ease 0.1s;
   color: #FFFFFF;

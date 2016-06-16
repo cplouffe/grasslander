@@ -267,13 +267,15 @@ $(window).load(function() {
     var bobolinkIcon = L.icon({
         iconUrl: 'http://vignette4.wikia.nocookie.net/farmville/images/9/93/Bobolink-icon.png/revision/latest?cb=20120719223918',
         iconSize: [35, 35],
-        iconAnchor: [0, 0],
+        iconAnchor: [17, 17],
+        popupAnchor: [0, -16]
     });
 
     var fieldEventIcon = L.icon({
         iconUrl: 'https://www.wpclipart.com/working/agricultural/machines/combine_harvester.svg',
         iconSize: [45, 45],
-        iconAnchor: [0, 0],
+        iconAnchor: [24, 22],
+        popupAnchor: [0, -12]
     });
 
     function initGeocoder() {
@@ -706,7 +708,7 @@ $(window).load(function() {
                 // url: servicesUrl + '/Parcels/MapServer/0',
                 url: servicesUrl + '/Parcels/FeatureServer/0',
                 token: response.token,
-                simplifyFactor: 5,
+                simplifyFactor: 1,
                 precision: 5,
                 cacheLayers: true,
                 style: parcelStyle,
