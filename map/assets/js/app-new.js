@@ -1,7 +1,7 @@
 $(window).load(function() {
 
     var map,
-        featureList,
+        // featureList,
         layers = [],
         farmsSearch = [],
         fieldsSearch = [],
