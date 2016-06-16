@@ -606,13 +606,24 @@ $(window).load(function() {
                 year = date.getUTCFullYear(),
                 obsDate = month + '/' + day + '/' + year;
 
-            body.push('<p>');
-            body.push('Observation Type: ' + props.observation_type + '<br>');
-            body.push('Bird Activity: ' + props.bird_behavior + '<br>');
-            body.push('Comments: ' + props.bird_comments + '<br><br>');
-            body.push('Observed on ' + obsDate);
-            body.push('</p>');
+            switch(type) {
+                case 'bird':
+                    body.push('<p>');
+                    body.push('Observation Type: ' + props.observation_type + '<br>');
+                    body.push('Bird Activity: ' + props.bird_behavior + '<br>');
+                    body.push('Comments: ' + props.bird_comments + '<br><br>');
+                    body.push('Observed on ' + obsDate);
+                    body.push('</p>');
+                    break;
 
+                case 'fieldEvent':
+                    body.push('<p>');
+                    body.push('Activity Type: ' + props.activity_type + '<br>');
+                    body.push('Comments: ' + props.bird_comments + '<br><br>');
+                    body.push('Performed on ' + obsDate);
+                    body.push('</p>');
+                    break;
+            }
             // Don't really need to state user, because this is private data...
 
             var template = body.join('');
@@ -684,9 +695,9 @@ $(window).load(function() {
             });
             layers.push(birdLayer);
 
-            // bind popup
+            // bind birdLayer popup
             birdLayer.bindPopup(function(evt) {
-              var popup = createPopup(evt.feature);
+              var popup = createPopup(evt.feature, 'bird');
               return popup;
             });
 
@@ -701,6 +712,12 @@ $(window).load(function() {
                 }
             });
             layers.push(fieldEventLayer);
+
+            // bind fieldEventLayer popup
+            fieldEventLayer.bindPopup(function(evt) {
+              var popup = createPopup(evt.feature, 'fieldEvent');
+              return popup;
+            });
 
             // Parcel layer
             // var parcelLayer = L.esri.dynamicMapLayer({
@@ -977,8 +994,6 @@ $(window).load(function() {
 
                 function handleFarmEdit(layer) {
                     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
-                    // alert($('#exampleTextarea').val())
-                    // console.log(curFeature);
                     layer.feature.properties.farm_comments = $('#farmComments').val();
                     layer.feature.properties.lot = $('#lotNumber').val();
                     layer.feature.properties.con = $('#conNumber').val();
@@ -1183,31 +1198,6 @@ $(window).load(function() {
 
                 farmLayer.addTo(map);
 
-                // birdLayer.unbindPopup();
-                fieldEventLayer.unbindPopup();
-
-                // birdLayer.bindPopup(function(evt) {
-
-                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
-                // });
-
-
-                fieldEventLayer.bindPopup(function(evt) {
-
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
-                });
-
-                // ebird_bobo.bindPopup(function (evt) {
-                //   return L.Util.template('<p>{COMMON_NAM}<br>{SCIENTIFIC}<br>{NOTES}</p>', evt.feature.properties);
-                // });
                 document.getElementById("full-extent-btn").click();
                 $("#addActivitySelect").modal("show");
 
@@ -1217,39 +1207,6 @@ $(window).load(function() {
 
 
             $("#startBirdActivity").click(function() {
-                // birdLayer.unbindPopup();
-                fieldEventLayer.unbindPopup();
-
-                // birdLayer.bindPopup(function(evt) {
-                //     var dateObj = new Date(evt.feature.properties.date);
-                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                //     var day = dateObj.getUTCDate();
-                //     var year = dateObj.getUTCFullYear();
-
-                //     newdate = year + "/" + month + "/" + day;
-
-
-                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
-                // });
-
-                // birdLayer.bindPopup(function(evt) {
-                //   var popup = createPopup(evt.feature);
-                //   return popup;
-                // });
-
-
-                fieldEventLayer.bindPopup(function(evt) {
-
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
-                });
 
                 $("#step-modal").modal("hide");
                 stepNum = 3;
@@ -1382,39 +1339,6 @@ $(window).load(function() {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $("#startFieldActivity").click(function() {
-                // birdLayer.unbindPopup();
-                fieldEventLayer.unbindPopup();
-
-                // birdLayer.bindPopup(function(evt) {
-                //     var dateObj = new Date(evt.feature.properties.date);
-                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                //     var day = dateObj.getUTCDate();
-                //     var year = dateObj.getUTCFullYear();
-
-                //     newdate = year + "/" + month + "/" + day;
-
-
-                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
-                // });
-
-                // birdLayer.bindPopup(function(evt) {
-                //   var popup = createPopup(evt.feature);
-                //   return popup;
-                // });
-
-
-                fieldEventLayer.bindPopup(function(evt) {
-
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
-                });
 
                 $("#step-modal").modal("hide");
                 stepNum = 4;
@@ -1555,39 +1479,6 @@ $(window).load(function() {
             // Browse farm button
 
             $("#browseFarm").click(function() {
-                // birdLayer.unbindPopup();
-                fieldEventLayer.unbindPopup();
-
-                // birdLayer.bindPopup(function(evt) {
-                //     var dateObj = new Date(evt.feature.properties.date);
-                //     var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                //     var day = dateObj.getUTCDate();
-                //     var year = dateObj.getUTCFullYear();
-
-                //     newdate = year + "/" + month + "/" + day;
-
-
-                //     return L.Util.template('<p>Created By: {created_user}<br>Observed On: ' + newdate + '<br> Observation Type:{observation_type}<br> Bird Activity: {bird_behavior}<br> Comments:{bird_comments}</p>', evt.feature.properties);
-                // });
-
-                // birdLayer.bindPopup(function(evt) {
-                //   var popup = createPopup(evt.feature);
-                //   return popup;
-                // });
-
-
-                fieldEventLayer.bindPopup(function(evt) {
-
-                    var dateObj = new Date(evt.feature.properties.date);
-                    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                    var day = dateObj.getUTCDate();
-                    var year = dateObj.getUTCFullYear();
-
-                    newdate = year + "/" + month + "/" + day;
-
-
-                    return L.Util.template('<p>Created By: {created_user}<br>Done On: ' + newdate + '<br> Activity Type:{activity_type }<br> Comments:{comments}</p>', evt.feature.properties);
-                });
 
                 $("#step-modal").modal("hide");
                 map.removeControl(drawFarmControl);

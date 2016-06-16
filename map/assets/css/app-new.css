@@ -36,6 +36,8 @@ html, body {
   -webkit-transition: all 0.1s ease;*/
 }
 
+.calcite-navbar.calcite-text-light .navbar-brand:focus,
+.calcite-navbar.calcite-text-light .navbar-brand:hover,
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a,
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a:focus,
 .calcite-navbar.calcite-text-light .navbar-nav>.active>a:hover,
@@ -50,6 +52,7 @@ html, body {
   background-image: linear-gradient(to top, transparent calc(100% - 3px), #fff 3px);
 }
 
+
 .navbar-nav,
 .navbar-nav .dropdown-menu {
   font-size: 16px;
@@ -57,6 +60,11 @@ html, body {
 
 .navbar-nav .open .dropdown-menu {
   position: absolute;
+}
+
+
+  visibility: visible;
+  opacity: 1;
 }
 
 /*.calcite-navbar.calcite-text-light .navbar-nav > li > a:hover {
@@ -72,6 +80,11 @@ input[type="checkbox"] {
   margin: 0;
 }
 
+input#birdActivityDate,
+input#fieldActivityDate {
+  padding: 5px;
+}
+
 #sidebar {
   display: block;
   width: 250px;
@@ -83,7 +96,8 @@ input[type="checkbox"] {
 #map {
   width: auto;
   height: 100%;
-  /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
+  -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
 }
 
 #loading {
@@ -216,6 +230,21 @@ input[type="checkbox"] {
 
 .navbar-header a.navbar-icon {
   margin-left: 25px;
+}
+
+/* Created by Katie Westbrook for the Noun Project */
+.leaflet-draw-toolbar .leaflet-draw-draw-marker.bird {
+  background-image: linear-gradient(transparent, transparent), url('../img/bird-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 270px 26px;
+  background-position: -122px 2px;
+}
+
+.leaflet-draw-toolbar .leaflet-draw-draw-marker.field {
+  background-image: linear-gradient(transparent, transparent), url('../img/tractor-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 270px 26px;
+  background-position: -122px 2px;
 }
 
 .typeahead {
@@ -361,3 +390,31 @@ input[type="checkbox"] {
     margin-right: -20px;
   }
 }
+
+/* Farm extent button */
+.leaflet-control-farmextent {
+
+}
+
+.leaflet-control-farmextent-toggle {
+  text-indent: -9999px;
+  white-space: nowrap;
+  background-image: linear-gradient(transparent, transparent), url('../img/farm-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 270px 26px;
+  background-position: -122px 2px;
+  display: block;
+}
+
+/* CSS for high-resolution devices */
+/*@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .leaflet-control-farmextent-toggle {
+        background-image: url('../img/farm-icon.svg');
+        background-size: 26px 26px;
+        background-repeat: no-repeat;
+    }
+}
+*/
