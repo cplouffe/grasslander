@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,187 +10,204 @@
     <meta name="theme-color" content="#000000">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Grasslander</title>
-
-    <!-- !!! Stylesheets !!! -->
-    <!-- Date Range Picker -->
+    <title>Grasslander Project</title>
+    <!-- Bootstrap  and Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- Include Date Range Picker -->
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
-    <!-- Ion Icons -->
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+    <!-- Load Leaflet from CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+    <script src="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw-src.js"></script>
+    <link rel="stylesheet" href="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+    <!-- Esri Leaflet Geocoder -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.0.3/esri-leaflet-geocoder.css">
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.0.3/esri-leaflet-geocoder.js"></script>
+    <script src="https://rawgithub.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
+    <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Calcite -->
     <link rel="stylesheet" href="assets/css/calcite-bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/calcite-maps-esri-leaflet.min.css">
-    <link rel="stylesheet" href="assets/fonts/calcite-ui.css">
-
-    <!-- Leaflet -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
-
-    <!-- Leaflet Draw -->
-    <link rel="stylesheet" href="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw.css">
-
-    <!-- Leaflet Locate Control -->
-    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
-    <!-- Leaflet Marker Cluster (not currently used) -->
-    <!-- <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css"> -->
-    <!-- <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css"> -->
-    <!-- Leaflet Grouped Layer Control (not currently used) -->
-    <!-- <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css"> -->
-
-    <!-- Esri Leaflet Geocoder -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
-
-    <!-- Grasslander -->
-    <link rel="stylesheet" href="assets/css/app-new.css">
-
-    <!-- !!! Icons !!! -->
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
     <link rel="icon" sizes="196x196" href="assets/img/favicon-196.png">
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body class="calcite-nav-top">
-<!-- Navbar -->
-    <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bgcolor-grasslander-green">
-        <!-- Header -->
-        <div class="navbar-header">
-            <a class="navbar-brand"><span class="esri-icon esri-icon-map-pin"></span></a>
-        </div>
-        <!-- Title -->
-        <div class="calcite-title calcite-overflow-hidden">
-            <div class="calcite-title-main">GrassLander</div>
-            <div class="calcite-title-sub">Citizen Science for Grassland Birds Conservation</div>
-        </div>
-        <!-- Nav -->
-        <ul class="nav navbar-nav">
-            <!-- About button -->
-            <!-- <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-fw fa-question-circle white"></i>&nbsp;About</a></li> -->
-            <!-- Grassland Birds dropdown -->
-            <!-- <li class="dropdown">
-                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-globe white"></i>&nbsp;Grasslander Birds&nbsp;<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Bobolink Basics</a></li>
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-fw fa-picture-o"></i>&nbsp;Population Trends</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-fw fa-user"></i>&nbsp;Log Out</a></li>
-                </ul>
-            </li> -->
-            <!-- Farm setup dropdown -->
-            <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
-                <a class="dropdown-toggle" id="activityDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-plus white"></i>&nbsp;Add Activity&nbsp;<b class="caret"></b></a>
-                <ul id="activityDropdown" class="dropdown-menu">
-                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><span class="bird-icon">Bird Observation</span></a></li>
-                    <li id="startFieldActivity2"><a data-toggle="collapse" class="field-activity-item" data-target=".navbar-collapse.in" href="#"><span class="tractor-icon">Field Activity</span></a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="hidden-sm hidden-xs" data-toggle="tab" id="list-btn"><i class="fa fa-fw fa-list white"></i>&nbsp;Show Activities</a></li>
-            <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
-                <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-cogs white"></i>&nbsp;Your Farm&nbsp;<b class="caret"></b></a>
-                <ul id="setupDropdown" class="dropdown-menu">
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><span class="farm-icon">&nbsp;Zoom To Farm</span></a></li>
-                    <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Farm</a></li>
-                    <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Fields</a></li>
-                    <!-- <li class="dropdown-submenu">
-                        <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Activities</a>
-                        <ul class="dropdown-menu"> -->
-                        <!-- </ul>
-                    </li> -->
-                </ul>
-            </li>
-            <!-- Geocoder search -->
-            <li><div class="calcite-navbar-search hidden-sm hidden-xs"><div id="geocode"></div></div></li>
-            <!-- Menu dropdown -->
-           <div class="dropdown calcite-dropdown calcite-bg-light calcite-text-dark" role="presentation">
-                 <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <div class="calcite-dropdown-toggle">
-                     <span class="sr-only">Toggle menu</span>
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                   </div>
-                 </a>
-                 <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="tab" id="about-btn"><i class="fa fa-fw fa-question-circle"></i>&nbsp;About</a></li>
-                    <!-- <li><a href="#" data-toggle="tab" id="bobo-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Bobolink Basics</a></li> -->
-                    <li><a href="#" data-toggle="tab" id="legend-btn"><i class="fa fa-fw fa-picture-o"></i>&nbsp;Population Trends</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" data-toggle="tab" id="login-btn"><i class="fa fa-fw fa-user"></i>&nbsp;Log Out</a></li>
-                 </ul>
-               </div>
-             </nav><!--/.navbar -->
-        </ul>
-    </nav>
-    <!-- Map -->
-    <div class="calcite-map calcite-map-absolute">
-        <!-- Sidebar -->
-        <div id="sidebar">
-            <!-- <div class="sidebar-wrapper">
-                <div class="panel panel-default" id="features">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Your Activities
-                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-fw fa-chevron-left"></i></button>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="sidebar-table">
-                            <table class="table table-hover" id="feature-list">
-                                <thead class="hidden"></thead>
-                                <tbody class="list"></tbody>
-                            </table>
+
+<body>
+    <!-- Originally this was at the landing page. Users would select their setup step. Discarded in favor of the drop down menu only. 6/6/16
+        <div class="modal fade" id="step-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="material-button-anim">
+                            <ul class="list-inline" id="options">
+                                <li class="option">
+                                    <button class="material-button option1" title="Setup Your Farm" id='step1' type="button">
+                                    <span class="ion-ios-nutrition" aria-hidden="true"></span>
+                                    </button>
+                                </li>
+                                <li class="option">
+                                    <button class="material-button option2" title="Setup Your Fields" id='step2' type="button">
+                                    <span class="fa  fa-pagelines" aria-hidden="true"></span>
+                                    </button>
+                                </li>
+                                <li class="option">
+                                    <button class="material-button option3" title="Add Activities" id='step3' type="button">
+                                    <span class="fa fa-cogs" aria-hidden="true"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                            <button class="material-button material-button-toggle" title="Get Started!" type="button">
+                            <span class="ion-android-globe" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div> -->
-            <div class="list-group-header">
-                Your Activities<button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-fw fa-chevron-left"></i></button>
+    <!--         <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <div class="btn-group">
+                <button type="button" id='step1' class="btn btn-primary">Apple</button>
+                <button type="button" id='step2' class="btn btn-primary">Samsung</button>
+                <button type="button" id='step3' class="btn btn-primary">Sony</button>
             </div>
-            <div class="list-group activity-list">
-                </li>
+        </div>
+        </div>
+        </div> -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar-icon-container">
+                    <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+                    <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
+                </div>
+                <a class="navbar-brand" href="#">Project Grasslander</a>
             </div>
-
+            <div class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group has-feedback">
+                        <!-- <input id="searchbox" type="text" placeholder="Search" class="form-control"> -->
+                        <!-- <span id="searchicon" class="fa fa-search form-control-feedback"></span> -->
+                    </div>
+                </form>
+                <ul class="nav navbar-nav">
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
+                    <li class="dropdown">
+                        <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Grasslander Birds <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bobo-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Bobolink Basics</a></li>
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Population Trends</a></li>
+                            <li class="divider hidden-xs"></li>
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Log Out</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cogs white"></i>&nbsp;&nbsp;Your Farm <b class="caret"></b></a>
+                        <ul id="setupDropdown" class="dropdown-menu">
+                            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+                            <!--                             <li id="step4"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Setup Your User Profile (Can remove)</a></li>
+ -->
+                            <li id="step1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Farm</a></li>
+                            <li id="step2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Setup Your Fields</a></li>
+                            <li class="divider"></li>
+                            <!--
+                                <li lass="dropdown-submenu" id="step3">
+                                <a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a>
+                                    <ul class="dropdown-menu">
+                                        <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>    Bird Activities</a></li>
+                                        <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>   Field Activities</a></li>
+                                    </ul>
+                                </li> -->
+                            <li class="dropdown-submenu">
+                                <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Add Activities</a>
+                                <ul class="dropdown-menu">
+                                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">&nbsp;&nbsp;Bird Activities</a></li>
+                                    <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">&nbsp;&nbsp;Field Activities</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Activities List</a></li>
+                </ul>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
+    <div id="container" class="calcite-map">
+        <div id="sidebar">
+            <div class="sidebar-wrapper">
+                <div class="panel panel-default" id="features">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Your Activities
+                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <!-- <div class="row">
+                            <div class="col-xs-8 col-md-8">
+                                <input type="text" class="form-control search" placeholder="Filter" />
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="sidebar-table">
+                        <table class="table table-hover" id="feature-list">
+                            <thead class="hidden">
+                                <tr>
+                                    <th>Icon</th>
+                                    <tr>
+                                        <tr>
+                                            <th>Name</th>
+                                            <tr>
+                                                <tr>
+                                                    <th>Chevron</th>
+                                                    <tr>
+                            </thead>
+                            <tbody class="list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="map"></div>
     </div>
-    <!-- Login modal -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                    <h4 class="modal-title">Login to GrassLander</h4>
-                </div>
-                <div class="modal-body">
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <div class="loginmodal-container">
+                    <h1>Login to Your Account</h1>
+                    <br>
                     <form>
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="user">Username</label>
-                                <input type="text" class="form-control" name="user" id="username" placeholder="Username">
-                            </div>
-                            <div class="form-group">
-                                <label for="pass">Password</label>
-                                <input type="password" class="form-control" name="pass" id="password" placeholder="Password">
-                            </div>
-                        </fieldset>
+                        <input type="text" name="user" id='username' placeholder="Username">
+                        <input type="password" name="pass" id='password' placeholder="Password">
+                        <input type="submit" name="login" id="loginbtn" data-dismiss="modal" class="login loginmodal-submit" value="Login">
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="login-submit" class="btn btn-primary btn-block" name="login" data-dismiss="modal" value="Login">Login</button>
-                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
-                   <!--  <div class="login-help">
+                    <div class="login-help">
                         <a href="#">Register</a> - <a href="#">Forgot Password</a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- About modal -->
-    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -198,11 +216,11 @@
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                        <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-fw fa-question-circle"></i>About the project</a></li>
-                        <li><a href="#contact" data-toggle="tab"><i class="fa fa-fw fa-envelope"></i>&nbsp;Contact us</a></li>
-                        <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-fw fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                        <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the project</a></li>
+                        <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
+                        <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#boroughs-tab" data-toggle="tab">E-Bird data</a></li>
                                 <li><a href="#subway-lines-tab" data-toggle="tab">NHIC data</a></li>
@@ -213,12 +231,16 @@
                     </ul>
                     <div class="tab-content" id="aboutTabsContent">
                         <div class="tab-pane fade active in" id="about">
-                            <p>GrassLander is a collaborative research project aiming to collect observations of important grassland birds in southern Ontario.</p>
-                            <hr>
-                            <h3>The Problem</h3>
-                            <p>Bobolink and Eastern Meadowlark have been decreasing in population over the last several years. Over the last ten years, it is estimated that the Bobolink population in Ontario has declined by an average annual rate of 4 percent, which corresponds to a cumulative loss of 33 percent (McCracken et al. 2013). As a result of their decline, the Bobolink (Dolichonyx oryzivorus) was added to the Specie’s at Risk in Ontario list in September 28, 2010. In an effort to better understand the population of grassland birds and management practices on farms, GrassLander was created.</p>
-                            <h3>The Approach</h3>
-                            <p>A citizen science approach is being tested to engage agricultural producers as collaborators in monitoring bird populations on their fields.</p>
+                            <p>GrassLander is a collaborative research project aiming to collect observations of important grassland birds in southern Ontario.
+                                <p>
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">The Problem</div>
+                                        <p>Over the last decade, it is estimated that approximately }
+                                            <p>
+                                                <div class="panel-heading">The Approach</div>
+                                                <p>A citizen science approach is being tested to engage agricultural producers as collaborators in monitoring bird populations on their fields.
+                                                    <p>
+                                    </div>
                         </div>
                         <div id="disclaimer" class="tab-pane fade text-danger">
                             <p>The data provided on this site is for informational and planning purposes only.</p>
@@ -277,8 +299,8 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Legend modal -->
-    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -287,7 +309,7 @@
                 </div>
                 <div class="modal-body">
                     <p>To be updated...</p>
-                    <svg viewBox="400 -400 960 960" width="100%" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg viewBox="400 -400 960 960" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <style type="text/css">
                         .axis path,
                         .axis line {
@@ -408,7 +430,7 @@
                         </svg>
                     </svg>
                     <p>To be updated.</p>
-                    <svg viewBox="400 -400 960 960" width="100%" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg viewBox="400 -400 960 960" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="animation-delay: 0s; animation-direction: normal; animation-duration: 0s; animation-fill-mode: none; animation-iteration-count: 1; animation-name: none; animation-play-state: running; animation-timing-function: ease; background-attachment: scroll; background-blend-mode: normal; background-clip: border-box; background-color: rgba(0, 0, 0, 0); background-image: none; background-origin: padding-box; background-position: 0% 0%; background-repeat: repeat; background-size: auto; border-bottom-color: rgb(0, 0, 0); border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom-style: none; border-bottom-width: 0px; border-collapse: separate; border-image-outset: 0px; border-image-repeat: stretch; border-image-slice: 100%; border-image-source: none; border-image-width: 1; border-left-color: rgb(0, 0, 0); border-left-style: none; border-left-width: 0px; border-right-color: rgb(0, 0, 0); border-right-style: none; border-right-width: 0px; border-top-color: rgb(0, 0, 0); border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-style: none; border-top-width: 0px; bottom: auto; box-shadow: none; box-sizing: content-box; break-after: auto; break-before: auto; break-inside: auto; caption-side: top; clear: none; clip: auto; color: rgb(0, 0, 0); content: ; cursor: auto; direction: ltr; display: inline; empty-cells: show; float: none; font-family: sans-serif; font-kerning: auto; font-size: 12px; font-stretch: normal; font-style: normal; font-variant: normal; font-variant-ligatures: normal; font-weight: normal; height: 500px; image-rendering: auto; isolation: auto; left: auto; letter-spacing: normal; line-height: normal; list-style-image: none; list-style-position: outside; list-style-type: disc; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; max-height: none; max-width: none; min-height: 0px; min-width: 0px; mix-blend-mode: normal; motion-offset: 0px; motion-path: none; motion-rotation: auto 0deg; object-fit: fill; object-position: 50% 50%; opacity: 1; orphans: auto; outline-color: rgb(0, 0, 0); outline-offset: 0px; outline-style: none; outline-width: 0px; overflow-wrap: normal; overflow-x: hidden; overflow-y: hidden; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; pointer-events: auto; position: static; resize: none; right: auto; speak: normal; table-layout: auto; tab-size: 8; text-align: start; text-align-last: auto; text-decoration: none; text-indent: 0px; text-rendering: auto; text-shadow: none; text-overflow: clip; text-transform: none; top: auto; touch-action: auto; transition-delay: 0s; transition-duration: 0s; transition-property: all; transition-timing-function: ease; unicode-bidi: normal; vertical-align: baseline; visibility: visible; white-space: normal; widows: 1; width: 960px; will-change: auto; word-break: normal; word-spacing: 0px; word-wrap: normal; z-index: auto; zoom: 1; -webkit-appearance: none; backface-visibility: visible; -webkit-background-clip: border-box; -webkit-background-composite: source-over; -webkit-background-origin: padding-box; -webkit-border-horizontal-spacing: 0px; -webkit-border-image: none; -webkit-border-vertical-spacing: 0px; -webkit-box-align: stretch; -webkit-box-decoration-break: slice; -webkit-box-direction: normal; -webkit-box-flex: 0; -webkit-box-flex-group: 1; -webkit-box-lines: single; -webkit-box-ordinal-group: 1; -webkit-box-orient: horizontal; -webkit-box-pack: start; -webkit-box-reflect: none; -webkit-clip-path: none; column-count: auto; column-gap: normal; column-rule-color: rgb(0, 0, 0); column-rule-style: none; column-rule-width: 0px; column-span: none; column-width: auto; -webkit-filter: none; align-content: normal; align-items: stretch; align-self: stretch; flex-basis: auto; flex-grow: 0; flex-shrink: 1; flex-direction: row; flex-wrap: nowrap; justify-content: normal; -webkit-font-smoothing: auto; -webkit-highlight: none; -webkit-hyphenate-character: auto; -webkit-line-break: auto; -webkit-line-clamp: none; -webkit-locale: auto; -webkit-margin-before-collapse: collapse; -webkit-margin-after-collapse: collapse; -webkit-mask-box-image: none; -webkit-mask-box-image-outset: 0px; -webkit-mask-box-image-repeat: stretch; -webkit-mask-box-image-slice: 0 fill; -webkit-mask-box-image-source: none; -webkit-mask-box-image-width: auto; -webkit-mask-clip: border-box; -webkit-mask-composite: source-over; -webkit-mask-image: none; -webkit-mask-origin: border-box; -webkit-mask-position: 0% 0%; -webkit-mask-repeat: repeat; -webkit-mask-size: auto; order: 0; perspective: none; perspective-origin: 480px 250px; -webkit-print-color-adjust: economy; -webkit-rtl-ordering: logical; shape-outside: none; shape-image-threshold: 0; shape-margin: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-combine: none; -webkit-text-decorations-in-effect: none; -webkit-text-emphasis-color: rgb(0, 0, 0); -webkit-text-emphasis-position: over; -webkit-text-emphasis-style: none; -webkit-text-fill-color: rgb(0, 0, 0); -webkit-text-orientation: vertical-right; -webkit-text-security: none; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; transform: none; transform-origin: 480px 250px; transform-style: flat; -webkit-user-drag: auto; -webkit-user-modify: read-only; -webkit-user-select: text; -webkit-writing-mode: horizontal-tb; -webkit-app-region: no-drag; buffered-rendering: auto; clip-path: none; clip-rule: nonzero; mask: none; filter: none; flood-color: rgb(0, 0, 0); flood-opacity: 1; lighting-color: rgb(255, 255, 255); stop-color: rgb(0, 0, 0); stop-opacity: 1; color-interpolation: sRGB; color-interpolation-filters: linearRGB; color-rendering: auto; fill: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; marker-end: none; marker-mid: none; marker-start: none; mask-type: luminance; shape-rendering: auto; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0px; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-width: 1px; alignment-baseline: auto; baseline-shift: 0px; dominant-baseline: auto; text-anchor: start; writing-mode: horizontal-tb; vector-effect: none; paint-order: fill stroke markers; cx: 0px; cy: 0px; x: 0px; y: 0px; r: 0px; rx: 0px; ry: 0px;" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <style type="text/css">
                         .axis path,
                         .axis line {
@@ -578,8 +600,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Bobolink modal -->
-    <div class="modal fade" id="boboModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="boboModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -594,8 +615,39 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Feature modal -->
-    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="contact-form">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="name">Username:</label>
+                                <input type="text" class="form-control" id="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Password:</label>
+                                <input type="password" class="form-control" id="password">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -611,14 +663,14 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Attribution modal -->
-    <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">
-                        Developed by <a href="http://www.code-engage.com">Matthew Tenney</a>
+                        Developed by <a href='http://www.code-engage.com'>Matthew Tenney</a>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -629,8 +681,8 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Add farm attributes modal -->
-    <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="addFarmAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -692,8 +744,8 @@
             </div>
         </div>
     </div>
-    <!-- Add field attributes modal -->
-    <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="addFieldAttributes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -741,8 +793,9 @@
             </div>
         </div>
     </div>
-    <!-- Add bird activities modal -->
-    <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Modal1 -->
+    <!-- Modal -->
+    <div class="modal fade" id="addBirdActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -816,8 +869,9 @@
             </div>
         </div>
     </div>
-    <!-- Add Field activities modal -->
-    <div class="modal fade" id="addFieldActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="addFieldActivities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -857,8 +911,9 @@
             </div>
         </div>
     </div>
-    <!-- Farm setup instructions modal -->
-    <div class="modal fade" id="farmsetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- </div> -->
+    <!-- /.modal -->
+    <div class="modal fade" id="farmsetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -879,8 +934,8 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Field setup instructions modal -->
-    <div class="modal fade" id="fieldsetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="fieldsetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -889,7 +944,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Using the tool in the top left, draw a polygon around each of your fields individually. Fill out the additional information about your fields when prompted. If you make a mistake, click on the farm and the “trash” icon to delete it.  If you have multiple fields please click the “Add More” button at the end.</p>
-                    <p><b>Note: once you have found your farm, try turning on the orthophoto by hovering over the layers button in the top right corner, and selecting 'Imagery'.</b></p>
+                    <p><b>Note: once you have found your farm, try turning on the orthophoto by hovering over the layers button in the top right corner, and selecting 'Imagery'</b></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -899,61 +954,29 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Add bird observation modal -->
-    <div class="modal fade" id="addBirdObservation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    Add Bird Observation
+                    Please select what kind of activity you would like to add.
                 </div>
                 <div class="modal-body">
-                    <p>To add a bird observation, click the map where you observed the bird on your farm. You will then be asked to fill out additional information about your bird observation.</p>
-                    <p><i>If at any time you make a mistake, click the trash icon in the top-left corner and then click the bird observation that you wish to delete. Once you are finished with your edits, click <strong>Save</strong> beside the trash icon to save your changes.</i></p>
+                    <p> Bird Observations: To add a Bird Observation: Using the tool in the top left corner click where you observed the bird. You will then be asked to fill out additional information about your observation.</p>
+                    <p>To Add Field Activities: Using the tool in the top left corner click the field you would like to add an activity to. You will then be asked to fill out additional information about your activity.</p>
+                    <p>*If at any time you make a mistake click the trash icon to delete your observation or field activity.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary startBirdActivity" data-dismiss="modal">OK</button>
+
+                    <button id="browseFarm" type="button" class="btn btn-default pull-left" data-dismiss="modal">Just Browsing</button>
+                    <button id="startBirdActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add bird activity</button>
+                    <button id="startFieldActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add field activity</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Add bird observation modal -->
-    <div class="modal fade" id="addFieldActivity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    Add Field Activity
-                </div>
-                <div class="modal-body">
-                    <p>To add a field activity, click the field on the map that you would like to add an activity to. You will then be asked to fill out additional information about your activity.</p>
-                    <p><i>If at any time you make a mistake, click the trash icon in the top-left corner and then click the bird observation that you wish to delete. Once you are finished with your edits, click <strong>Save</strong> beside the trash icon to save your changes.</i></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary startFieldActivity" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    Please select what type of activity you would like to add.
-                </div>
-                <div class="modal-body">
-                    <p>To add a bird observation, click the map where you observed the bird on your farm. You will then be asked to fill out additional information about your bird observation.</p>
-                    <p>To add a field activity, click the field on the map that you would like to add an activity to. You will then be asked to fill out additional information about your activity.</p>
-                    <p><i>If at any time you make a mistake, click the trash icon in the top-left corner and then click the bird observation that you wish to delete. Once you are finished with your edits, click <strong>Save</strong> beside the trash icon to save your changes.</i></p>
-                </div>
-                <div class="modal-footer">
-                    <button id="browseFarm" type="button" class="btn btn-default pull-left" data-dismiss="modal">Just browsing</button>
-                    <button class="btn btn-primary btn-ok startBirdActivity" data-dismiss="modal">Add bird observation</button>
-                    <button class="btn btn-primary btn-ok startFieldActivity" data-dismiss="modal">Add field activity</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Activity setup instructions modal -->
-    <div class="modal fade" id="activitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="activitysetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -971,8 +994,8 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Bird activity setup instructions modal -->
-    <div class="modal fade" id="birdactivitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="birdactivitysetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -990,13 +1013,13 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Field activity setup instructions modal -->
-    <div class="modal fade" id="fieldactivitysetupinstructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- /.modal -->
+    <div class="modal fade" id="fieldactivitysetupinstructions" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">How to...</h4>
+                    <h4 class="modal-title">How to.. </h4>
                 </div>
                 <div class="modal-body">
                     <p>To Add Field Activities: Please click on the field you would like to add an activity to. Fill out the form and submit.</p>
@@ -1009,7 +1032,8 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Proceed modal -->
+    <!-- /.modal -->
+    <!-- Modal -->
     <div class="modal fade" id="proceed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1021,62 +1045,28 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Add More</button>
-                    <button id="proceed-button" class="btn btn-primary btn-ok" data-dismiss="modal">Proceed</button>
+                    <button id="proceed-button" class="btn btn-danger btn-ok" data-dismiss="modal">PROCEED</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- !!! Scripts !!! -->
-    <!-- Jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
-    <!-- Moment JS -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-    <!-- Date Range Picker -->
-    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <!-- JQuery Validator (not used) -->
-    <!-- <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
-    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script> -->
-
-    <!-- Leaflet -->
-    <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
-
-    <!-- Leaflet Draw -->
-    <script src="//rawgit.com/Leaflet/Leaflet.draw/master/dist/leaflet.draw.js"></script>
-
-    <!-- Leaflet Locate Control -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
-    <!-- Leaflet MarkerCluster (not currently used) -->
-    <!-- <script src="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/leaflet.markercluster.js"></script> -->
-    <!-- Leaflet Grouped Layer Control (not currently used) -->
-    <!-- <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script> -->
-    <!-- Leaflet Point in Polyon (not currently used) -->
-    <!-- <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js'></script> -->
-    <!-- Typeahead (not currently used) -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script> -->
-
-    <!-- List JS -->
-    <script src="assets/js/list.min.js"></script>
-
-    <!-- Esri Leaflet -->
-    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
-
-    <!-- Esri Leaflet Geocoder -->
-    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
-    <!-- Esri Leaflet Clustered Feature Layer (not currently used) -->
-    <!-- <script src="https://cdn.jsdelivr.net/leaflet.esri.clustered-feature-layer/2.0.0-beta.1/esri-leaflet-clustered-feature-layer.js"></script> -->
-
-    <!-- Calcite Maps -->
-    <script src="assets/js/calcitemaps.js"></script>
-
-    <!-- Grasslander -->
-    <script src="assets/js/app-new.js"></script>
+    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+    <!-- Include Leaflet.markercluster via rawgit.com
+        in production you'd be better off hosting these libraries yourself -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/MarkerCluster.Default.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/MarkerCluster.css">
+    <script src="https://cdn.rawgit.com/Leaflet/Leaflet.markercluster/v1.0.0-beta.2.0/dist/leaflet.markercluster.js"></script>
+    <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js'></script>
+    <!-- Load Clustered Feature Layer from CDN -->
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.clustered-feature-layer/2.0.0-beta.1/esri-leaflet-clustered-feature-layer.js"></script>
+    <script src="assets/js/app1.js"></script>
 </body>
+
 </html>
