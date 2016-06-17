@@ -255,8 +255,8 @@ span.bird-icon {
 .leaflet-draw-toolbar .leaflet-draw-draw-marker.bird  {
   background-image: linear-gradient(transparent, transparent), url('../img/bird-icon.svg');
   background-repeat: no-repeat;
-  background-size: 270px 26px;
-  background-position: -122px 2px;
+  background-size: 270px 23px;
+  background-position: -122px 3px;
 }
 
 .bird-list-group-item {
@@ -273,6 +273,14 @@ span.tractor-icon {
   background-size: 270px 22px;
   background-position: -113px -2px;
   padding-left: 37px;
+}
+
+span.farm-icon {
+  background-image: linear-gradient(transparent, transparent), url('../img/farm-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 278px 27px;
+  background-position: -130px -1px;
+  padding-left: 22px;
 }
 
 .dropdown-menu>li>a.field-activity-item {
@@ -292,6 +300,20 @@ span.tractor-icon {
   background-repeat: no-repeat;
   background-size: 270px 20px;
   background-position: -122px 3px;
+}
+
+.list-group-header {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #a9a9a9;
+  font-size: 17px;
+  /* font-weight: bold; */
+}
+.list-group-header h3 {
+  font-style: bold;
 }
 
 .typeahead {
