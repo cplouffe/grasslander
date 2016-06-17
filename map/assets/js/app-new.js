@@ -955,31 +955,8 @@ $(window).load(function() {
                 parcelLayer.addTo(map);
                 farmLayer.addTo(map);
                 map.addLayer(drawnFarms);
-                $("#full-extent-btn").click(function() {
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
-                    farmLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
-                            // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
-                        }
 
-                    });
-                    if (c > 0) {
-                        // console.log(bounds);
-
-                        map.fitBounds(bounds);
-                    }
-
-                    $(".navbar-collapse.in").collapse("hide");
-                    return false;
-                });
-
-
-
-                document.getElementById("full-extent-btn").click();
+                goToFarmExtent();
 
                 $("#farmsetupinstructions").modal("show");
 
@@ -1085,32 +1062,8 @@ $(window).load(function() {
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $("#step2").click(function() {
-                $("#full-extent-btn").click(function() {
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
-                    farmLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
-                            // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
-                        }
 
-                    });
-                    if (c > 0) {
-                        // console.log(bounds);
-
-                        map.fitBounds(bounds);
-                    }
-
-                    $(".navbar-collapse.in").collapse("hide");
-                    return false;
-                });
-
-                document.getElementById("full-extent-btn").click();
-
-
-
+                goToFarmExtent();
 
                 $("#step-modal").modal("hide");
                 stepNum = 2;
@@ -1132,6 +1085,8 @@ $(window).load(function() {
                 farmLayer.addTo(map);
                 fieldLayer.addTo(map);
                 map.addLayer(drawnFields);
+
+                $('.leaflet-draw-draw-marker').removeClass('tractor bird');
 
                 $("#fieldsetupinstructions").modal("show");
 
@@ -1211,7 +1166,7 @@ $(window).load(function() {
 
                 farmLayer.addTo(map);
 
-                document.getElementById("full-extent-btn").click();
+                goToFarmExtent();
                 $("#addActivitySelect").modal("show");
 
             }
@@ -1220,7 +1175,11 @@ $(window).load(function() {
 
                 farmLayer.addTo(map);
 
-                document.getElementById("full-extent-btn").click();
+                // Style editor
+                $('.leaflet-draw-draw-marker').removeClass('tractor bird');
+                $('.leaflet-draw-draw-marker').addClass('bird');
+
+                goToFarmExtent();
                 $("#addBirdObservation").modal("show");
 
             }
@@ -1229,17 +1188,46 @@ $(window).load(function() {
 
                 farmLayer.addTo(map);
 
-                document.getElementById("full-extent-btn").click();
+                // Style editor
+                $('.leaflet-draw-draw-marker').removeClass('tractor bird');
+                $('.leaflet-draw-draw-marker').addClass('tractor');
+
+                goToFarmExtent();
                 $("#addFieldActivity").modal("show");
 
             }
 
+            function goToFarmExtent() {
+
+                var bounds = L.latLngBounds([]);
+                var c = 0;
+                farmLayer.eachFeature(function(layer) {
+                    if (layer) {
+                        c += 1;
+                        var layerBounds = layer.getBounds();
+                        // extend the bounds of the collection to fit the bounds of the new feature
+                        bounds.extend(layerBounds);
+                    }
+
+                });
+                // console.log(bounds);
+                if (c > 0) {
+                    map.fitBounds(bounds);
+                }
+
+                // $(".navbar-collapse.in").collapse("hide");
+                return false;
+            }
+
+            $('#full-extent-btn').click(goToFarmExtent);
+
             $("#step3").click(showActivityModal);
 
 
-            $("#startBirdActivity").click(function() {
+            $(".startBirdActivity").click(function() {
 
                 // $("#step-modal").modal("hide");
+
                 stepNum = 3;
                 map.removeControl(drawFarmControl);
                 map.removeControl(drawFieldControl);
@@ -1262,32 +1250,12 @@ $(window).load(function() {
                 fieldEventLayer.addTo(map);
                 map.addLayer(drawnBirds);
 
+                // Style editor
+                $('.leaflet-draw-draw-marker').removeClass('tractor bird');
+                $('.leaflet-draw-draw-marker').addClass('bird');
                 $('.leaflet-draw-draw-marker')[0].click();
 
-
-                $("#full-extent-btn").click(function() {
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
-                    farmLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
-                            // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
-                        }
-
-                    });
-                    if (c > 0) {
-                        // console.log(bounds);
-
-                        map.fitBounds(bounds);
-                    }
-
-                    $(".navbar-collapse.in").collapse("hide");
-                    return false;
-                });
-
-                $("#full-extent-btn").click();
+                goToFarmExtent();
 
                 var currentlyEditing = false;
                 var currentlyDeleting = false;
@@ -1371,7 +1339,7 @@ $(window).load(function() {
             });
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            $("#startFieldActivity").click(function() {
+            $(".startFieldActivity").click(function() {
 
                 // $("#step-modal").modal("hide");
                 stepNum = 4;
@@ -1396,37 +1364,12 @@ $(window).load(function() {
                 fieldEventLayer.addTo(map);
                 map.addLayer(drawnFieldEvents);
 
+                // Style editor
+                $('.leaflet-draw-draw-marker').removeClass('tractor bird');
+                $('.leaflet-draw-draw-marker').addClass('tractor');
                 $('.leaflet-draw-draw-marker')[0].click();
 
-                $("#full-extent-btn").click(function() {
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
-                    farmLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
-                            // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
-                        }
-
-                    });
-                    // console.log(bounds);
-                    if (c > 0) {
-
-
-                        map.fitBounds(bounds);
-                    }
-
-                    $(".navbar-collapse.in").collapse("hide");
-                    return false;
-                });
-
-                $("#full-extent-btn").click();
-
-
-
-
-
+                goToFarmExtent();
 
                 var currentlyEditing = false;
                 var currentlyDeleting = false;
@@ -1535,29 +1478,7 @@ $(window).load(function() {
                 fieldEventLayer.addTo(map);
 
 
-                $("#full-extent-btn").click(function() {
-                    var bounds = L.latLngBounds([]);
-                    var c = 0;
-                    farmLayer.eachFeature(function(layer) {
-                        if (layer) {
-                            c += 1;
-                            var layerBounds = layer.getBounds();
-                            // extend the bounds of the collection to fit the bounds of the new feature
-                            bounds.extend(layerBounds);
-                        }
-
-                    });
-                    if (c > 0) {
-                        // console.log(bounds);
-
-                        map.fitBounds(bounds);
-                    }
-
-                    $(".navbar-collapse.in").collapse("hide");
-                    return false;
-                });
-
-                $("#full-extent-btn").click();
+                goToFarmExtent();
 
 
             });
