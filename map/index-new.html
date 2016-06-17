@@ -81,21 +81,26 @@
             </li> -->
             <!-- Farm setup dropdown -->
             <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
+                <a class="dropdown-toggle" id="activityDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-plus white"></i>&nbsp;Add Activity&nbsp;<b class="caret"></b></a>
+                <ul id="activityDropdown" class="dropdown-menu">
+                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">Bird Observation</a></li>
+                    <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">Field Activity</a></li>
+                </ul>
+            </li>
+            <li><a href="#" class="hidden-sm hidden-xs" data-toggle="tab" id="list-btn"><i class="fa fa-fw fa-list white"></i>&nbsp;Show Activities</a></li>
+            <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
                 <a class="dropdown-toggle" id="setupDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-cogs white"></i>&nbsp;Your Farm&nbsp;<b class="caret"></b></a>
                 <ul id="setupDropdown" class="dropdown-menu">
-                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Zoom To Full Extent</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-fw fa-arrows-alt"></i>&nbsp;Zoom To Farm</a></li>
                     <li id="step1"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Farm</a></li>
                     <li id="step2"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-cogs"></i>&nbsp;Setup Your Fields</a></li>
                     <!-- <li class="dropdown-submenu">
                         <a id="step3" ata-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Activities</a>
                         <ul class="dropdown-menu"> -->
-                            <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Bird Activities</a></li>
-                            <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><i class="fa fa-fw fa-plus"></i>&nbsp;Add Field Activities</a></li>
                         <!-- </ul>
                     </li> -->
                 </ul>
             </li>
-            <li><a href="#" class="hidden-sm hidden-xs" data-toggle="tab" id="list-btn"><i class="fa fa-fw fa-list white"></i>&nbsp;Show Activities</a></li>
             <!-- Geocoder search -->
             <li><div class="calcite-navbar-search hidden-sm hidden-xs"><div id="geocode"></div></div></li>
             <!-- Menu dropdown -->
@@ -122,8 +127,9 @@
     </nav>
     <!-- Map -->
     <div class="calcite-map calcite-map-absolute">
+        <!-- Sidebar -->
         <div id="sidebar">
-            <div class="sidebar-wrapper">
+            <!-- <div class="sidebar-wrapper">
                 <div class="panel panel-default" id="features">
                     <div class="panel-heading">
                         <h3 class="panel-title">Your Activities
@@ -139,7 +145,10 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+            <div class="list-group activity-list">
             </div>
+
         </div>
         <div id="map"></div>
     </div>

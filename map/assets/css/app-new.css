@@ -31,7 +31,8 @@ html, body {
   border: none;
 }
 
-.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover {
 /*  transition: all 0.1s ease;
   -webkit-transition: all 0.1s ease;*/
 }
@@ -153,6 +154,12 @@ input#fieldActivityDate {
   position: relative;
 }
 
+.activity-list {
+  /* width: 100%; */
+  /* height: 100%; */
+  /* overflow-y: scroll; */
+}
+
 .sidebar-table {
   position: absolute;
   width: 100%;
@@ -233,11 +240,27 @@ input[type="checkbox"] {
 }
 
 /* Created by Katie Westbrook for the Noun Project */
-.leaflet-draw-toolbar .leaflet-draw-draw-marker.bird {
+.leaflet-draw-toolbar .leaflet-draw-draw-marker.bird  {
   background-image: linear-gradient(transparent, transparent), url('../img/bird-icon.svg');
   background-repeat: no-repeat;
   background-size: 270px 26px;
   background-position: -122px 2px;
+}
+
+.bird-list-group-item {
+  background-image: linear-gradient(transparent, transparent), url('../img/bird-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 275px 41px;
+  background-position: -118px 19px;
+  padding-left: 44px;
+}
+
+.field-event-list-group-item {
+  background-image: linear-gradient(transparent, transparent), url('../img/tractor-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 275px 37px;
+  background-position: -118px 17px;
+  padding-left: 44px;
 }
 
 .leaflet-draw-toolbar .leaflet-draw-draw-marker.field {

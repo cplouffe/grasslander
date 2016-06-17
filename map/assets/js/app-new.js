@@ -769,7 +769,7 @@ $(window).load(function() {
                 $(document).off("mouseout", ".feature-row", clearHighlight);
                 // console.log($(this).context);
 
-                sidebarClick(parseInt($(this).attr("id"), 10));
+                sidebarClick($(this).attr("id"), 10);
 
             });
 
@@ -1555,7 +1555,7 @@ $(window).load(function() {
 
             function syncSidebar() {
                 /* Empty sidebar features */
-                $("#feature-list tbody").empty();
+                $(".activity-list").empty();
                 /* Loop through theaters layer and add only features which are in the map bounds */
                 // fieldLayer.eachFeature(function(layer) {
                 //     if (map.hasLayer(fieldLayer)) {
@@ -1568,32 +1568,49 @@ $(window).load(function() {
 
                     if (map.hasLayer(layer)) {
                         if (layer) {
-                            var dateObj = new Date(layer.feature.properties.date);
-                            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                            var day = dateObj.getUTCDate();
-                            var year = dateObj.getUTCFullYear();
-
-                            newdate = year + "/" + month + "/" + day;
-                            $("#feature-list tbody").append('<tr class="feature-row" title="birdLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/bobolink.png"></td><td class="feature-name">Bird Observation: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                            var props = layer.feature.properties,
+                                dateObj = new Date(layer.feature.properties.date),
+                                month = dateObj.getUTCMonth() + 1, //months from 1-12
+                                day = dateObj.getUTCDate(),
+                                year = dateObj.getUTCFullYear(),
+                                obsDate = month + "/" + day + "/" + year,
+                            // $("#feature-list tbody").append('<tr class="feature-row" title="birdLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/bobolink.png"></td><td class="feature-name">Bird Observation: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                                listItem = '<a href="#" class="list-group-item bird-list-group-item"><strong>Bird Observation</strong><br>' + obsDate + '</a>';
+                            $('.activity-list').append(listItem);
                         }
                     }
                 });
+
                 fieldEventLayer.eachFeature(function(layer) {
 
                     if (map.hasLayer(layer)) {
                         if (layer) {
-                            var dateObj = new Date(layer.feature.properties.date);
-                            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                            var day = dateObj.getUTCDate();
-                            var year = dateObj.getUTCFullYear();
-
-                            newdate = year + "/" + month + "/" + day;
-                            // if (map.getBounds().contains(layer)) {
-                            $("#feature-list tbody").append('<tr class="feature-row" title="fieldevents" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/combine_harvester.svg"></td><td class="feature-name"> Field Activity: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-                            // }
+                            var props = layer.feature.properties,
+                                dateObj = new Date(layer.feature.properties.date),
+                                month = dateObj.getUTCMonth() + 1, //months from 1-12
+                                day = dateObj.getUTCDate(),
+                                year = dateObj.getUTCFullYear(),
+                                obsDate = month + "/" + day + "/" + year,
+                            // $("#feature-list tbody").append('<tr class="feature-row" title="birdLayer" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/bobolink.png"></td><td class="feature-name">Bird Observation: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                                listItem = '<a href="#" class="list-group-item field-event-list-group-item"><strong>Field Activity</strong><br>' + obsDate + '</a>';
+                            $('.activity-list').append(listItem);
                         }
-
                     }
+
+                    // if (map.hasLayer(layer)) {
+                    //     if (layer) {
+                    //         var dateObj = new Date(layer.feature.properties.date);
+                    //         var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                    //         var day = dateObj.getUTCDate();
+                    //         var year = dateObj.getUTCFullYear();
+
+                    //         newdate = year + "/" + month + "/" + day;
+                    //         if (map.getBounds().contains(layer)) {
+                    //         $("#feature-list tbody").append('<tr class="feature-row" title="fieldevents" id="sa"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/combine_harvester.svg"></td><td class="feature-name"> Field Activity: ' + newdate + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+                    //         }
+                    //     }
+
+                    // }
                 });
 
                 // Issues with List JS so commenting out
