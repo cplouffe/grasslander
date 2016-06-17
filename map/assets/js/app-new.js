@@ -1216,12 +1216,30 @@ $(window).load(function() {
 
             }
 
+            function showBirdObservationModal() {
+
+                farmLayer.addTo(map);
+
+                document.getElementById("full-extent-btn").click();
+                $("#addBirdObservation").modal("show");
+
+            }
+
+            function showFieldActivityModal() {
+
+                farmLayer.addTo(map);
+
+                document.getElementById("full-extent-btn").click();
+                $("#addFieldActivity").modal("show");
+
+            }
+
             $("#step3").click(showActivityModal);
 
 
             $("#startBirdActivity").click(function() {
 
-                $("#step-modal").modal("hide");
+                // $("#step-modal").modal("hide");
                 stepNum = 3;
                 map.removeControl(drawFarmControl);
                 map.removeControl(drawFieldControl);
@@ -1243,6 +1261,8 @@ $(window).load(function() {
                 birdLayer.addTo(map);
                 fieldEventLayer.addTo(map);
                 map.addLayer(drawnBirds);
+
+                $('.leaflet-draw-draw-marker')[0].click();
 
 
                 $("#full-extent-btn").click(function() {
@@ -1353,7 +1373,7 @@ $(window).load(function() {
 
             $("#startFieldActivity").click(function() {
 
-                $("#step-modal").modal("hide");
+                // $("#step-modal").modal("hide");
                 stepNum = 4;
                 map.removeControl(drawFarmControl);
                 map.removeControl(drawFieldControl);
@@ -1376,6 +1396,7 @@ $(window).load(function() {
                 fieldEventLayer.addTo(map);
                 map.addLayer(drawnFieldEvents);
 
+                $('.leaflet-draw-draw-marker')[0].click();
 
                 $("#full-extent-btn").click(function() {
                     var bounds = L.latLngBounds([]);
@@ -1543,12 +1564,13 @@ $(window).load(function() {
 
 
             $('#startBirdActivity1').click(function() {
-                document.getElementById('startBirdActivity').click();
+                showBirdObservationModal();
+                // document.getElementById('startBirdActivity').click();
             });
 
             $('#startFieldActivity2').click(function() {
-
-                document.getElementById('startFieldActivity').click();
+                showFieldActivityModal();
+                // document.getElementById('startFieldActivity').click();
             });
 
             // Populate features to be displayed in sidebar

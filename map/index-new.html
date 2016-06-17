@@ -83,8 +83,8 @@
             <li class="dropdown hidden-sm hidden-xs calcite-bg-light calcite-text-dark">
                 <a class="dropdown-toggle" id="activityDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-fw fa-plus white"></i>&nbsp;Add Activity&nbsp;<b class="caret"></b></a>
                 <ul id="activityDropdown" class="dropdown-menu">
-                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">Bird Observation</a></li>
-                    <li id="startFieldActivity2"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#">Field Activity</a></li>
+                    <li id="startBirdActivity1"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#"><span class="bird-icon">Bird Observation</span></a></li>
+                    <li id="startFieldActivity2"><a data-toggle="collapse" class="field-activity-item" data-target=".navbar-collapse.in" href="#"><span class="tractor-icon">Field Activity</span></a></li>
                 </ul>
             </li>
             <li><a href="#" class="hidden-sm hidden-xs" data-toggle="tab" id="list-btn"><i class="fa fa-fw fa-list white"></i>&nbsp;Show Activities</a></li>
@@ -209,16 +209,12 @@
                     </ul>
                     <div class="tab-content" id="aboutTabsContent">
                         <div class="tab-pane fade active in" id="about">
-                            <p>GrassLander is a collaborative research project aiming to collect observations of important grassland birds in southern Ontario.
-                                <p>
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">The Problem</div>
-                                        <p>Over the last decade, it is estimated that approximately }
-                                            <p>
-                                                <div class="panel-heading">The Approach</div>
-                                                <p>A citizen science approach is being tested to engage agricultural producers as collaborators in monitoring bird populations on their fields.
-                                                    <p>
-                                    </div>
+                            <p>GrassLander is a collaborative research project aiming to collect observations of important grassland birds in southern Ontario.</p>
+                            <hr>
+                            <h3>The Problem</h3>
+                            <p>Bobolink and Eastern Meadowlark have been decreasing in population over the last several years. Over the last ten years, it is estimated that the Bobolink population in Ontario has declined by an average annual rate of 4 percent, which corresponds to a cumulative loss of 33 percent (McCracken et al. 2013). As a result of their decline, the Bobolink (Dolichonyx oryzivorus) was added to the Specie’s at Risk in Ontario list in September 28, 2010. In an effort to better understand the population of grassland birds and management practices on farms, GrassLander was created.</p>
+                            <h3>The Approach</h3>
+                            <p>A citizen science approach is being tested to engage agricultural producers as collaborators in monitoring bird populations on their fields.</p>
                         </div>
                         <div id="disclaimer" class="tab-pane fade text-danger">
                             <p>The data provided on this site is for informational and planning purposes only.</p>
@@ -899,7 +895,40 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- Add activity select modal -->
+    <!-- Add bird observation modal -->
+    <div class="modal fade" id="addBirdObservation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Add Bird Observation
+                </div>
+                <div class="modal-body">
+                    <p>To add a bird observation, click the map where you observed the bird on your farm. You will then be asked to fill out additional information about your bird observation.</p>
+                    <p><i>If at any time you make a mistake, click the trash icon in the top-left corner and then click the bird observation that you wish to delete. Once you are finished with your edits, click <strong>Save</strong> beside the trash icon to save your changes.</i></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="startBirdActivity" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add bird observation modal -->
+    <div class="modal fade" id="addFieldActivity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Add Field Activity
+                </div>
+                <div class="modal-body">
+                    <p>To add a field activity, click the field on the map that you would like to add an activity to. You will then be asked to fill out additional information about your activity.</p>
+                    <p><i>If at any time you make a mistake, click the trash icon in the top-left corner and then click the bird observation that you wish to delete. Once you are finished with your edits, click <strong>Save</strong> beside the trash icon to save your changes.</i></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="startFieldActivity" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="addActivitySelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -913,8 +942,8 @@
                 </div>
                 <div class="modal-footer">
                     <button id="browseFarm" type="button" class="btn btn-default pull-left" data-dismiss="modal">Just browsing</button>
-                    <button id="startBirdActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add bird activity</button>
-                    <button id="startFieldActivity" class="btn btn-danger btn-ok" data-dismiss="modal">Add field activity</button>
+                    <button id="startBirdActivity" class="btn btn-primary btn-ok" data-dismiss="modal">Add bird activity</button>
+                    <button id="startFieldActivity" class="btn btn-primary btn-ok" data-dismiss="modal">Add field activity</button>
                 </div>
             </div>
         </div>
@@ -963,7 +992,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">How to.. </h4>
+                    <h4 class="modal-title">How to...</h4>
                 </div>
                 <div class="modal-body">
                     <p>To Add Field Activities: Please click on the field you would like to add an activity to. Fill out the form and submit.</p>
@@ -988,7 +1017,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Add More</button>
-                    <button id="proceed-button" class="btn btn-danger btn-ok" data-dismiss="modal">PROCEED</button>
+                    <button id="proceed-button" class="btn btn-primary btn-ok" data-dismiss="modal">Proceed</button>
                 </div>
             </div>
         </div>
