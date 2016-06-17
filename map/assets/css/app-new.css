@@ -369,6 +369,15 @@ span.farm-icon {
   text-align: center;
 }
 
+.title-link {
+  color: white;
+}
+.title-link:hover,
+.title-link:active {
+  text-decoration: none;
+  color: white;
+}
+
  .leaflet-control-custom1 {
   background:rgba(255, 255, 255, 1.99);
   font-family: FontAwesome;
