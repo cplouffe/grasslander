@@ -984,9 +984,9 @@ $(window).load(function() {
 
                 function handleFarmEdit(layer) {
                     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
-                    layer.feature.properties.farm_comments = $('#farmComments').val();
-                    layer.feature.properties.lot = $('#lotNumber').val();
-                    layer.feature.properties.con = $('#conNumber').val();
+                    layer.feature.properties.farmer_comments = $('#farmComments').val();
+                    layer.feature.properties.lot_number = $('#lotNumber').val();
+                    layer.feature.properties.concession_number = $('#conNumber').val();
                     layer.feature.properties.farm_type = $('#farmType').val();
                     farmLayer.updateFeature({
                         type: 'Feature',
