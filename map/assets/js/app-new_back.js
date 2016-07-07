@@ -376,23 +376,9 @@ $(window).load(function() {
 
             case farmLayer:
                 // console.log('adding farm values');
-                   curFeature.properties.farmer_comments = $('#farmComments').val();
-                    //layer.feature.properties.farmer_comments = $('#farmComments').val();
-                    if ($('#lotNumber').val() == '') {
-                            curFeature.properties.lot_number = 0;
-                        } else {
-                            curFeature.properties.lot_number = $('#lotNumber').val();
-                        }
-                    //layer.feature.properties.lot_number = $('#lotNumber').val();
-                    if ($('#conNumber').val() == '') {
-                            curFeature.properties.concession_number = 0;
-                        } else {
-                            curFeature.properties.concession_number = $('#conNumber').val();
-                        }
-                        
-                //curFeature.properties.farmer_comments = $('#farmComments').val();
-                //curFeature.properties.lot_number = $('#lotNumber').val();
-                //curFeature.properties.concession_number = $('#conNumber').val();
+                curFeature.properties.farmer_comments = $('#farmComments').val();
+                curFeature.properties.lot_number = $('#lotNumber').val();
+                curFeature.properties.concession_number = $('#conNumber').val();
                 curFeature.properties.farm_type = $('#farmType').val();
                 break;
 
@@ -983,7 +969,7 @@ $(window).load(function() {
                     }
                 }
                 // stop editing a given layer
-                function stopEditingFarm() { // never gets called?
+                function stopEditingFarm() {
                     // if a layer is being edited, finish up and disable editing on it afterward.
                     if (currentlyEditing) {
                         handleFarmEdit(currentlyEditing);
@@ -996,7 +982,7 @@ $(window).load(function() {
                     currentlyEditing = undefined;
                 }
 
-                function handleFarmEdit(layer) { // never gets called?
+                function handleFarmEdit(layer) {
                     // convert the layer to GeoJSON and build a new updated GeoJSON object for that feature
                     layer.feature.properties.farmer_comments = $('#farmComments').val();
                     layer.feature.properties.lot_number = $('#lotNumber').val();
@@ -1050,15 +1036,15 @@ $(window).load(function() {
                         //drawnFarms.addLayer(e.layer);
                         //curFeature.properties.roll = e.layer.feature.properties.arn;
                         //// console.log(curFeature);
-                        // farmLayer.addFeature(curFeature);
+                        farmLayer.addFeature(curFeature);
                         $("#addFarmAttributes").modal('show');
                         startEditingFarm(e.layer);
 
                         // $('#rollNumber').val(e.layer.feature.properties.roll);
-                        //$('#conNumber').val(e.layer.feature.properties.con);
-                        //$('#lotNumber').val(e.layer.feature.properties.lot);
-                        //$('#farmType').val(e.layer.feature.properties.farm_type);
-                        //$('#farmComments').val(e.layer.feature.properties.farm_comments);
+                        $('#conNumber').val(e.layer.feature.properties.con);
+                        $('#lotNumber').val(e.layer.feature.properties.lot);
+                        $('#farmType').val(e.layer.feature.properties.farm_type);
+                        $('#farmComments').val(e.layer.feature.properties.farm_comments);
                         map.removeLayer(e.layer);
                         displayAttributes(e.layer);
                     }
